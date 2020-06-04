@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace=" ">
+	<select id="selectAllAI" resultType="dto">
+		select * from assembleInfo
+	</select>
+	<!-- AssembleMember Table insert 어셈블 개설 -->
+	<insert id="insertOneAM" parameterType="dto" >
+		insert into assembleMember(memID)
+		values (#{ai_memID})
+	</insert>
+	<!-- AssembleInfo Table insert 어셈블 개설 -->
+	<insert id="insertOneAIAdmin" parameterType="dto">
+		insert into assembleInfo
+		values (#{ai_assembleName}, (select memberNo from assembleMember where memId= #{ai_memID}), #{ai_memID}, #{ai_memPw}, #{ai_memEmail}, 1, now())
+	</insert>
+	
+</mapper>

@@ -6,6 +6,8 @@ public class EmailDTO {
 	private String receiveEmail;
 	private String subject;
 	private String message;
+	private String randomkey;
+	
 	public String getSenderName() {
 		return senderName;
 	}
@@ -36,11 +38,21 @@ public class EmailDTO {
 	public void setMessage(String message) {
 		this.message = message;
 	}
+	public String getRandomkey() {
+		return randomkey;
+	}
+	public void setRandomkey(String randomkey) {
+		this.randomkey = randomkey;
+	}
 	@Override
 	public String toString() {
 		return "EmailDTO [senderName=" + senderName + ", senderEmail=" + senderEmail + ", receiveEmail=" + receiveEmail
-				+ ", subject=" + subject + ", message=" + message + "]";
+				+ ", subject=" + subject + ", message=" + message + ", randomkey=" + randomkey + "]";
 	}
+	
+	
+	
+
 	
 	
 	

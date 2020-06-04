@@ -19,7 +19,7 @@
 	<!-- <property name="configLocation" value="/WEB-INF/SqlMapConfig.xml" /> -->
 	<property name="dataSource" ref="dataSource" />
 	<property name="configLocation" value="classpath:/Config.xml" />
-	<property name="mapperLocations" value="classpath:/Mapper.xml" />
+	<property name="mapperLocations" value="classpath:/member_Mapper.xml" />
 </bean>
 
 <bean id="property" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
@@ -36,25 +36,6 @@
 <bean id="sqlSessionTemplate" class="org.mybatis.spring.SqlSessionTemplate">
 	<constructor-arg ref="sqlSessionFactoryBean" />
 </bean>
-
-    <!-- 메일 보내기 (SEND) -->
-   <bean id="mailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">
-      <property name="host" value="smtp.gmail.com" />
-      <property name="port" value="587" />
-      <property name="username" value="tlsgks8668@gmail.com" />
-      <property name="password" value="shin1han1sh" />
-    
-
-      <!-- email 요청시는 SMTP -->
-      <property name="javaMailProperties">
-         <props>
-            <prop key="mail.transport.protocol">smtp</prop>
-            <prop key="mail.smtp.auth">true</prop>
-            <prop key="mail.smtp.starttls.enable">true</prop>
-            <prop key="mail.debug">true</prop>
-         </props>
-      </property>
-   </bean>
    
 	
 		
