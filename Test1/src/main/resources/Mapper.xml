@@ -18,4 +18,20 @@
 		values (#{ai_assembleName}, (select memberNo from assembleMember where memId= #{ai_memID}), #{ai_memID}, #{ai_memPw}, #{ai_memEmail}, 1, now())
 	</insert>
 	
+	<select id="selectAssembleName" resultType="String">
+		select ai_assembleName from assembleinfo
+		where ai_assembleName = #{ai_assembleName}
+	</select>
+	
+	<select id="selectId" resultType="String" parameterType="dto1">
+		select ai_memID from assembleInfo
+		where ai_memID = #{ai_memID} AND ai_memPw = #{ai_memPw} AND ai_assembleName = #{ai_assembleName}
+	</select>
+	
+	<select id="selectPw" resultType="String" parameterType="dto1">
+		select ai_memPw from assembleInfo
+		where ai_memID = #{ai_memID} AND ai_memPw = #{ai_memPw} AND ai_assembleName = #{ai_assembleName}
+	</select>
+	
+	
 </mapper>

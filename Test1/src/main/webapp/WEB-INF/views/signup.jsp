@@ -18,7 +18,7 @@
 				}, */
 				type:"post",
 				url : "<c:url value='/sendMail'/>",
-				data : "ai_memEmail=" + $("#ai_memEmail").val() + "&random=" + $("#random").val(),
+				data : "ai_memEmail=" + $("#ai_memEmail").val() + "&ran=" + $("#ran").val(),
 				//data: "userEmail="+encodeURIComponent($('#ai_memEmail').val()),
 				/* encodeURIComponent
 				예를들어, http://a.com?name=egoing&job=programmer 에서 &job=programmer
@@ -37,17 +37,17 @@
 			
 		});
 		
-		/* $('#cf').click(function(){
+		$('#cfCk').click(function(){
 			var email = $('#ai_memEmail').val();
 			console.log(email);
 			$.ajax({
-				beforeSend: function(){
+				/* beforeSend: function(){
 					loadingBarStart();
-					}, 
+					}, */
 				
-				type:"get",
-				url:"<c:url value='/sendMail'/>",
-				data:"certification=" + $('#certification').val() + "&random=" + $("#random").val(),
+				type:"post",
+				url:"<c:url value='/emailAuth'/>",
+				data:"authCode=" + $('#authCode').val() + "&ran=" + $("#ran").val(),
 				success:function(data){
 				if(data=="complete"){
 					alert("인증이 완료되었습니다.");
@@ -56,14 +56,15 @@
 				}
 				},
 				complete: function(){
-					loadingBarEnd();
+					/* loadingBarEnd(); */
+					console.log("완료");
 				},
 				error:function(data){
 					alert("에러가 발생했습니다.");
 				}
 				});
 			
-		}); */
+		});
 		
 		
 		
@@ -78,14 +79,14 @@
 		<input type="text" name="ai_assembleName" id="ai_assembleName" placeholder="어셈블명 및 URL" /><br />
 		<input type="text" name="ai_memEmail" id="ai_memEmail" placeholder="email" />
 		<input type="button" value="인증코드 발송" id="cf" /><br />
-		<input type="text" name="certification" id="certification" placeholder="인증번호" />
+		<input type="text" name="authCode" id="authCode" placeholder="인증번호" />
 		<input type="button" value="인증 확인" id="cfCk" /><br />
 		<input type="text" name="ai_memID" id="memID" placeholder="아이디" /><br />
 		<input type="text" name="ai_memPw" id="ai_memPw" placeholder="비밀번호" /><br />
 		<input type="text" name="pwCk" id="pwCk" placeholder="비밀번호 확인" /><br />
 		<input type="submit" value="어셈블 개설하기" /><br />
 	</form>
-	<input type="hidden" name="random" id="random" value="${random }" />
+	<input type="hidden" name="ran" id="ran" value="${ran }" />
 	
 
 </body>

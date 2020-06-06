@@ -32,6 +32,9 @@
 		</tr>
 		</c:forEach>
 	</table>
+	<a href="../ass/login">
+ 		<input type="button" value="LOGIN" />
+ 	</a>
 	
 	<a href="../ass/signup">
  		<input type="button" value="SINU UP" />

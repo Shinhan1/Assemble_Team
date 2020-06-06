@@ -28,7 +28,7 @@ public class SendMailService {
 		StringBuffer sb = new StringBuffer();
 		int num = 0;
 
-		num = ran.nextInt(9999);
+		num = ran.nextInt(900000)+100000;
 		
 		return num;
 	}
