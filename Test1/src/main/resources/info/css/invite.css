@@ -1,0 +1,33 @@
+@charset "UTF-8";
+
+.invitation{
+	min-height: calc(50vh);
+	
+}
+.title {
+	width: 60%;
+	margin: 10px 0 20px;
+    padding-bottom: 20px;
+    border-bottom: 2px solid #6c6c6c;
+    color: #383838;
+    font-size: 1.5rem;
+    line-height: 1.25;
+}
+
+.invitation-form {
+	margin-top: 3rem;
+	margin-left: 0.5rem;
+	width: 60%;
+	vertical-align: middle;
+}
+
+.invitation-form input {
+	margin-bottom: 1rem;
+	width: 50%;
+}
+.invitation-form button {
+	border-radius: 2rem;
+	margin-top: 2rem auto;
+	vertical-align: middle;
+	width: 30%;
+}

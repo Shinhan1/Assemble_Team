@@ -5,8 +5,9 @@
 
 <configuration>
 	<typeAliases>
-		<typeAlias type="kr.co.ass.dto.AssembleInfoDTO" alias="dto"/>
-		<typeAlias type="kr.co.ass.dto.IdCheckDTO" alias="dto1"/>
+		<typeAlias type="kr.co.assemble.dto.MemberInfoDTO" alias="dto"/>
+		<typeAlias type="kr.co.assemble.dto.IdCheckDTO" alias="dto1"/>
+		<typeAlias type="kr.co.assemble.dto.AssembleInfoDTO" alias="dto2" />
 	</typeAliases>
 	
 	

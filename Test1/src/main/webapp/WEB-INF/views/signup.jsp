@@ -10,7 +10,7 @@
 <script type="text/javascript">
 	$(function(){
 		$('#cf').click(function(){
-			var email = $('#ai_memEmail').val();
+			var email = $('#mi_memEmail').val();
 			/* console.log(email); */
 			$.ajax({
 				/* beforeSend: function(){
@@ -18,8 +18,8 @@
 				}, */
 				type:"post",
 				url : "<c:url value='/sendMail'/>",
-				data : "ai_memEmail=" + $("#ai_memEmail").val() + "&ran=" + $("#ran").val(),
-				//data: "userEmail="+encodeURIComponent($('#ai_memEmail').val()),
+				data : "mi_memEmail=" + $("#mi_memEmail").val() + "&ran=" + $("#ran").val(),
+				//data: "userEmail="+encodeURIComponent($('#mi_memEmail').val()),
 				/* encodeURIComponent
 				예를들어, http://a.com?name=egoing&job=programmer 에서 &job=programmer
 				중 '&'는 하나의 파라미터가 끝나고 다음 파라미터가 온다는 의미이다.
@@ -38,7 +38,7 @@
 		});
 		
 		$('#cfCk').click(function(){
-			var email = $('#ai_memEmail').val();
+			var email = $('#mi_memEmail').val();
 			console.log(email);
 			$.ajax({
 				/* beforeSend: function(){
@@ -76,14 +76,15 @@
 <body>
 	<h2>어셈블 개설</h2>
 	<form action="signupOk" method="POST" name="frm">
-		<input type="text" name="ai_assembleName" id="ai_assembleName" placeholder="어셈블명 및 URL" /><br />
-		<input type="text" name="ai_memEmail" id="ai_memEmail" placeholder="email" />
+		<input type="text" name="mi_assembleName" id="mi_assembleName" placeholder="어셈블명 및 URL" /><br />
+		<input type="text" name="mi_memEmail" id="mi_memEmail" placeholder="email" />
 		<input type="button" value="인증코드 발송" id="cf" /><br />
 		<input type="text" name="authCode" id="authCode" placeholder="인증번호" />
 		<input type="button" value="인증 확인" id="cfCk" /><br />
-		<input type="text" name="ai_memID" id="memID" placeholder="아이디" /><br />
-		<input type="text" name="ai_memPw" id="ai_memPw" placeholder="비밀번호" /><br />
+		<input type="text" name="mi_memID" id="memID" placeholder="아이디" /><br />
+		<input type="text" name="mi_memPw" id="mi_memPw" placeholder="비밀번호" /><br />
 		<input type="text" name="pwCk" id="pwCk" placeholder="비밀번호 확인" /><br />
+		<input type="text" name="mi_memName" id="mi_memName" placeholder="이름입력" /><br />
 		<input type="submit" value="어셈블 개설하기" /><br />
 	</form>
 	<input type="hidden" name="ran" id="ran" value="${ran }" />

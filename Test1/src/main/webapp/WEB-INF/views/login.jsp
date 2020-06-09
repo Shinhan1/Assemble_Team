@@ -9,7 +9,7 @@
 <body>
 	<h2>어셈블 로그인</h2>
 	<form action="assembleLogin" method="POST">
-		<input type="text" name="ai_assembleName" id="ai_assembleName" />
+		<input type="text" name="mi_assembleName" id="mi_assembleName" />
 		<input type="submit" value="다음" />
 	</form>
 

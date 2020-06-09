@@ -8,13 +8,13 @@
 <title>assembleLogin.jsp</title>
 </head>
 <body>
-	<h2>어셈블명 : <c:out value="${ai_assembleName }" /></h2>
+	<h2>어셈블명 : <c:out value="${mi_assembleName }" /></h2>
 	<form action="main" method="POST">
-		<input type="text" name="ai_memID" id="ai_memID" /> <br />
-		<input type="text" name="ai_memPw" id="ai_memPw" /> <br />
+		<input type="text" name="mi_memID" id="mi_memID" /> <br />
+		<input type="text" name="mi_memPw" id="mi_memPw" /> <br />
 		<input type="submit" value="로그인" />
 	</form>
-	<input type="hidden" name="ai_assembleName" id="ai_assembleName" value="<c:out value='${ai_assembleName }' />" />
+	<input type="hidden" name="mi_assembleName" id="mi_assembleName" value="<c:out value='${mi_assembleName }' />" />
 
 </body>
 </html>

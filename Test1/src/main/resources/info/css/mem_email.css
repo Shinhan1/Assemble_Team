@@ -1,0 +1,62 @@
+@charset "UTF-8";
+:root {
+  --input-padding-x: 1.5rem;
+  --input-padding-y: .95rem;
+}
+.container{
+	margin-top: 3%;
+}
+.card-signin {
+  border: 0;
+  border-radius: 1rem;
+  box-shadow: 0 0.5rem 1rem 0 rgba(0, 0, 0, 0.1);
+}
+.card-signin .card-title {
+  margin-top: 1.5rem;
+  margin-bottom: 0.5rem;
+  font-weight: 400;
+  font-size: 2rem;
+  color: #A3D7DD;
+}
+.card-signin .card-body {
+	padding: 2rem;
+}
+
+.form-signin {
+	width: 100%;
+}
+.form-group {
+	position: relative;
+	margin-bottom: 2rem;
+}
+.form-group input {
+  height: auto;
+  border-radius: 2rem;
+  margin-bottom: 0.3rem; 
+  width: 100%;
+}
+.form-group>input{
+	padding: var(--input-padding-y) var(--input-padding-x);
+}
+
+img{
+	display: block;
+	margin: 0 auto;
+}
+.card-title p{
+	margin-top: 3rem;
+	font-size: 0.5rem;
+}
+
+.form-group:first-child {
+	margin-bottom: 1rem;
+}
+.form-group:nth-child(2) p {
+	margin-top: 1.5rem;
+	margin-bottom: 2rem;
+}
+.form-group:last-child p {
+	color: #93999e;
+	margin-top: 2rem;
+	margin-bottom: 0;
+}

@@ -8,7 +8,7 @@
 	<!-- Root Context: defines shared resources visible to all other web components -->
 		
 		
-		<bean id="dao" class="kr.co.ass.dao.AssembleInfo_DAO">
+		<bean id="dao" class="kr.co.assemble.dao.MemberInfo_DAO">
 	<property name="ss" ref="sqlSessionTemplate" />
 </bean>
 
@@ -35,7 +35,6 @@
 <bean id="sqlSessionTemplate" class="org.mybatis.spring.SqlSessionTemplate">
 	<constructor-arg ref="sqlSessionFactoryBean" />
 </bean>
-
 <!-- 메일 보내기 (SEND) -->
 	<bean id="mailSender"
 		class="org.springframework.mail.javamail.JavaMailSenderImpl">
@@ -55,6 +54,10 @@
 				<prop key="mail.debug">true</prop>
 			</props>
 		</property>
+	</bean>
+	
+	<bean id="sm_interface" class="kr.co.assemble.service.SendMail">
+		<property name="mailSender" ref="mailSender" />
 	</bean>
 
 
