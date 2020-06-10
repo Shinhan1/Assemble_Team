@@ -40,6 +40,12 @@ public class MemberInfo_DAO implements MI_interface {
 		// TODO Auto-generated method stub
 		return ss.selectOne("selectAssembleName", mi_assembleName);
 	}
+	
+	@Override
+	public List<String> findAssembleName(String mi_memEmail) {
+		// TODO Auto-generated method stub
+		return ss.selectList("findAssembleName", mi_memEmail);
+	}
 
 	@Override
 	public MemberInfoDTO selectOne(int no) {

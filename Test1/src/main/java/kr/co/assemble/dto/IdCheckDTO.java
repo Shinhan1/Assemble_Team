@@ -5,16 +5,19 @@ public class IdCheckDTO {
 	private String mi_assembleName;
 	private String mi_memID;
 	private String mi_memPw;
+	private String mi_memName;
 	
 	public IdCheckDTO() {
 		super();
 	}
-	public IdCheckDTO(int mi_memberNo, String mi_assembleName, String mi_memID, String mi_memPw) {
+	public IdCheckDTO(int mi_memberNo, String mi_assembleName, 
+			String mi_memID, String mi_memPw, String mi_memName) {
 		super();
 		this.mi_memberNo = mi_memberNo;
 		this.mi_assembleName = mi_assembleName;
 		this.mi_memID = mi_memID;
 		this.mi_memPw = mi_memPw;
+		this.mi_memName = mi_memName;
 	}
 	
 	
@@ -41,6 +44,12 @@ public class IdCheckDTO {
 	}
 	public void setmi_assembleName(String mi_assembleName) {
 		this.mi_assembleName = mi_assembleName;
+	}
+	public String getMi_memName() {
+		return mi_memName;
+	}
+	public void setMi_memName(String mi_memName) {
+		this.mi_memName = mi_memName;
 	}
 	
 	

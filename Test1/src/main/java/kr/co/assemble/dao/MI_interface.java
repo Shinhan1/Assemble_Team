@@ -17,7 +17,6 @@ public interface MI_interface {
 	public void updateOne(MemberInfoDTO dto);
 	public void deleteOne(int no);
 	public String selectAssembleName(String ai_assembleName);
-//	public String selectId(IdCheckDTO dto1);
-//	public String selectPw(IdCheckDTO dto1);
 	public IdCheckDTO selectId(IdCheckDTO dto1);
+	public List<String> findAssembleName(String mi_memEmail);
 }

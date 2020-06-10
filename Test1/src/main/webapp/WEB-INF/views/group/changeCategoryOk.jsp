@@ -4,11 +4,10 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>inviteOk.jsp</title>
+<title>changeOk.jsp</title>
 </head>
 <body>
-	<h2>inviteOk.jsp</h2>
-	<h2>초대 완료!</h2>
+	<h2>changeOK~</h2>
 
 </body>
 </html>

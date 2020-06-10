@@ -26,9 +26,9 @@
 		</property>
 	</bean>
 	
-	<bean id="mailService" class="kr.co.assemble.service.SendMail">
+	<!-- <bean id="mailService" class="kr.co.assemble.service.SendMail">
 		<property name="mailSender" ref="mailSender" />
-	</bean>
+	</bean> -->
 
 	
 </beans>

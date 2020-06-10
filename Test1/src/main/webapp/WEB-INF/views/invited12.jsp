@@ -10,15 +10,15 @@
 <script type="text/javascript">
 	$(function(){
 		$('#invi').click(function(){
-			var email = $('#invite').val();
+			var email = $('#invited').val();
 			/* console.log(email); */
 			$.ajax({
 				/* beforeSend: function(){
 					loadingBarStart();
 				}, */
 				type:"post",
-				url : "<c:url value='/inviteOk'/>",
-				data : "invite=" + $("#invite").val(),
+				url : "<c:url value='/invitedOk'/>",
+				data : "invited=" + $("#invited").val(),
 				//data: "userEmail="+encodeURIComponent($('#mi_memEmail').val()),
 				/* encodeURIComponent
 				예를들어, http://a.com?name=egoing&job=programmer 에서 &job=programmer
@@ -42,9 +42,9 @@
 </script>
 </head>
 <body>
-	<h2>invite.jsp</h2>
-	<form action="inviteOk" method="POST">
-		<input type="text" name="invite" id="invite" placeholder="이메일 입력" /><br />
+	<h2>invited.jsp</h2>
+	<form action="invitedOk" method="POST">
+		<input type="text" name="invited" id="invited" placeholder="이메일 입력" /><br />
 		<input type="text" name="id" id="id" placeholder="ID지정" /><br />
 		<input type="text" name="name" id="name" placeholder="이름" /><br />
 		<input type="text" name="group" id="group" placeholder="소속" /><br />
