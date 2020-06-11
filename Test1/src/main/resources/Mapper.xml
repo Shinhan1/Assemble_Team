@@ -23,16 +23,33 @@
 		values (#{mi_assembleName}, (select memberNo from assembleMember where memId= #{mi_memID} AND assembleName = #{mi_assembleName}), #{mi_memID}, now())
 	</insert>
 	
-	<!-- MemberInfo Table insert 어셈블 개설 -->
+	<!-- 방장 회원가입 -->
 	<insert id="insertOneMIAdmin" parameterType="dto">
 		insert into memberInfo
 		values (#{mi_assembleName}, (select memberNo from assembleMember where memId= #{mi_memID} AND assembleName = #{mi_assembleName}), #{mi_memID}, #{mi_memPw}, #{mi_memEmail}, 1, now(), #{mi_memName})
 	</insert>
 	
+	<!-- 멤버 회원가입 -->
+	<insert id="insertOneMIMember" parameterType="dto">
+		insert into memberInfo
+		values (#{mi_assembleName}, (select memberNo from assembleMember where memId= #{mi_memID} AND assembleName = #{mi_assembleName}), #{mi_memID}, #{mi_memPw}, #{mi_memEmail}, 0, now(), #{mi_memName})
+	</insert>
+	
 	<!-- 어셈블명 조회 -->
 	<select id="selectAssembleName" resultType="String">
-		select mi_assembleName from memberinfo
-		where mi_assembleName = #{mi_assembleName}
+		select ai_assembleName from assembleinfo
+		where ai_assembleName = #{ai_assembleName}
+	</select>
+	
+	<select id="countAssembleName" resultType="int">
+		select count(ai_assembleName) from assembleinfo
+		where ai_assembleName = #{ai_assembleName}
+	</select>
+	
+	<!-- 같은 어셈블에 아이디가 중복되는지 체크-->
+	<select id="countMemberId" resultType="int">
+		select count(mi_memid) from memberinfo
+		where mi_assembleName = #{mi_assembleName} and mi_memID = #{mi_memID}
 	</select>
 	
 	<!-- 로그인 하기 위한 SQL -->
@@ -42,7 +59,7 @@
 	</select>
 	
 	<!-- 이메일로 어셈블이름찾기 -->
-	<select id="findAssembleName" resultType="String">
+	<select id="findAssembleName" resultType="dto3">
 		select mi_assembleName from memberinfo
 		where mi_memEmail = #{mi_memEamil}
 	</select>

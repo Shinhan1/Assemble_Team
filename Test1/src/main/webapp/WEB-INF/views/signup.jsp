@@ -87,7 +87,7 @@
 		<input type="text" name="mi_memName" id="mi_memName" placeholder="이름입력" /><br />
 		<input type="submit" value="어셈블 개설하기" /><br />
 	</form>
-	<input type="hidden" name="ran" id="ran" value="${ran }" />
+	<input type="hidden" name="ran" id="ran" value="<c:out value='${ran }' />" />
 	
 
 </body>

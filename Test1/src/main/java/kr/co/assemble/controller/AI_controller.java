@@ -18,7 +18,9 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
@@ -26,6 +28,7 @@ import org.springframework.web.servlet.ModelAndView;
 import kr.co.assemble.dao.MI_interface;
 import kr.co.assemble.dto.IdCheckDTO;
 import kr.co.assemble.dto.MemberInfoDTO;
+import kr.co.assemble.dto.testDTO;
 import kr.co.assemble.service.SendMail;
 import kr.co.assemble.service.SendMailService;
 
@@ -53,13 +56,14 @@ public class AI_controller {
 	private final String INVITEDOK = "invitedOk";
 	private final String FIND = "find_assemble";
 	private final String TERMS = "terms";
+	private final String MEMSIGNUP = "mem_signup";
 	
 	public void setDao(MI_interface dao) {
 		this.dao = dao;
 	}
 	
 	
-	@RequestMapping(value = "/main")
+	@RequestMapping(value = "/main", method = { RequestMethod.GET, RequestMethod.POST })
 	public String list(Model model) {
 		List<MemberInfoDTO> list = dao.selectAll();
 		
@@ -117,166 +121,44 @@ public class AI_controller {
 		}
 		
 		
-//		System.out.println(dto1.getmi_memID());
-//		System.out.println(dto1.getmi_memPw());
-//		System.out.println(dto1.getmi_assembleName());
-		
-//		if(memID == null && memPw == null) {
-//			return ASSEMBLELOGIN;
-//		}
-		
 		return LOGINOK;
 	}
 	
-//	@RequestMapping(value = "/signup")
-//	public ModelAndView signup() {
-//		ModelAndView mv = new ModelAndView();
-//		int ran = new Random().nextInt(900000)+100000;
-//		mv.setViewName(SIGNUP);
-//		mv.addObject("ran", ran);
-//		return mv;
-//	}
-//	
-//	
-//	@RequestMapping(value = "/signupOk")
-//	public String signupOk(@ModelAttribute MemberInfoDTO dto) {
-//		String password = dto.getMi_memPw();
-//		String Pw = passEncoder.encode(password);
-//		dto.setMi_memPw(Pw);
-//		
-//		dao.insertOne(dto);
-//		
-//		return RE+MAIN;
-//	}
-//	
-//	@RequestMapping(value = "/sendMail")
-//	@ResponseBody
-//	public void sendMail(@RequestParam String mi_memEmail, @RequestParam int ran, HttpServletRequest req) {
-//		SendMailService sms = new SendMailService();
-//		SendMail sm = new SendMail();
-//		int ranNum = sms.init();
-////		String aiName = req.getParameter("mi_assembleName");
-//		HttpSession session = req.getSession(true);
-//		String authCode = String.valueOf(ranNum);
-//		session.setAttribute("authCode", authCode);
-//		session.setAttribute("ran", ran);
-//		
-//		String sendEmail = "tlsgks8668@gmail.com";
-////		String receiveEmail = req.getParameter("mi_memEmail");
-//		String title = "Assemble 인증 코드입니다.";
-//		String contents = "<div class=\"container\">\r\n" + 
-//				"	<div class=\"row\">\r\n" + 
-//				"		<div class=\"col-sm-10 col-md-8 col-lg-6 mx-auto\">\r\n" + 
-//				"			<div class=\"card card-signin my-5\">\r\n" + 
-//				"				<div class=\"card-body\">\r\n" + 
-//				"					<div class=\"form\">\r\n" + 
-//				"					\r\n" + 
-//				"						<div class=\"form-group\">\r\n" + 
-//				"							<img src=\"/resources/info/images/assemble.png\" alt=\"assemble\" />\r\n" + 
-//				"						</div>\r\n" + 
-//				"						\r\n" + 
-//				"						<div class=\"form-group\">\r\n" + 
-//				"							<h1 class=\"card-title\">이메일 인증코드</h1>\r\n" + 
-//				"							<p>어셈블에 가입하신것을 환영합니다. 아래의 인증코드를 입력하시면 가입이 정상적으로 완료됩니다.</p>\r\n" + 
-//				"						</div>\r\n" + 
-//				"						\r\n" + 
-//				"						<div class=\"form-group\">						\r\n" + 
-//											ranNum	+
-////				"							<input type=\"text\" name=\"\" class=\"form-control\" id=\"code\" value=\"인증코드\" readonly/>\r\n" + 
-//				"						</div>\r\n" + 
-//				"						\r\n" + 
-//				"						<hr />\r\n" + 
-//				"						<div class=\"form-group\">\r\n" + 
-//				"							<p>본 메일은 발신 전용이며, 문의에 대한 회신은 처리되지 않습니다.</p>\r\n" + 
-//				"						</div>\r\n" + 
-//				"					</div>\r\n" + 
-//				"					\r\n" + 
-//				"				</div>\r\n" + 
-//				"			</div>\r\n" + 
-//				"			\r\n" + 
-//				"		</div>\r\n" + 
-//				"	</div>\r\n" + 
-//				"</div>";
-//		
-////		System.out.println(aiName);
-//		System.out.println(mi_memEmail);
-//		
-//		MimeMessage message = mailSender.createMimeMessage();
-//		MimeMessageHelper msghelper;
-//		try {
-//			msghelper = new MimeMessageHelper(message, true, "UTF-8");
-//			// MimeMessageHelper에 set하기 위함
-//			msghelper.setFrom(sendEmail);		// 보내는 사람 이메일
-//			msghelper.setTo(mi_memEmail);		// 받는 사람 이메일
-//			msghelper.setSubject(title);		// 제목
-//			msghelper.setText(contents, true);		// 내용
-//			
-//			mailSender.send(message);
-//			
-//		} catch (MessagingException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		}
-////		sm.sendEmail(sendEmail, receiveEmail, title, contents, ranNum);
-//		
-//	}
-//	
-//	@RequestMapping(value="/emailAuth")
-//	@ResponseBody
-//	public ResponseEntity<String> emailAuth(@RequestParam String authCode, @RequestParam String ran, HttpSession session){
-//		String EmailCode = (String) session.getAttribute("authCode");
-//		String certificate = Integer.toString((Integer) session.getAttribute("ran"));
-//		if(EmailCode.equals(authCode) && certificate.equals(ran))
-//		return new ResponseEntity<String>("complete", HttpStatus.OK);
-//		else return new ResponseEntity<String>("false", HttpStatus.OK);
-//	}
+
 	@RequestMapping(value="/invited")
-	public String invited() {
-		return INVITED;
+	public ModelAndView invited() {
+		ModelAndView mv = new ModelAndView();
+		int ran = new Random().nextInt(9000000)+1000000;
+//		String strRan = Integer.toString(ran);
+//		String encodeRan = passEncoder.encode(strRan);
+//		System.out.println(encodeRan);
+		System.out.println("invited ran : " + ran);
+		mv.setViewName(INVITED);
+		mv.addObject("ran", ran);
+		return mv;
 	}
 	
 	@RequestMapping(value="/invitedOk")
-	public String invitedOk(@RequestParam String invited, HttpServletRequest req, HttpSession session) {
-		
+	public String invitedOk(@RequestParam String invited, @RequestParam String ran, HttpServletRequest req, HttpSession session) {
+		String memid = (String) session.getAttribute("mi_memID");
 		String mi_assembleName = (String) session.getAttribute("mi_assembleName");
-		String encodeAdd = passEncoder.encode(mi_assembleName);
-		
+		SendMailService sms = new SendMailService();
+		System.out.println("invitedOk ran : " + ran);
+		String encodeRan = sms.encodeInit(ran);
+//		String encodeRan = passEncoder.encode(ran);
+		session.setAttribute("ran", encodeRan);
 		String sendEmail = "tlsgks8668@gmail.com";
+		session.setAttribute("mi_memEmail", sendEmail);
 //		String receiveEmail = req.getParameter("mi_memEmail");
-		String title = "Assemble 인증 코드입니다.";
-		String contents = "<div class=\"container\">\r\n" + 
-				"	<div class=\"row\">\r\n" + 
-				"		<div class=\"col-sm-10 col-md-8 col-lg-6 mx-auto\">\r\n" + 
-				"			<div class=\"card card-signin my-5\">\r\n" + 
-				"				<div class=\"card-body\">\r\n" + 
-				"					<div class=\"form\">\r\n" + 
-				"					\r\n" + 
-				"						<div class=\"form-group\">\r\n" + 
-				"							<img src=\"http://localhost:9090//resources/info/images/assemble.png\" alt=\"assemble\" />\r\n" + 
-				"						</div>\r\n" + 
-				"						\r\n" + 
-				"						<div class=\"form-group\">\r\n" + 
-				"							<h2 class=\"card-title\">Assemble Name</h2>\r\n" + 
-				"							<h3>어셈블에 초대되셨습니다.</h3>\r\n" + 
-				"							<p>이 초대를 수락하시려면 아래의 링크를 클릭해 어셈블 계정을 만들어주세요.</p>\r\n" + 
-				"						</div>\r\n" + 
-				"						\r\n" + 
-				"						<div class=\"form-group\">						\r\n" + 
-				"							<input type=\"text\" name=\"\" class=\"form-control\" id=\"code\" value=\"어셈블주소\" readonly/>\r\n" + 
-				"						</div>\r\n" + 
-				"						\r\n" + 
-				"						<hr />\r\n" + 
-				"						<div class=\"form-group\">\r\n" + 
-				"							<p>본 메일은 발신 전용이며, 문의에 대한 회신은 처리되지 않습니다.</p>\r\n" + 
-				"						</div>\r\n" + 
-				"					</div>\r\n" + 
-				"					\r\n" + 
-				"				</div>\r\n" + 
-				"			</div>\r\n" + 
-				"			\r\n" + 
-				"		</div>\r\n" + 
-				"	</div>\r\n" + 
-				"</div>";
+		String title = "[Assemble]"+ memid +"님이 "+ mi_assembleName + " 어셈블에 초대하셨습니다.";
+		String contents = "<h1>" + mi_assembleName + "</h1>\r\n" +
+				"<h1> 어셈블에 초대되셨습니다. </h1>" +
+				"<h3>[Assemble]"+ memid +"님이 "+ mi_assembleName +" 어셈블에 초대하셨습니다.</h>\r\n" +
+				"	<h3>초대 링크를 보시려면 <a href=\"http://localhost:9090/invitedemail\">여기</a>를 눌러주세요!</h3>\r\n" + 
+				"	<hr />\r\n" + 
+				"	<div class=\"form-group\">\r\n" + 
+				"		<p>본 메일은 발신 전용이며, 문의에 대한 회신은 처리되지 않습니다.</p>\r\n" + 
+				"	</div>";
 		
 		MimeMessage message = mailSender.createMimeMessage();
 		MimeMessageHelper msghelper;
@@ -298,6 +180,16 @@ public class AI_controller {
 		return "home";
 	}
 	
+	@RequestMapping(value="/assemble.io/{mi_assembleName}/login/{ran}/a", method = { RequestMethod.GET, RequestMethod.POST })
+	public String memLogin(
+			@PathVariable("mi_assembleName") String assembleName,
+			@PathVariable("ran") String ran) {
+		System.out.println(ran);
+		
+		return MEMSIGNUP;
+		
+	}
+	
 	@RequestMapping(value="/find_assemble")
 	public String find_assemble() {
 		
@@ -305,64 +197,17 @@ public class AI_controller {
 	}
 	
 	@RequestMapping(value="/send_findassemble")
-	public String find_email(@RequestParam String mi_memEmail) {
-		List<String> AssembleName = dao.findAssembleName(mi_memEmail);
-		
+	public String find_email(@RequestParam String mi_memEmail, HttpSession session) {
+		session.setAttribute("mi_memEmail", mi_memEmail);
+//		System.out.println(list);
 		String sendEmail = "tlsgks8668@gmail.com";
-		String title = "Assemble 인증 코드입니다.";
-		String contents ="<html>\r\n" + 
-				"<link type=\"text/css\" rel=\"stylesheet\" href=\"/resources/info/css/admin_email.css\" />\r\n" + 
-				"\r\n" + 
-				"<link type=\"text/css\" rel=\"stylesheet\" href=\"/resources/info/css/bootstrap.min.css\" />\r\n" + 
-				"<link type=\"text/css\" rel=\"stylesheet\" href=\"/resources/info/css/bootstrap.min.css\" />\r\n" + 
-				"<script type=\"text/javascript\" src=\"/resources/info/js/bootstrap.bundle.min.js\"></script>\r\n" + 
-				"<script type=\"text/javascript\" src=\"/resources/info/js/jquery.slim.min.js\"></script> \r\n" + 
-				"<head>\r\n" + 
-				"<meta charset=\"UTF-8\">\r\n" + 
-				"<title>find_email</title>\r\n" + 
-				"</head>\r\n" + 
-				"<body>\r\n" + 
-				"<div class=\"container\">\r\n" + 
-				"	<div class=\"row\">\r\n" + 
-				"		<div class=\"col-sm-10 col-md-8 col-lg-6 mx-auto\">\r\n" + 
-				"			<div class=\"card card-signin my-5\">\r\n" + 
-				"				<div class=\"card-body\">\r\n" + 
-				"					<div class=\"form\">\r\n" + 
-				"					\r\n" + 
-				"						<div class=\"form-group\">\r\n" + 
-				"							<img src=\"/resources/info/images/assemble.png\" alt=\"assemble\" />\r\n" + 
-				"						</div>\r\n" + 
-				"						\r\n" + 
-				"						<div class=\"form-group\">\r\n" + 
-				"							<h1 class=\"card-title\">참여 중인 어셈블 목록</h1>\r\n" + 
-				"							<p> <!-- 이메일주소 --> 계정으로 참여 중인 아지트 목록입니다.</p>\r\n" + 
-				"						</div>\r\n" + 
-				"						\r\n" + 
-				"						<!-- 어셈블 목록 -->\r\n" + 
-				"						\r\n" + 
-				"											\r\n" + 
-				"						<div class=\"form-group\">	\r\n" + 
-				"							<div class=\"form-group-row\" style=\"text-align: center\">\r\n" +
-				"								<h3>"+AssembleName+"</h3>\r\n" + 
-				"							</div>\r\n" + 
-				"						</div>\r\n" + 
-				"						\r\n" + 
-				"						\r\n" + 
-				"						<hr />\r\n" + 
-				"						<div class=\"form-group\">\r\n" + 
-				"							<p>본 메일은 발신 전용이며, 문의에 대한 회신은 처리되지 않습니다.</p>\r\n" + 
-				"						</div>\r\n" + 
-				"					</div>\r\n" + 
-				"					\r\n" + 
-				"				</div>\r\n" + 
-				"			</div>\r\n" + 
-				"			\r\n" + 
-				"		</div>\r\n" + 
-				"	</div>\r\n" + 
-				"</div>\r\n" + 
-				"\r\n" + 
-				"</body>\r\n" + 
-				"</html>";
+		String title = "[Assemble] 참여 중인 어셈블 목록";
+		String contents = "<h1>참여 중인 어셈블 목록</h1>\r\n" + 
+				"	<h3>계정으로  참여 중인 어셈블 목록을 보시려면 <a href=\"http://localhost:9090/findemail\">여기</a>를 눌러주세요!</h3>\r\n" + 
+				"	<hr />\r\n" + 
+				"	<div class=\"form-group\">\r\n" + 
+				"		<p>본 메일은 발신 전용이며, 문의에 대한 회신은 처리되지 않습니다.</p>\r\n" + 
+				"	</div>";
 		MimeMessage message = mailSender.createMimeMessage();
 		MimeMessageHelper msghelper;
 		try {
@@ -379,9 +224,10 @@ public class AI_controller {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		return MAIN;
+		
+		return "main";
 	}
-	
+
 	@RequestMapping(value="/terms")
 	public String terms() {
 		return TERMS;

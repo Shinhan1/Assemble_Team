@@ -24,12 +24,8 @@
 				}, */
 				type:"post",
 				url : "<c:url value='/invitedOk'/>",
-				data : "invited=" + $("#memEmail").val(),
-				//data: "userEmail="+encodeURIComponent($('#mi_memEmail').val()),
-				/* encodeURIComponent
-				예를들어, http://a.com?name=egoing&job=programmer 에서 &job=programmer
-				중 '&'는 하나의 파라미터가 끝나고 다음 파라미터가 온다는 의미이다.
-				그런데 다음과 같이 job의 값에 &가 포함된다면 시스템은 job의 값을 제대로 인식할수 없게 된다. */
+				data : "invited=" + $("#memEmail").val() + "&ran=" + $("#ran").val(),
+				
 				success : function(data){
 					
 					alert("초대 완료!");
@@ -81,6 +77,7 @@
 		</div>
 	</div>
 </div>
+<input type="hidden" name="ran" id="ran" value="<c:out value='${ran }' />" />
 
 </body>
 </html>

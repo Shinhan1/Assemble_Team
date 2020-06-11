@@ -7,8 +7,6 @@
 
 <link type="text/css" rel="stylesheet" href="/resources/info/css/bootstrap.min.css" />
 <link type="text/css" rel="stylesheet" href="/resources/info/css/bootstrap.min.css" />
-<script type="text/javascript" src="/resources/info/js/bootstrap.bundle.min.js"></script>
-<script type="text/javascript" src="/resources/info/js/jquery.slim.min.js"></script> 
 <head>
 <meta charset="UTF-8">
 <title>find_email</title>
@@ -30,15 +28,14 @@
 							<p> <!-- 이메일주소 --> 계정으로 참여 중인 아지트 목록입니다.</p>
 						</div>
 						
-						<!-- 어셈블 목록ㄴ -->
-						
-											
+						<!-- 어셈블 목록 -->
 						<div class="form-group">	
 							<div class="form-group-row" style="text-align: center">
-								<h3></h3>
+								<c:forEach var="i" items="${attendList}" >
+									<h3><c:out value="${i.mi_assembleName}" /></h3>
+								</c:forEach>
 							</div>
 						</div>
-						
 						
 						<hr />
 						<div class="form-group">

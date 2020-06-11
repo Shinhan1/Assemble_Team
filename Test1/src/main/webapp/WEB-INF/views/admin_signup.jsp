@@ -19,8 +19,14 @@
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script type="text/javascript">
 $(function(){
+	
 	$('#code-btn').click(function(){
 		/* console.log(email); */
+		if($('#inputEmail').val() == "") {
+			alert("이메일을 입력해주세요.");
+			$('#inputEmail').focus();
+			return false;
+		}
 		$.ajax({
 			type:"post",
 			url : "<c:url value='/sendMail'/>",
@@ -32,6 +38,7 @@ $(function(){
 			그런데 다음과 같이 job의 값에 &가 포함된다면 시스템은 job의 값을 제대로 인식할수 없게 된다. */
 			success : function(data){
 				alert("사용가능한 이메일입니다. 인증번호를 입력해주세요.");
+				$("#re-code").attr("disabled", false);
 			},
 			error: function(data){
 				alert("에러가 발생했습니다.");
@@ -42,17 +49,24 @@ $(function(){
 	});
 	
 	$('#re-code').click(function(){
-/* 		console.log(email); */
+		var complete = "Y";
+		if($('#assemblename').val() == "" || $("#inputEmail").val() == "") {
+			alert("이메일을 발송 후 인증번호를 입력해주세요.");
+			$("#inputName").focus();
+			return false;
+		}
 		$.ajax({
-			
 			type:"post",
 			url:"<c:url value='/emailAuth'/>",
 			data:"authCode=" + $('#inputCode').val() + "&ran=" + $("#ran").val(),
 			success:function(data){
 			if(data=="complete"){
 				alert("인증이 완료되었습니다.");
+				$('#inputCode').attr('disabled', true);
+				$('#re-code').attr('disabled', true);
+				$('#ran').attr('value', complete);
 			}else if(data == "false"){
-				alert("인증번호를 잘못 입력하셨습니다.")
+				alert("인증번호를 잘못 입력하셨습니다.");
 			}
 			},
 			complete: function(){
@@ -65,12 +79,32 @@ $(function(){
 			});
 		
 	});
-	
 	// 어셈블이름 중복확인
+	var ck = "N";
 	$('#assemble-btn').click(function(){
-		console.log("어셈블이름")
+		$.ajax({
+        	type:"post",
+        	/* url : "assemble.io/<c:out value='${mi_assembleName}' />/login/<c:out value='${ran}' />/a", */
+        	url : "<c:url value='duplicateAssembleName'/>",
+        	data : "mi_assembleName=" + $("#assembleName").val(),
+        	success : function(data) {
+        		if(data == 1) {
+        			alert("중복된 어셈블명입니다.");
+        			$("#assembleName").focus();
+        			ck="N";
+        		}else if(data == 0 && $("#assembleName").val() != ""){
+        			alert("사용 가능한 어셈블명입니다.");
+        			ck="Y";
+        		}else {
+        			alert("어셈블명을 입력하세요");
+        			ck="N";
+        		}
+        	}
+        	
+        })
 		
 	});
+	
 	
 	// 인증코드  발송
 	/* $('#code-btn').click(function(){
@@ -83,11 +117,13 @@ $(function(){
 		console.log("인증확인");
 		
 	}); */
-	
+	console.log(ck);
 	$('.btn-block').click(function(){
+		var pw = $("#password").val();
+		
 		 
 		// 어셈블 공백 확인
-		if($("#assemblename").val() == ""){ alert("어셈블 이름을 입력해주세요"); $("#inputName").focus(); return false; }		
+		if($("#assembleName").val() == ""){ alert("어셈블 이름을 입력해주세요"); $("##assemblename").focus(); return false; }		
 		
 		// 이메일 공백확인
 		else if($("#inputEmail").val() == ""){ alert("이메일을 입력해주세요"); $("#inputEmail").focus(); return false; }
@@ -103,7 +139,10 @@ $(function(){
 			alert("비밀번호가 상이합니다"); 
 			$("#inputPassword").val(""); $("#confirmPassword").val("");
 			$("#inputPassword").focus(); return false;	
-		}	
+		}else if($("#ran").val() != "Y") {
+			alert("인증을 해주세요!");
+			return false;
+		}
 
 		
 		// 체크박스 여부
@@ -118,8 +157,13 @@ $(function(){
 		
 		/* else if (!$("input:checked[id='customeCheck1']").is(":checked")){ 
 			alert("약관에 동의해주세요"); $("#customeCheck1").focus(); return false; } */
-		
-		document.frm.submit();
+		if(ck == "Y") {
+			/* document.frm.action="<c:url value='signupOk'/>"; */
+			document.frm.submit();		
+		}else {
+			alert("어셈블명을 바꿔주세요.");
+			return false;
+		}
 			
 	});
 	
@@ -128,6 +172,7 @@ $(function(){
 });
 
 </script>
+
 
 </head>
 <body>
@@ -158,7 +203,7 @@ $(function(){
 		                <input type="button" class="btn btn-light btn-xs" value="코드 발송" id="code-btn" />          
 		                <input type="text" name="authCode" id="inputCode" class="form-control" placeholder="인증코드" required>
 		               
-		                <input type="button" class="btn btn-light btn-xs" value="인증 확인" id="re-code"/>    
+		                <input type="button" class="btn btn-light btn-xs" value="인증 확인" id="re-code" disabled/>    
                 
               </div>
               

@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import kr.co.assemble.dto.AssembleInfoDTO;
 import kr.co.assemble.dto.IdCheckDTO;
 import kr.co.assemble.dto.MemberInfoDTO;
+import kr.co.assemble.dto.testDTO;
 
 
 
@@ -42,7 +43,7 @@ public class MemberInfo_DAO implements MI_interface {
 	}
 	
 	@Override
-	public List<String> findAssembleName(String mi_memEmail) {
+	public List<testDTO> findAssembleName(String mi_memEmail) {
 		// TODO Auto-generated method stub
 		return ss.selectList("findAssembleName", mi_memEmail);
 	}
@@ -65,14 +66,18 @@ public class MemberInfo_DAO implements MI_interface {
 //		return ss.selectOne("selectPw", dto1);
 //	}
 	
-
-
 	@Override
 	public void insertOne(MemberInfoDTO dto) {
 		// TODO Auto-generated method stub
 		ss.insert("insertOneAM", dto);
 		ss.insert("insertOneAssemble", dto);
 		ss.insert("insertOneMIAdmin", dto);
+	}
+	
+	@Override
+	public void insertMember(MemberInfoDTO dto) {
+		ss.insert("insertOneAM", dto);
+		ss.insert("insertOneMIMember", dto);
 	}
 
 	@Override
@@ -85,6 +90,17 @@ public class MemberInfo_DAO implements MI_interface {
 	public void deleteOne(int no) {
 		// TODO Auto-generated method stub
 
+	}
+	@Override
+	public int duplicationAssembleName(String mi_assembleName) {
+		// TODO Auto-generated method stub
+		return ss.selectOne("countAssembleName", mi_assembleName);
+	}
+	
+	@Override
+	public int duplicationId(MemberInfoDTO dto) {
+		// TODO Auto-generated method stub
+		return ss.selectOne("countMemberId", dto);
 	}
 
 }

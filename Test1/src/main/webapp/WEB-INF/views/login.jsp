@@ -49,7 +49,7 @@
 <!-- 로그인폼 ================================================== -->
 <div class="main-container">
 	<div class="sign-container">
-		   <form class="form-signin" action="loginOk"> 
+		   <form class="form-signin" action="loginOk" method="POST"> 
 			   <div class="text-center mb-4"> 
 			   <img class="mb-4" src="/resources/info/images/logo.png" alt="logo" width="72" height="72">
 				   <h2 class="h2 mb-3 font-weight-bold">로그인</h2>

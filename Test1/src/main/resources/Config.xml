@@ -8,6 +8,7 @@
 		<typeAlias type="kr.co.assemble.dto.MemberInfoDTO" alias="dto"/>
 		<typeAlias type="kr.co.assemble.dto.IdCheckDTO" alias="dto1"/>
 		<typeAlias type="kr.co.assemble.dto.AssembleInfoDTO" alias="dto2" />
+		<typeAlias type="kr.co.assemble.dto.testDTO" alias="dto3"/>
 		
 		<typeAlias alias="CategoryDto" type="kr.co.assemble.dto.CategoryDTO"/>
 		<typeAlias alias="GroupDto" type="kr.co.assemble.dto.GroupDTO"/>

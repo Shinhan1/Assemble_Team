@@ -1,5 +1,6 @@
 package kr.co.assemble.controller;
 
+import java.util.List;
 import java.util.Random;
 
 import javax.inject.Inject;
@@ -15,14 +16,19 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import kr.co.assemble.dao.MI_interface;
 import kr.co.assemble.dto.MemberInfoDTO;
+import kr.co.assemble.dto.testDTO;
 import kr.co.assemble.service.SendMail;
 import kr.co.assemble.service.SendMailService;
 
@@ -59,7 +65,6 @@ public class SignupController {
 		String Pw = passEncoder.encode(password);
 		dto.setMi_memPw(Pw);
 		
-		dao.insertOne(dto);
 		
 		return RE+MAIN;
 	}
@@ -79,39 +84,12 @@ public class SignupController {
 		String sendEmail = "tlsgks8668@gmail.com";
 //		String receiveEmail = req.getParameter("mi_memEmail");
 		String title = "Assemble 인증 코드입니다.";
-		String contents = "<div class=\"container\">\r\n" + 
-				"	<div class=\"row\">\r\n" + 
-				"		<div class=\"col-sm-10 col-md-8 col-lg-6 mx-auto\">\r\n" + 
-				"			<div class=\"card card-signin my-5\">\r\n" + 
-				"				<div class=\"card-body\">\r\n" + 
-				"					<div class=\"form\">\r\n" + 
-				"					\r\n" + 
-				"						<div class=\"form-group\">\r\n" + 
-				"							<img src=\"/resources/info/images/assemble.png\" alt=\"assemble\" />\r\n" + 
-				"						</div>\r\n" + 
-				"						\r\n" + 
-				"						<div class=\"form-group\">\r\n" + 
-				"							<h1 class=\"card-title\">이메일 인증코드</h1>\r\n" + 
-				"							<p>어셈블에 가입하신것을 환영합니다. 아래의 인증코드를 입력하시면 가입이 정상적으로 완료됩니다.</p>\r\n" + 
-				"						</div>\r\n" + 
-				"						\r\n" + 
-				"						<div class=\"form-group\">						\r\n" + 
-											ranNum	+
-//				"							<input type=\"text\" name=\"\" class=\"form-control\" id=\"code\" value=\"인증코드\" readonly/>\r\n" + 
-				"						</div>\r\n" + 
-				"						\r\n" + 
-				"						<hr />\r\n" + 
-				"						<div class=\"form-group\">\r\n" + 
-				"							<p>본 메일은 발신 전용이며, 문의에 대한 회신은 처리되지 않습니다.</p>\r\n" + 
-				"						</div>\r\n" + 
-				"					</div>\r\n" + 
-				"					\r\n" + 
-				"				</div>\r\n" + 
-				"			</div>\r\n" + 
-				"			\r\n" + 
-				"		</div>\r\n" + 
-				"	</div>\r\n" + 
-				"</div>";
+		String contents = "<h1>안녕하세요! Assemble입니다.</h1>\r\n" + 
+				"	<h3>인증코드를 확인하시려면 <a href=\"http://localhost:9090/signupemail\">여기</a>를 눌러주세요!</h3>\r\n" + 
+				"	<hr />\r\n" + 
+				"	<div class=\"form-group\">\r\n" + 
+				"		<p>본 메일은 발신 전용이며, 문의에 대한 회신은 처리되지 않습니다.</p>\r\n" + 
+				"	</div>";
 		
 //		System.out.println(aiName);
 		System.out.println(mi_memEmail);
@@ -141,8 +119,77 @@ public class SignupController {
 	public ResponseEntity<String> emailAuth(@RequestParam String authCode, @RequestParam String ran, HttpSession session){
 		String EmailCode = (String) session.getAttribute("authCode");
 		String certificate = Integer.toString((Integer) session.getAttribute("ran"));
-		if(EmailCode.equals(authCode) && certificate.equals(ran))
-		return new ResponseEntity<String>("complete", HttpStatus.OK);
+		String y = "Y";
+		if(EmailCode.equals(authCode) && certificate.equals(ran)) {
+			session.removeAttribute("ran");
+			session.setAttribute("ran", y);
+			return new ResponseEntity<String>("complete", HttpStatus.OK);
+		}
 		else return new ResponseEntity<String>("false", HttpStatus.OK);
 	}
+	
+	@RequestMapping(value="/signupemail")
+	public String signupemail() {
+		return "admin_email";
+	}
+	
+	@RequestMapping(value="/invitedemail")
+	public String invitedemail() {
+		
+		
+		return "mem_email";
+	}
+	
+	@RequestMapping(value="/findemail")
+	public String findemail(HttpSession session, Model model) {
+		String mi_memEmail = (String) session.getAttribute("mi_memEmail");
+		System.out.println(mi_memEmail);
+		List<testDTO> assembleName = dao.findAssembleName(mi_memEmail);
+		model.addAttribute("attendList", assembleName);
+		System.out.println(assembleName);
+		session.removeAttribute("mi_memEmail");
+		
+		return "find_email";
+	}
+	
+	
+	@RequestMapping(value="/assemble.io/{mi_assembleName}/login/membersignup")
+	public String memberSignup(
+			@PathVariable("mi_assembleName") String assembleName,
+			@ModelAttribute MemberInfoDTO dto, HttpSession session) {
+		String password = dto.getMi_memPw();
+		String Pw = passEncoder.encode(password);
+		dto.setMi_assembleName((String) session.getAttribute("mi_assembleName"));
+		dto.setMi_memPw(Pw);
+		dto.setMi_memEmail((String) session.getAttribute("mi_memEmail"));
+		System.out.println(dto.getMi_memID());
+		System.out.println(Pw);
+		
+		dao.insertMember(dto);
+		
+		return MAIN;
+	}
+	
+	@RequestMapping(value="/assemble.io/{mi_assembleName}/login/{ran}/duplicateId")
+	@ResponseBody
+	public int duplicateId(
+			@PathVariable("mi_assembleName") String assembleName,
+			@PathVariable("ran") String ran,
+			@ModelAttribute MemberInfoDTO dto) {
+		int result = dao.duplicationId(dto);
+		System.out.println(dto.getMi_memID());
+		System.out.println(result);
+		
+		return result;
+	}
+	
+	@RequestMapping(value="/duplicateAssembleName")
+	@ResponseBody
+	public int duplicateAssembleName(@ModelAttribute MemberInfoDTO dto) {
+		int result = dao.duplicationAssembleName(dto.getMi_assembleName());
+		
+		
+		return result;
+	}
+	
 }

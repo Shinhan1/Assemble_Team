@@ -13,29 +13,42 @@
 
 <link type="text/css" rel="stylesheet" href="/resources/info/css/main.css">
 
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){
+	 $('#logo').click(function(e){
+		 $('html,body').animate({scrollTop:0},600); return false;
+	 });
+	 
+	 $('.navbar a').click(function(e){
+	     $('html,body').animate({scrollTop:$(this.hash).offset().top }, 600); return false;
+	 });
+	 
+})
+</script>
 </head>
 <body>
 <!-- Navigation -->
 <nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top">
   <div class="container">
-    <a class="navbar-brand" href="#"><img src="/resources/info/images/logo.png" width="40" height="40" alt="logo" /> Assemble</a>
+    <a class="navbar-brand" href="#" id="logo"><img src="/resources/info/images/logo.png" width="40" height="40" alt="logo" id="logo"/> Assemble</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
-        </button>
+     </button>
     <div class="collapse navbar-collapse" id="navbarResponsive">
       <ul class="navbar-nav ml-auto">
-        <li class="nav-item active">
+        <!-- <li class="nav-item active">
           <a class="nav-link" href="#">Home
                 <span class="sr-only">(current)</span>
-              </a>
-        </li>
+		 </a>
+        </li> -->
         <li class="nav-item">
        			<!-- login.jsp -->
           <a class="nav-link" href="#img1">로그인</a>
         </li>
         <li class="nav-item">
            		<!-- admin_signup.jsp -->
-          <a class="nav-link" href="#img1">어셈블 개설</a>
+          <a class="nav-link" href="#img2">어셈블 개설</a>
         </li>
 
       </ul>
@@ -52,24 +65,24 @@
     </ol>
     <div class="carousel-inner" role="listbox">
       <!-- Slide One - Set the background image for this slide in the line below -->
-      <div class="carousel-item active" style="background-image: url('/resources/info/images/meeting.jpg')">
+      <div class="carousel-item active" style="background-image: url('/resources/info/images/meeting.png')" >
         <div class="carousel-caption d-none d-md-block">
-          <h2 class="display-4">효과적인 팀워크</h2>
-          <p class="lead">협업툴 어셈블</p>
+          <h2 class="display-4"><strong>효과적인 팀워크</strong></h2>
+          <p class="lead"><strong>협업툴 어셈블</strong></p>
         </div>
       </div>
       <!-- Slide Two - Set the background image for this slide in the line below -->
       <div class="carousel-item" style="background-image: url('/resources/info/images/business.jpg')">
         <div class="carousel-caption d-none d-md-block">
-          <h2 class="display-4">가벼워진 업무</h2>
-          <p class="lead">협업툴 어셈블</p>
+          <h2 class="display-4"><strong>가벼워진 업무</strong></h2>
+          <p class="lead"><strong>협업툴 어셈블</strong></p>
         </div>
       </div>
       <!-- Slide Three - Set the background image for this slide in the line below -->
       <div class="carousel-item" style="background-image: url('/resources/info/images/brooke-cagle.jpg')">
         <div class="carousel-caption d-none d-md-block">
-          <h2 class="display-4">업무 커뮤니케이션</h2>
-          <p class="lead">어셈블에서 업무 생산성을 높여보세요</p>
+          <h2 class="display-4"><strong>업무 커뮤니케이션</strong></h2>
+          <p class="lead"><strong>어셈블에서 업무 생산성을 높여보세요</strong></p>
         </div>
       </div>
     </div>
@@ -87,11 +100,12 @@
 <!-- Page Content -->
 <section class="py-5">
   <div class="container">
-    <h1 class="display-4">Assemble</h1>
+    <h1 class="display-4">Assemble </h1>
     <p class="lead">어셈블은 조직 내의 오픈 커뮤니케이션에 최적화된 업무용 커뮤니케이션 플랫폼입니다.</p>
   </div>
 </section>
 
+<br />
 
 <!-- 어셈블개설 ==================================================-->
 <div class="container login-container">
