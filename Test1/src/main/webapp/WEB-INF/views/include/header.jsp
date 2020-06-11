@@ -50,10 +50,10 @@ $(document).ready(function() {
       <!--header <start--></start-->
       <header class="header black-bg">
 		<!--logo start-->
-            <a href="/assemble.io/avengers/home" class="logo">
+            <a href="/assemble.io/${mi_assembleName}/home?memberno=${memberno}" class="logo">
             	 <img src="/resources/assets/img/assemble2.png" id="logo">  
             	 <b class="teamname"> : </b>
-            	 <b class="teamname"> AVENGERS </b>      	 
+            	 <b class="teamname"> ${mi_assembleName } </b>      	 
            	</a>
             <!--logo end-->
             
@@ -154,7 +154,7 @@ $(document).ready(function() {
 	
               	  <div id="div2">
 	              	  <h4 id="id1"> <c:out value="${mi_memID }" /></h5>
-	              	  <h4 id="name1"> <c:out value="${mi_memName }" /></h5>
+	              	  <h4 id="name1">이름</h5>
               	  </div>
     
 		              	  <input type="button" value="내글" class="b1"/>
@@ -162,7 +162,7 @@ $(document).ready(function() {
 		              	  <input type="button" value="요청" class="b1"/>
 		              	  <input type="button" value="북마크" class="b2"/>
   
-		              	  <input type="button" value="아지트 멤버 초대하기" id="b3" onclick="location.href='/invited'"/>
+		              	  <input type="button" value="아지트 멤버 초대하기" id="b3"/>
 		              	  
 		              	  <input type="button" value="멤버" class="b4"/>	
 		              	  <input type="button" value="참여가능한 그룹" class="b4"/>
@@ -197,7 +197,7 @@ $(document).ready(function() {
 							
 								<c:forEach var="g" items="${groupList }">
 									<c:if test="${g.categoryno == c.categoryno }">
-										<li><a href="/assemble.io/avengers/g/${g.groupno }/wall">${g.groupname }</a></li>
+										<li><a href="/assemble.io/${c.assemblename }/g/${g.groupno }/wall">${g.groupname }</a></li>
 									</c:if>
 								</c:forEach>
 							</ul>

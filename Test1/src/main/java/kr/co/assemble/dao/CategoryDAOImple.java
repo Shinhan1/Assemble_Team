@@ -32,9 +32,9 @@ public class CategoryDAOImple implements CategoryDAO {
 
 	//전체 카테고리 조회
 	@Override
-	public List<CategoryDTO> selectCategory() {
-		
-		List<CategoryDTO> list = ss.selectList("categoryGroup");
+	public List<CategoryDTO> selectCategory(CategoryDTO dto) {	
+		//session 값 받아서 일치하는 assemblename만 출력
+		List<CategoryDTO> list = ss.selectList("categoryGroup", dto);
 		
 		return list;
 	}

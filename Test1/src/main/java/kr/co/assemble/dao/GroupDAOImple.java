@@ -40,12 +40,12 @@ public class GroupDAOImple implements GroupDAO{
 	}
 	
 	//카테고리별 그룹조회(x)
-	@Override
-	public List<GroupDTO> grouplist(int categoryno) {
-		return ss.selectList("selectCategoryGroup", categoryno);
-	}
+//	@Override
+//	public List<GroupDTO> grouplist(int categoryno) {
+//		return ss.selectList("selectCategoryGroup", categoryno);
+//	}
 
-	//이걸로 카테고리 list 뽑음
+	//이걸로 카테고리 안 gruop list 뽑음 =>조건은 jsp 상에서!
 	@Override
 	public List<GroupDTO> grouplist() {
 		// TODO Auto-generated method stub

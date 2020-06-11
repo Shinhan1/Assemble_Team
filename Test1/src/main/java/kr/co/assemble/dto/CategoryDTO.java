@@ -5,15 +5,17 @@ public class CategoryDTO {
 	private int memberno;
 	private String categoryname;
 	private int admin;
+	private String assemblename;
 	
 	public CategoryDTO() {}
 
-	public CategoryDTO(int categoryno, int memberno, String categoryname, int admin) {
+	public CategoryDTO(int categoryno, int memberno, String categoryname, int admin, String assemblename) {
 		super();
 		this.categoryno = categoryno;
 		this.memberno = memberno;
 		this.categoryname = categoryname;
 		this.admin = admin;
+		this.assemblename = assemblename;
 	}
 
 	public int getCategoryno() {
@@ -48,6 +50,15 @@ public class CategoryDTO {
 		this.admin = admin;
 	}
 
+	public String getAssemblename() {
+		return assemblename;
+	}
+
+	public void setAssemblename(String assemblename) {
+		this.assemblename = assemblename;
+	}
+
+	
 	
 	
 

@@ -12,5 +12,5 @@ public interface CategoryDAO {
 	public void updateOne(CategoryDTO dto);
 	
 	//selectCategory
-	public List<CategoryDTO> selectCategory();
+	public List<CategoryDTO> selectCategory(CategoryDTO dto);
 }

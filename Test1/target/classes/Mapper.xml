@@ -72,10 +72,15 @@
 	</insert>
 	
 	
-	<!-- 카테고리조회 -->
-	<select id="categoryGroup" resultType="CategoryDto">
-		select * from category
-	</select>	
+	<!-- 카테고리조회(네비바) -->
+	<select id="categoryGroup" resultType="CategoryDto" >
+		select * from category 
+		where assemblename = #{assemblename} 
+		
+	</select>
+	
+		
+	
 	
 	<!-- **********************그룹******************** -->
 	<!-- 그룹 전체 조회 -->
@@ -84,10 +89,10 @@
 	</select>
 	
 	<!-- 카테고리별 그룹 조회 -->
-	<select id="selectCategoryGroup" resultType="GroupDto">
+<!-- 	<select id="selectCategoryGroup" resultType="GroupDto">
 		select * from groups
 		where categoryno = #{categoryno}	
-	</select>
+	</select> -->
 	
 	<select id="selectCategoryGroup1" resultType="GroupDto">
 		select * from groups;
@@ -118,7 +123,7 @@
 	
 	
 	
-	<!-- **********************composed(멤버의 그룹정보)******************** -->
+<!-- **********************composed(멤버의 그룹정보)******************** -->
 	<!-- 그룹에 초대하기 invitation 유효성검사: category에 admin이 1이면 초대가 가능-->
 	<insert id="inviteGroupMem" parameterType="kr.co.assemble.dto.ComposedDTO">
 		insert into composed
@@ -129,25 +134,55 @@
 	<select id="composedList" resultType="ComposedDto">
 		select * from composed
 	</select>
-
-	<!-- **********************Board(게시판)******************** -->
-	<!-- 맨위에 그룹정보 -->
-	<select id="">
-	select g.groupname, i.mi_memname, i.mi_memid
-	from groups as g join memberinfo as i join composed as c
-	on g.groupno = c.groupno and c.memberno = i.mi_memberno
-	where g.groupno = #{groupno}
+	
+	<!-- 그룹별 정보, 구성원 정보(Groups_Memberinfo_Composed_DTO) -->
+	<!--그룹장이름 -->
+	<select id="selectGroupMasterName" resultType="String">
+		select i.mi_memname
+		from groups as g join memberinfo as i join composed as c
+		on g.groupno = c.groupno and c.memberno = i.mi_memberno and g.memberno = c.memberno
+		where g.groupno = #{groupno}
 	</select>
 	
+	<!-- 그룹장아이디 -->
+	<select id="selectGroupMasterId" resultType="String">
+		select i.mi_memid
+		from groups as g join memberinfo as i join composed as c
+		on g.groupno = c.groupno and c.memberno = i.mi_memberno and g.memberno = c.memberno
+		where g.groupno = #{groupno}
+	</select>
 	
+	<!-- 그룹명 -->
+	<select id="selectGroupName" resultType="String">
+		select groupname from groups
+		where groupno = #{groupno}
+	</select>
 	
+	<!--그룹원 모두  -->
+	<select id="selectGroupMemberName" resultType="G_Mi_C_Dto">
+		select g.groupname, i.mi_memname, i.mi_memid, i.mi_assemblename
+		from groups as g join memberinfo as i join composed as c
+		on g.groupno = c.groupno and c.memberno = i.mi_memberno
+		where g.groupno = #{groupno}
+	</select>
+	
+	<!-- **********************Board(게시판)******************** -->
 	<!-- 그룹별로 게시글 조회 공지글일 경우(1) 제일 위로, 최신글이 제일 위에 올라오도록 정렬 -->
-	<select id="selectGroupBoard" resultType="BoardDto">
-		select * from memberinfo as m
-		join groupboard as b
-		on m.mi_memberno = b.memberno
-		where b.groupno = #{groupno}
-		order by boardnotice desc, boarddate desc
+	<select id="selectGroupBoard" resultType="G_M_F_Dto">
+	    select
+		m.mi_memname, m.mi_memid, b.memberno, 
+		b.bno, b.groupno, c.categoryno, b.boardnotice, 
+		b.boarddate, b.boardcontents, b.boardlike, b.boardhate, 
+		b.requestboolean, f.filename, r.reqstatus
+		from category as c, memberinfo as m, groupboard as b
+		left outer join file f
+		on f.bno = b.bno
+		left outer join requestboard r
+		on r.bno = b.bno
+		where
+		b.categoryno = c.categoryno and
+		m.mi_memberno = b.memberno and
+		b.groupno = #{groupno}
 	</select>
 	
 	<!-- bno로 전체 조회 -->
@@ -176,22 +211,34 @@
 	</delete>
 
 	<!-- 내가 포함된 그룹의 글들만 조회 (나의 소식피드) -->
-	<select id="myGroupBoard" resultType="BoardDto">
-		select * from groupboard
+	<select id="myGroupBoard" resultType="G_M_F_Dto">
+<!-- 	select  * from groupboard
 		where groupno in (select groupno
 		from composed
 		where memberno = #{memberno})
+		order by boarddate desc; -->
+		select g.groupno, g.groupname, m.mi_memname, m.mi_memid, m.mi_assemblename, gb.bno, gb.categoryno, gb.memberno, gb.boardnotice, gb.boarddate, gb.boardcontents, gb.boardlike, gb.boardhate, gb.requestboolean, f.filename
+		from groupboard as gb
+		join groups as g
+		on gb.groupno = g.groupno
+		left join memberinfo as m
+		on gb.memberno = m.mi_memberno
+		left join file as f
+		on f.bno = gb.bno
+		where gb.groupno in (select groupno from composed where memberno = #{memberno}) 
 		order by boarddate desc;
-	</select>
+		</select>
 	
-	
-	   <!-- 그룹별로 게시글 조회 -->
-<!--    <select id="selectGroupBoard" resultType="BoardDto">
-      select * from groupboard
-      where groupno = #{groupno}
-      order by boardnotice desc, boarddate desc;
-   </select> -->
 
+<!-- ************************************************************* -->
+<!-- **********************댓글******************** -->
+   <!-- 댓글 달기(bno에) -->
+   <insert id="insertComment" parameterType="RecommentDto"> 
+      <!-- 여기서 memberno는 게시글 작성자 -->
+      <!-- aseeblemember에서 memno 가져와서 memid 뽑기 -->
+      insert into recomment (bno, groupno, categoryno, redate, reid, recontents)
+      values (#{bno}, #{groupno}, #{categoryno}, now(), #{reid}, #{recontents})
+   </insert>
 	
 	
 </mapper>
