@@ -35,7 +35,7 @@ import kr.co.assemble.service.SendMailService;
 @Controller
 public class SignupController {
 	
-	@Inject
+	@Autowired
 	MI_interface dao;
 	
 	@Autowired
@@ -61,9 +61,11 @@ public class SignupController {
 	
 	@RequestMapping(value = "/signupOk")
 	public String signupOk(@ModelAttribute MemberInfoDTO dto) {
-		String password = dto.getMi_memPw();
+		String password = dto.getMi_mempw();
 		String Pw = passEncoder.encode(password);
-		dto.setMi_memPw(Pw);
+		dto.setMi_mempw(Pw);
+		
+		dao.insertOne(dto);
 		
 		
 		return RE+MAIN;
@@ -71,7 +73,7 @@ public class SignupController {
 	
 	@RequestMapping(value = "/sendMail")
 	@ResponseBody
-	public void sendMail(@RequestParam String mi_memEmail, @RequestParam int ran, HttpServletRequest req) {
+	public void sendMail(@RequestParam String mi_mememail, @RequestParam int ran, HttpServletRequest req) {
 		SendMailService sms = new SendMailService();
 		SendMail sm = new SendMail();
 		int ranNum = sms.init();
@@ -92,7 +94,7 @@ public class SignupController {
 				"	</div>";
 		
 //		System.out.println(aiName);
-		System.out.println(mi_memEmail);
+		System.out.println(mi_mememail);
 		
 		MimeMessage message = mailSender.createMimeMessage();
 		MimeMessageHelper msghelper;
@@ -100,7 +102,7 @@ public class SignupController {
 			msghelper = new MimeMessageHelper(message, true, "UTF-8");
 			// MimeMessageHelper에 set하기 위함
 			msghelper.setFrom(sendEmail);		// 보내는 사람 이메일
-			msghelper.setTo(mi_memEmail);		// 받는 사람 이메일
+			msghelper.setTo(mi_mememail);		// 받는 사람 이메일
 			msghelper.setSubject(title);		// 제목
 			msghelper.setText(contents, true);		// 내용
 			
@@ -142,27 +144,27 @@ public class SignupController {
 	
 	@RequestMapping(value="/findemail")
 	public String findemail(HttpSession session, Model model) {
-		String mi_memEmail = (String) session.getAttribute("mi_memEmail");
+		String mi_memEmail = (String) session.getAttribute("mi_mememail");
 		System.out.println(mi_memEmail);
 		List<testDTO> assembleName = dao.findAssembleName(mi_memEmail);
 		model.addAttribute("attendList", assembleName);
 		System.out.println(assembleName);
-		session.removeAttribute("mi_memEmail");
+		session.removeAttribute("mi_mememail");
 		
 		return "find_email";
 	}
 	
 	
-	@RequestMapping(value="/assemble.io/{mi_assembleName}/login/membersignup")
+	@RequestMapping(value="/assemble.io/{mi_assemblename}/login/membersignup")
 	public String memberSignup(
-			@PathVariable("mi_assembleName") String assembleName,
+			@PathVariable("mi_assemblename") String assembleName,
 			@ModelAttribute MemberInfoDTO dto, HttpSession session) {
-		String password = dto.getMi_memPw();
+		String password = dto.getMi_mempw();
 		String Pw = passEncoder.encode(password);
-		dto.setMi_assembleName((String) session.getAttribute("mi_assembleName"));
-		dto.setMi_memPw(Pw);
-		dto.setMi_memEmail((String) session.getAttribute("mi_memEmail"));
-		System.out.println(dto.getMi_memID());
+		dto.setMi_assemblename((String) session.getAttribute("mi_assemblename"));
+		dto.setMi_mempw(Pw);
+		dto.setMi_mememail((String) session.getAttribute("mi_mememail"));
+		System.out.println(dto.getMi_mememail());
 		System.out.println(Pw);
 		
 		dao.insertMember(dto);
@@ -170,14 +172,15 @@ public class SignupController {
 		return MAIN;
 	}
 	
-	@RequestMapping(value="/assemble.io/{mi_assembleName}/login/{ran}/duplicateId")
+	@RequestMapping(value="/assemble.io/{mi_assemblename}/login/{ran}/duplicateId")
 	@ResponseBody
 	public int duplicateId(
-			@PathVariable("mi_assembleName") String assembleName,
-			@PathVariable("ran") String ran,
+			@PathVariable("mi_assemblename") String assembleName,
 			@ModelAttribute MemberInfoDTO dto) {
+//		dto.setMi_assemblename(assembleName);
 		int result = dao.duplicationId(dto);
-		System.out.println(dto.getMi_memID());
+		System.out.println("duplicateId"+assembleName);
+		System.out.println("dto : " + dto.getMi_assemblename());
 		System.out.println(result);
 		
 		return result;
@@ -186,7 +189,7 @@ public class SignupController {
 	@RequestMapping(value="/duplicateAssembleName")
 	@ResponseBody
 	public int duplicateAssembleName(@ModelAttribute MemberInfoDTO dto) {
-		int result = dao.duplicationAssembleName(dto.getMi_assembleName());
+		int result = dao.duplicationAssembleName(dto.getMi_assemblename());
 		
 		
 		return result;

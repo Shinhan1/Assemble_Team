@@ -10,10 +10,20 @@
 		<typeAlias type="kr.co.assemble.dto.AssembleInfoDTO" alias="dto2" />
 		<typeAlias type="kr.co.assemble.dto.testDTO" alias="dto3"/>
 		
+		<typeAlias type="kr.co.assemble.dto.NavbarDTO" alias="NavbarDto"/>
 		<typeAlias alias="CategoryDto" type="kr.co.assemble.dto.CategoryDTO"/>
 		<typeAlias alias="GroupDto" type="kr.co.assemble.dto.GroupDTO"/>
 		<typeAlias alias="BoardDto" type="kr.co.assemble.dto.BoardDTO"/>
 		<typeAlias alias="ComposedDto" type="kr.co.assemble.dto.ComposedDTO"/>
+		
+		<!-- <package name="kr.co.assemble.dto"/> -->
+		
+		<typeAlias type="kr.co.assemble.dto.FileDTO" alias="FileDto"/>
+		<typeAlias type="kr.co.assemble.dto.RequestDTO" alias="ReqDto"/>
+		<typeAlias type="kr.co.assemble.dto.ComposedMemberInfoDTO" alias="CMI_Dto"/>
+		<typeAlias type="kr.co.assemble.dto.GroupFileDTO" alias="CF_Dto"/>
+		
+		
 		
 		<typeAlias type="kr.co.assemble.dto.Groupboard_Memberinfo_FileDTO" alias="G_M_F_Dto"/>
 		<typeAlias type="kr.co.assemble.dto.Groups_Memberinfo_Composed_DTO" alias="G_Mi_C_Dto"/>

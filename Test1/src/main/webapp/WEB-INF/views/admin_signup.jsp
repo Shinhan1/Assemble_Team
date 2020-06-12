@@ -30,7 +30,7 @@ $(function(){
 		$.ajax({
 			type:"post",
 			url : "<c:url value='/sendMail'/>",
-			data : "mi_memEmail=" + $("#inputEmail").val() + "&ran=" + $("#ran").val(),
+			data : "mi_mememail=" + $("#inputEmail").val() + "&ran=" + $("#ran").val(),
 			//data: "userEmail="+encodeURIComponent($('#mi_memEmail').val()),
 			/* encodeURIComponent
 			예를들어, http://a.com?name=egoing&job=programmer 에서 &job=programmer
@@ -86,7 +86,7 @@ $(function(){
         	type:"post",
         	/* url : "assemble.io/<c:out value='${mi_assembleName}' />/login/<c:out value='${ran}' />/a", */
         	url : "<c:url value='duplicateAssembleName'/>",
-        	data : "mi_assembleName=" + $("#assembleName").val(),
+        	data : "mi_assemblename=" + $("#assembleName").val(),
         	success : function(data) {
         		if(data == 1) {
         			alert("중복된 어셈블명입니다.");
@@ -189,7 +189,7 @@ $(function(){
               	<div class="form-name">
               		<p>어셈블 정보</p>
               	</div>
-		                <input type="text" name="mi_assembleName" id="assembleName" class="form-control" placeholder="Assemble Name" required autofocus>
+		                <input type="text" name="mi_assemblename" id="assembleName" class="form-control" placeholder="Assemble Name" required autofocus>
 		                
 		                <input type="button" class="btn btn-light btn-xs" id="assemble-btn" value="중복확인" />
               </div>
@@ -198,7 +198,7 @@ $(function(){
               	<div class="form-name">	
               		<p>이메일 인증</p>
               	</div>
-		                <input type="email" name="mi_memEmail" id="inputEmail" class="form-control" placeholder="Email address" required>
+		                <input type="email" name="mi_mememail" id="inputEmail" class="form-control" placeholder="Email address" required>
 		                
 		                <input type="button" class="btn btn-light btn-xs" value="코드 발송" id="code-btn" />          
 		                <input type="text" name="authCode" id="inputCode" class="form-control" placeholder="인증코드" required>
@@ -211,13 +211,13 @@ $(function(){
               	<div class="form-name">
               		<p>아이디 만들기</p>
               	</div>
-		                <input type="text" id="inputId" name="mi_memID" class="form-control" placeholder="Id" required/>
+		                <input type="text" id="inputId" name="mi_memid" class="form-control" placeholder="Id" required/>
 		                <!-- <label for="inputId">Id</label> -->
-		                <input type="password" id="inputPassword" name="mi_memPw" class="form-control" placeholder="Password" required>
+		                <input type="password" id="inputPassword" name="mi_mempw" class="form-control" placeholder="Password" required>
 		                <!-- <label for="inputPassword">Password</label> -->
 		                <input type="password" id="confirmPassword" class="form-control" placeholder="Password (confirm)" required>
 		                <!--  <label for="confirmPassword">Confirm Password</label> -->
-		                <input type="text" id="inputName" name="mi_memName" class="form-control" placeholder="Name" required>
+		                <input type="text" id="inputName" name="mi_memname" class="form-control" placeholder="Name" required>
               </div>
 
               <hr class="my-4">

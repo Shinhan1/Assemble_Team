@@ -1,56 +1,66 @@
 package kr.co.assemble.dto;
 
 public class IdCheckDTO {
-	private int mi_memberNo;
-	private String mi_assembleName;
-	private String mi_memID;
-	private String mi_memPw;
-	private String mi_memName;
+	private int mi_memberno;
+	private String mi_assemblename;
+	private String mi_memid;
+	private String mi_mempw;
+	private String mi_memname;
 	
 	public IdCheckDTO() {
 		super();
 	}
-	public IdCheckDTO(int mi_memberNo, String mi_assembleName, 
-			String mi_memID, String mi_memPw, String mi_memName) {
+
+	public IdCheckDTO(int mi_memberno, String mi_assemblename, String mi_memid, String mi_mempw, String mi_memname) {
 		super();
-		this.mi_memberNo = mi_memberNo;
-		this.mi_assembleName = mi_assembleName;
-		this.mi_memID = mi_memID;
-		this.mi_memPw = mi_memPw;
-		this.mi_memName = mi_memName;
+		this.mi_memberno = mi_memberno;
+		this.mi_assemblename = mi_assemblename;
+		this.mi_memid = mi_memid;
+		this.mi_mempw = mi_mempw;
+		this.mi_memname = mi_memname;
+	}
+
+	public int getMi_memberno() {
+		return mi_memberno;
+	}
+
+	public void setMi_memberno(int mi_memberno) {
+		this.mi_memberno = mi_memberno;
+	}
+
+	public String getMi_assemblename() {
+		return mi_assemblename;
+	}
+
+	public void setMi_assemblename(String mi_assemblename) {
+		this.mi_assemblename = mi_assemblename;
+	}
+
+	public String getMi_memid() {
+		return mi_memid;
+	}
+
+	public void setMi_memid(String mi_memid) {
+		this.mi_memid = mi_memid;
+	}
+
+	public String getMi_mempw() {
+		return mi_mempw;
+	}
+
+	public void setMi_mempw(String mi_mempw) {
+		this.mi_mempw = mi_mempw;
+	}
+
+	public String getMi_memname() {
+		return mi_memname;
+	}
+
+	public void setMi_memname(String mi_memname) {
+		this.mi_memname = mi_memname;
 	}
 	
 	
-	public int getMi_memberNo() {
-		return mi_memberNo;
-	}
-	public void setMi_memberNo(int mi_memberNo) {
-		this.mi_memberNo = mi_memberNo;
-	}
-	public String getmi_memID() {
-		return mi_memID;
-	}
-	public void setmi_memID(String mi_memID) {
-		this.mi_memID = mi_memID;
-	}
-	public String getmi_memPw() {
-		return mi_memPw;
-	}
-	public void setmi_memPw(String mi_memPw) {
-		this.mi_memPw = mi_memPw;
-	}
-	public String getmi_assembleName() {
-		return mi_assembleName;
-	}
-	public void setmi_assembleName(String mi_assembleName) {
-		this.mi_assembleName = mi_assembleName;
-	}
-	public String getMi_memName() {
-		return mi_memName;
-	}
-	public void setMi_memName(String mi_memName) {
-		this.mi_memName = mi_memName;
-	}
 	
 	
 	

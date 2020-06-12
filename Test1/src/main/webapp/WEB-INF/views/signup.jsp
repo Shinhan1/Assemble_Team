@@ -18,7 +18,7 @@
 				}, */
 				type:"post",
 				url : "<c:url value='/sendMail'/>",
-				data : "mi_memEmail=" + $("#mi_memEmail").val() + "&ran=" + $("#ran").val(),
+				data : "mi_mememail=" + $("#mi_memEmail").val() + "&ran=" + $("#ran").val(),
 				//data: "userEmail="+encodeURIComponent($('#mi_memEmail').val()),
 				/* encodeURIComponent
 				예를들어, http://a.com?name=egoing&job=programmer 에서 &job=programmer
@@ -76,15 +76,15 @@
 <body>
 	<h2>어셈블 개설</h2>
 	<form action="signupOk" method="POST" name="frm">
-		<input type="text" name="mi_assembleName" id="mi_assembleName" placeholder="어셈블명 및 URL" /><br />
-		<input type="text" name="mi_memEmail" id="mi_memEmail" placeholder="email" />
+		<input type="text" name="mi_assemblename" id="mi_assembleName" placeholder="어셈블명 및 URL" /><br />
+		<input type="text" name="mi_mememail" id="mi_memEmail" placeholder="email" />
 		<input type="button" value="인증코드 발송" id="cf" /><br />
 		<input type="text" name="authCode" id="authCode" placeholder="인증번호" />
 		<input type="button" value="인증 확인" id="cfCk" /><br />
-		<input type="text" name="mi_memID" id="memID" placeholder="아이디" /><br />
-		<input type="text" name="mi_memPw" id="mi_memPw" placeholder="비밀번호" /><br />
+		<input type="text" name="mi_memid" id="memID" placeholder="아이디" /><br />
+		<input type="text" name="mi_mempw" id="mi_memPw" placeholder="비밀번호" /><br />
 		<input type="text" name="pwCk" id="pwCk" placeholder="비밀번호 확인" /><br />
-		<input type="text" name="mi_memName" id="mi_memName" placeholder="이름입력" /><br />
+		<input type="text" name="mi_memname" id="mi_memName" placeholder="이름입력" /><br />
 		<input type="submit" value="어셈블 개설하기" /><br />
 	</form>
 	<input type="hidden" name="ran" id="ran" value="<c:out value='${ran }' />" />

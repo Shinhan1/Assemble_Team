@@ -24,10 +24,10 @@ public class HomeController {
 	
 
 	//내가 속한 그룹의 전체 게시글 출력
-	@RequestMapping(value = "/assemble.io/{mi_assembleName}/home")
-	public String selectMyGroup(@PathVariable("mi_assembleName") String assemblename,
-								@RequestParam(value = "memberno") int memberno, Model model){
-		
+	@RequestMapping(value = "/assemble.io/{mi_assemblename}/home")
+	public String selectMyGroup(
+			@PathVariable("mi_assemblename") String assembleName,
+			@RequestParam(value = "memberno") int memberno, Model model){
 		//assemblename = (String) session.getAttribute("mi_assembleName");
 		
 		

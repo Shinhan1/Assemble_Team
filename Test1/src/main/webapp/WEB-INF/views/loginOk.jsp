@@ -10,7 +10,7 @@
 <body>
 	<script type="text/javascript">
 		alert("로그인 되셨습니다.");
-		location.href="/assemble.io/<c:out value="${mi_assembleName }" />/home?memberno=<c:out value='${memberno }' />";
+		location.href="/assemble.io/<c:out value="${mi_assemblename }" />/home?memberno=<c:out value='${memberno }' />";
 				
 	</script>
 	

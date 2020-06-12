@@ -37,7 +37,7 @@ import kr.co.assemble.service.SendMailService;
 @Controller
 public class AI_controller {
 	
-	@Inject
+	@Autowired
 	MI_interface dao;
 	
 	@Autowired
@@ -82,44 +82,41 @@ public class AI_controller {
 	
 	@RequestMapping(value = "/login")
 	public String login(@ModelAttribute MemberInfoDTO dto, HttpServletRequest req) {
-		String mi_name = dao.selectAssembleName(dto.getMi_assembleName());
-		int mi_memNo = dto.getMi_memberNo();
-
-//		System.out.println(mi_name);
-//		System.out.println(dto.getMi_assembleName());
+		String mi_name = dao.selectAssembleName(dto.getMi_assemblename());
+		
+		System.out.println(mi_name);
 		if(mi_name == null) {
 			return ASSEMBLELOGIN;
 		}
 		HttpSession session = req.getSession(true);
 		
-		session.setAttribute("mi_assembleName", mi_name);
+		session.setAttribute("mi_assemblename", mi_name);
 		
 		return LOGIN;
 	}
 	
 	@RequestMapping(value = "/loginOk")
 	public String mainPage(@ModelAttribute IdCheckDTO dto1, HttpSession session) {
-		String mi_assembleName = (String) session.getAttribute("mi_assembleName");
+		String mi_assembleName = (String) session.getAttribute("mi_assemblename");
 //		System.out.println(mi_assembleName);
-		dto1.setmi_assembleName(mi_assembleName);
+		dto1.setMi_assemblename(mi_assembleName);
 		
-		
+//		System.out.println("loginOK : "+mi_assembleName);
 		IdCheckDTO check = dao.selectId(dto1);
-		boolean passMatch = passEncoder.matches(dto1.getmi_memPw(), check.getmi_memPw());
+		boolean passMatch = passEncoder.matches(dto1.getMi_mempw(), check.getMi_mempw());
 		
-		int mi_memNo = check.getMi_memberNo();
+		int mi_memNo = check.getMi_memberno();
 //		System.out.println(check.getMi_memberNo());
 //		session.setAttribute("mi_memberNo", mi_memNo);
 		session.setAttribute("memberno", mi_memNo);
-		session.setAttribute("mi_memName", check.getMi_memName());
-		if(check.getmi_memID() != null && passMatch) {
-			session.setAttribute("mi_memID", check.getmi_memID());
+		session.setAttribute("mi_memname", check.getMi_memname());
+		if(check.getMi_memid() != null && passMatch) {
+			session.setAttribute("mi_memid", check.getMi_memid());
 			
 		}else {
-			session.setAttribute("mi_memID", null);
+			session.setAttribute("mi_memid", null);
 			return ASSEMBLELOGIN;
 		}
-		
 		
 		return LOGINOK;
 	}
@@ -140,15 +137,15 @@ public class AI_controller {
 	
 	@RequestMapping(value="/invitedOk")
 	public String invitedOk(@RequestParam String invited, @RequestParam String ran, HttpServletRequest req, HttpSession session) {
-		String memid = (String) session.getAttribute("mi_memID");
-		String mi_assembleName = (String) session.getAttribute("mi_assembleName");
+		String memid = (String) session.getAttribute("mi_memid");
+		String mi_assembleName = (String) session.getAttribute("mi_assemblename");
 		SendMailService sms = new SendMailService();
 		System.out.println("invitedOk ran : " + ran);
 		String encodeRan = sms.encodeInit(ran);
 //		String encodeRan = passEncoder.encode(ran);
 		session.setAttribute("ran", encodeRan);
 		String sendEmail = "tlsgks8668@gmail.com";
-		session.setAttribute("mi_memEmail", sendEmail);
+		session.setAttribute("mi_mememail", invited);
 //		String receiveEmail = req.getParameter("mi_memEmail");
 		String title = "[Assemble]"+ memid +"님이 "+ mi_assembleName + " 어셈블에 초대하셨습니다.";
 		String contents = "<h1>" + mi_assembleName + "</h1>\r\n" +
@@ -180,9 +177,9 @@ public class AI_controller {
 		return "home";
 	}
 	
-	@RequestMapping(value="/assemble.io/{mi_assembleName}/login/{ran}/a", method = { RequestMethod.GET, RequestMethod.POST })
+	@RequestMapping(value="/assemble.io/{mi_assemblename}/login/{ran}/a", method = { RequestMethod.GET, RequestMethod.POST })
 	public String memLogin(
-			@PathVariable("mi_assembleName") String assembleName,
+			@PathVariable("mi_assemblename") String assembleName,
 			@PathVariable("ran") String ran) {
 		System.out.println(ran);
 		
@@ -197,8 +194,8 @@ public class AI_controller {
 	}
 	
 	@RequestMapping(value="/send_findassemble")
-	public String find_email(@RequestParam String mi_memEmail, HttpSession session) {
-		session.setAttribute("mi_memEmail", mi_memEmail);
+	public String find_email(@RequestParam String mi_mememail, HttpSession session) {
+		session.setAttribute("mi_mememail", mi_mememail);
 //		System.out.println(list);
 		String sendEmail = "tlsgks8668@gmail.com";
 		String title = "[Assemble] 참여 중인 어셈블 목록";
@@ -214,7 +211,7 @@ public class AI_controller {
 			msghelper = new MimeMessageHelper(message, true, "UTF-8");
 			// MimeMessageHelper에 set하기 위함
 			msghelper.setFrom(sendEmail);		// 보내는 사람 이메일
-			msghelper.setTo(mi_memEmail);		// 받는 사람 이메일
+			msghelper.setTo(mi_mememail);		// 받는 사람 이메일
 			msghelper.setSubject(title);		// 제목
 			msghelper.setText(contents, true);		// 내용
 			

@@ -3,6 +3,7 @@ package kr.co.assemble.dto;
 import java.util.Date;
 
 public class BoardDTO {
+	
 	private int bno;
 	private int groupno;
 	private int categoryno;
@@ -13,11 +14,12 @@ public class BoardDTO {
 	private int boardlike;
 	private int boardhate;
 	private int requestboolean;
+	private int filestatus;
 	
 	public BoardDTO() {}
 
 	public BoardDTO(int bno, int groupno, int categoryno, int memberno, Date boarddate, String boardcontents,
-			int boardnotice, int boardlike, int boardhate, int requestboolean) {
+			int boardnotice, int boardlike, int boardhate, int requestboolean, int filestatus) {
 		super();
 		this.bno = bno;
 		this.groupno = groupno;
@@ -29,6 +31,7 @@ public class BoardDTO {
 		this.boardlike = boardlike;
 		this.boardhate = boardhate;
 		this.requestboolean = requestboolean;
+		this.filestatus = filestatus;
 	}
 
 	public int getBno() {
@@ -110,6 +113,16 @@ public class BoardDTO {
 	public void setRequestboolean(int requestboolean) {
 		this.requestboolean = requestboolean;
 	}
+
+	public int getFilestatus() {
+		return filestatus;
+	}
+
+	public void setFilestatus(int filestatus) {
+		this.filestatus = filestatus;
+	}
+
+	
 	
 	
 	

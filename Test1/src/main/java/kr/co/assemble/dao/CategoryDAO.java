@@ -3,6 +3,7 @@ package kr.co.assemble.dao;
 import java.util.List;
 
 import kr.co.assemble.dto.CategoryDTO;
+import kr.co.assemble.dto.NavbarDTO;
 
 public interface CategoryDAO {
 	// 카테고리'만' 생성 - 그룹번호는 0으로 입력
@@ -12,5 +13,5 @@ public interface CategoryDAO {
 	public void updateOne(CategoryDTO dto);
 	
 	//selectCategory
-	public List<CategoryDTO> selectCategory(CategoryDTO dto);
+	public List<NavbarDTO> selectCategory(NavbarDTO dto);
 }

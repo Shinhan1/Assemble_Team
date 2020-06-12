@@ -34,8 +34,8 @@
 						
 						<div class="form-group">						
 							<!-- <input type="text" name="" class="form-control" id="code" value="어셈블주소" readonly/> -->
-							<a href="/assemble.io/<c:out value='${mi_assembleName}' />/login/<c:out value='${ran}' />/a">
-								http://localhost:9090/assemble.io/<c:out value="${mi_assembleName}" />/login/<c:out value="${ran}" />/a
+							<a href="/assemble.io/<c:out value='${mi_assemblename}' />/login/<c:out value='${ran}' />/a">
+								http://localhost:9090/assemble.io/<c:out value="${mi_assemblename}" />/login/<c:out value="${ran}" />/a
 							</a>
 						</div>
 						

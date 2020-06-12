@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<c:import url="/assemble.io/${mi_assembleName}/header"></c:import>
+<c:import url="/assemble.io/${mi_assemblename}/header"></c:import>
 <!DOCTYPE html>
 <html>
 <head>

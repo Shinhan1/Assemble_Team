@@ -1,23 +1,23 @@
 package kr.co.assemble.dto;
 
 public class testDTO {
-	private String mi_assembleName;
+	private String mi_assemblename;
 
 	public testDTO() {
 		super();
 	}
 
-	public testDTO(String mi_assembleName) {
+	public testDTO(String mi_assemblename) {
 		super();
-		this.mi_assembleName = mi_assembleName;
+		this.mi_assemblename = mi_assemblename;
 	}
 
-	public String getMi_assembleName() {
-		return mi_assembleName;
+	public String getMi_assemblename() {
+		return mi_assemblename;
 	}
 
-	public void setMi_AssembleName(String mi_assembleName) {
-		this.mi_assembleName = mi_assembleName;
+	public void setMi_Assemblename(String mi_assemblename) {
+		this.mi_assemblename = mi_assemblename;
 	}
 	
 	

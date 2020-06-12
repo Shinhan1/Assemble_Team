@@ -56,7 +56,7 @@
 			   </div> 
 				
 			    <div class="form-label-group">
-				     <input type="text" id="inputAssemble" class="form-control" placeholder="어셈블 이름" name="mi_assembleName" required autofocus> 
+				     <input type="text" id="inputAssemble" class="form-control" placeholder="어셈블 이름" name="mi_assemblename" required autofocus> 
 				     <label for="inputAssemble">Assemble Name</label>
 			    </div> 
 			   <!--  <div class="form-label-group">

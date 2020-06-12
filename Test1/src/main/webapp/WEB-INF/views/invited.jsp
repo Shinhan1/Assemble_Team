@@ -29,7 +29,7 @@
 				success : function(data){
 					
 					alert("초대 완료!");
-					document.frm.action="/assemble.io/<c:out value='${mi_assembleName}' />/home?memberno=<c:out value='${memberno}' />";
+					document.frm.action="/assemble.io/<c:out value='${mi_assemblename}' />/home?memberno=<c:out value='${memberno}' />";
 					document.frm.submit();
 				},
 				error: function(data){
@@ -57,7 +57,7 @@
 				  <div class="form-group row">
 				    <label for="colFormLabel" class="col-sm-2 col-form-label">이메일 주소 (필수)</label>
 				    <div class="col-sm-10">
-				      <input type="email" class="form-control" id="memEmail" placeholder="이메일 주소" name="memEmail" required>
+				      <input type="email" class="form-control" id="memEmail" placeholder="이메일 주소" name="mi_mememail" required>
 				    </div>
 				  </div>
 				  

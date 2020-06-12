@@ -75,6 +75,12 @@ public class BoardDAOImple implements BoardDAO{
 		
 		return list;
 	}
+	
+	//요청 글쓰기
+		@Override
+		public void insertRequest(BoardDTO dto) {
+			ss.insert("insertRequest", dto);
+		}
 
 
 	

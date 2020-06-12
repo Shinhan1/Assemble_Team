@@ -39,6 +39,7 @@ public class MemberInfo_DAO implements MI_interface {
 	@Override
 	public String selectAssembleName(String mi_assembleName) {
 		// TODO Auto-generated method stub
+		System.out.println(mi_assembleName);
 		return ss.selectOne("selectAssembleName", mi_assembleName);
 	}
 	
@@ -100,6 +101,8 @@ public class MemberInfo_DAO implements MI_interface {
 	@Override
 	public int duplicationId(MemberInfoDTO dto) {
 		// TODO Auto-generated method stub
+		System.out.println(dto.getMi_assemblename());
+		System.out.println(dto.getMi_memid());
 		return ss.selectOne("countMemberId", dto);
 	}
 

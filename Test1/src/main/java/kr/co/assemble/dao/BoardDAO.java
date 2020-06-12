@@ -27,4 +27,7 @@ public interface BoardDAO {
 	//myfeed 조회 (내가 속한 모든 그룹의 글 가져오기)
 	public List<Groupboard_Memberinfo_FileDTO> selectMyFeed(int memberno);
 	
+	// 요청 글쓰기
+	public void insertRequest(BoardDTO dto);
+	
 }

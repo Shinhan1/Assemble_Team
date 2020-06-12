@@ -56,11 +56,11 @@
 			   </div> 
 				
 			    <div class="form-label-group">
-				     <input type="text" id="inputId" class="form-control" placeholder="아이디" name="mi_memID" required autofocus> 
+				     <input type="text" id="inputId" class="form-control" placeholder="아이디" name="mi_memid" required autofocus> 
 				     <label for="inputId">ID</label>
 			    </div> 
 			   <div class="form-label-group">
-			       <input type="password" id="inputPassword" class="form-control" placeholder="Password" name="mi_memPw" required> 
+			       <input type="password" id="inputPassword" class="form-control" placeholder="Password" name="mi_mempw" required> 
 			       <label for="inputPassword">Password</label> 
 			   </div>  		
 			    

@@ -6,63 +6,68 @@
 <mapper namespace=" ">
 	<!-- AssembleInfo 정보 조회 -->
 	<select id="selectAllAI" resultType="dto2">
-		select * from assembleInfo
+		select * from assembleinfo
 	</select>
 	<!-- MemberInfo 정보 조회 -->
 	<select id="selectAll" resultType="dto">
-		select * from memberInfo
+		select * from memberinfo
 	</select>
 	
 	<!-- AssembleMember Table insert 어셈블 개설 -->
 	<insert id="insertOneAM" parameterType="dto" >
-		insert into assembleMember(memID, assembleName)
-		values (#{mi_memID}, #{mi_assembleName})
+		insert into assemblemember(memid, assemblename)
+		values (#{mi_memid}, #{mi_assemblename})
 	</insert>
 	<insert id="insertOneAssemble" parameterType="dto">
-		insert into assembleInfo
-		values (#{mi_assembleName}, (select memberNo from assembleMember where memId= #{mi_memID} AND assembleName = #{mi_assembleName}), #{mi_memID}, now())
+		insert into assembleinfo
+		values (#{mi_assemblename}, (select memberno from assemblemember where memid= #{mi_memid} and assemblename = #{mi_assemblename}), #{mi_memid}, now())
 	</insert>
 	
 	<!-- 방장 회원가입 -->
 	<insert id="insertOneMIAdmin" parameterType="dto">
-		insert into memberInfo
-		values (#{mi_assembleName}, (select memberNo from assembleMember where memId= #{mi_memID} AND assembleName = #{mi_assembleName}), #{mi_memID}, #{mi_memPw}, #{mi_memEmail}, 1, now(), #{mi_memName})
+		insert into memberinfo
+		values (#{mi_assemblename}, (select memberno from assemblemember where memid= #{mi_memid} and assemblename = #{mi_assemblename}), #{mi_memid}, #{mi_mempw}, #{mi_mememail}, 1, now(), #{mi_memname})
 	</insert>
 	
 	<!-- 멤버 회원가입 -->
 	<insert id="insertOneMIMember" parameterType="dto">
-		insert into memberInfo
-		values (#{mi_assembleName}, (select memberNo from assembleMember where memId= #{mi_memID} AND assembleName = #{mi_assembleName}), #{mi_memID}, #{mi_memPw}, #{mi_memEmail}, 0, now(), #{mi_memName})
+		insert into memberinfo
+		values (#{mi_assemblename}, (select memberno from assemblemember where memid= #{mi_memid} and assemblename = #{mi_assemblename}), #{mi_memid}, #{mi_mempw}, #{mi_mememail}, 0, now(), #{mi_memname})
 	</insert>
 	
 	<!-- 어셈블명 조회 -->
 	<select id="selectAssembleName" resultType="String">
-		select ai_assembleName from assembleinfo
-		where ai_assembleName = #{ai_assembleName}
+		select ai_assemblename from assembleinfo
+		where ai_assemblename = #{ai_assemblename}
 	</select>
 	
 	<select id="countAssembleName" resultType="int">
-		select count(ai_assembleName) from assembleinfo
-		where ai_assembleName = #{ai_assembleName}
+		select count(ai_assemblename) from assembleinfo
+		where ai_assemblename = #{ai_assemblename}
 	</select>
 	
 	<!-- 같은 어셈블에 아이디가 중복되는지 체크-->
 	<select id="countMemberId" resultType="int">
 		select count(mi_memid) from memberinfo
-		where mi_assembleName = #{mi_assembleName} and mi_memID = #{mi_memID}
+		where mi_assemblename = #{mi_assemblename} and mi_memid = #{mi_memid}
 	</select>
 	
 	<!-- 로그인 하기 위한 SQL -->
 	<select id="selectIdEncode" resultType="dto1" parameterType="dto1">
-		select mi_memberNo, mi_assembleName, mi_memID, mi_memPw, mi_memName from memberInfo
-		where mi_memID = #{mi_memID} AND mi_assembleName = #{mi_assembleName}
+		select mi_memberno, mi_assemblename, mi_memid, mi_mempw, mi_memname from memberinfo
+		where mi_memid = #{mi_memid} and mi_assemblename = #{mi_assemblename}
 	</select>
 	
 	<!-- 이메일로 어셈블이름찾기 -->
 	<select id="findAssembleName" resultType="dto3">
-		select mi_assembleName from memberinfo
-		where mi_memEmail = #{mi_memEamil}
+		select mi_assemblename from memberinfo
+		where mi_mememail = #{mi_memeamil}
 	</select>
+	
+	
+	
+		
+	
 	
 	<!-- ********************카테고리******************* -->
 	<!-- 카테고리만 생성 / 세션에 있는 memberno 가져오기 -->
@@ -71,15 +76,21 @@
 		values (#{memberno}, #{categoryname}, 1)
 	</insert>
 	
+	<update id="updateCategoryName" parameterType="CategoryDto">
+		update category
+		set categoryname = #{categoryname}
+		where categoryno = #{categoryno}
+	</update>
 	
-	<!-- 카테고리조회(네비바) -->
-	<select id="categoryGroup" resultType="CategoryDto" >
-		select * from category 
-		where assemblename = #{assemblename} 
-		
-	</select>
-	
-		
+	   <!-- 카테고리조회(네비바) -->
+   <select id="categoryGroup" resultType="NavbarDto" >
+      select distinct ca.categoryno, ca.categoryname, ca.assemblename
+      from category ca inner join composed co
+      on co.memberno = ca.memberno
+      where co.memberno = #{memberno} or 
+      ca.assemblename=#{assemblename} and 
+      ca.publicsecret = 1;
+   </select>
 	
 	
 	<!-- **********************그룹******************** -->
@@ -91,11 +102,10 @@
 	<!-- 카테고리별 그룹 조회 -->
 <!-- 	<select id="selectCategoryGroup" resultType="GroupDto">
 		select * from groups
-		where categoryno = #{categoryno}	
+		where categoryno = #{categoryno}
 	</select> -->
-	
-	<select id="selectCategoryGroup1" resultType="GroupDto">
-		select * from groups;
+	<select id="selectCategoryGroup" resultType="GroupDto">
+		select * from groups
 	</select>
 	
 	<!-- 그룹생성시 미분류 카테고리를 1번이라고 했을때, 처음 생성그룹은 항상 카테고리 1번으로 들어감. -->
@@ -119,61 +129,58 @@
 	</update>
 	
 	
+	<!-- **********************composed(멤버의 그룹정보)******************** -->
+   <!-- 그룹에 초대하기 invitation 유효성검사: category에 admin이 1이면 초대가 가능-->
+   <insert id="inviteGroupMem" parameterType="kr.co.assemble.dto.ComposedDTO">
+      insert into composed
+      values (#{groupno}, #{categoryno}, #{memberno})
+   </insert>
+   
+   <!-- 그룹구성 멤버 검색 -->
+   <select id="composedList" resultType="ComposedDto">
+      select * from composed
+   </select>
+   
+   <!-- 그룹별 정보, 구성원 정보(Groups_Memberinfo_Composed_DTO) -->
+   <!--그룹장이름 -->
+   <select id="selectGroupMasterName" resultType="String">
+      select i.mi_memname
+      from groups as g join memberinfo as i join composed as c
+      on g.groupno = c.groupno and c.memberno = i.mi_memberno and g.memberno = c.memberno
+      where g.groupno = #{groupno}
+   </select>
+   
+   <!-- 그룹장아이디 -->
+   <select id="selectGroupMasterId" resultType="String">
+      select i.mi_memid
+      from groups as g join memberinfo as i join composed as c
+      on g.groupno = c.groupno and c.memberno = i.mi_memberno and g.memberno = c.memberno
+      where g.groupno = #{groupno}
+   </select>
+   
+   <!-- 그룹명 -->
+   <select id="selectGroupName" resultType="String">
+      select groupname from groups
+      where groupno = #{groupno}
+   </select>
+   
+   <!--그룹원 모두  -->
+   <select id="selectGroupMemberName" resultType="G_Mi_C_Dto">
+      select g.groupname, i.mi_memname, i.mi_memid, i.mi_assemblename
+      from groups as g join memberinfo as i join composed as c
+      on g.groupno = c.groupno and c.memberno = i.mi_memberno
+      where g.groupno = #{groupno}
+   </select>
 	
-	
-	
-	
-<!-- **********************composed(멤버의 그룹정보)******************** -->
-	<!-- 그룹에 초대하기 invitation 유효성검사: category에 admin이 1이면 초대가 가능-->
-	<insert id="inviteGroupMem" parameterType="kr.co.assemble.dto.ComposedDTO">
-		insert into composed
-		values (#{groupno}, #{categoryno}, #{memberno})
-	</insert>
-	
-	<!-- 그룹구성 멤버 검색 -->
-	<select id="composedList" resultType="ComposedDto">
-		select * from composed
-	</select>
-	
-	<!-- 그룹별 정보, 구성원 정보(Groups_Memberinfo_Composed_DTO) -->
-	<!--그룹장이름 -->
-	<select id="selectGroupMasterName" resultType="String">
-		select i.mi_memname
-		from groups as g join memberinfo as i join composed as c
-		on g.groupno = c.groupno and c.memberno = i.mi_memberno and g.memberno = c.memberno
-		where g.groupno = #{groupno}
-	</select>
-	
-	<!-- 그룹장아이디 -->
-	<select id="selectGroupMasterId" resultType="String">
-		select i.mi_memid
-		from groups as g join memberinfo as i join composed as c
-		on g.groupno = c.groupno and c.memberno = i.mi_memberno and g.memberno = c.memberno
-		where g.groupno = #{groupno}
-	</select>
-	
-	<!-- 그룹명 -->
-	<select id="selectGroupName" resultType="String">
-		select groupname from groups
-		where groupno = #{groupno}
-	</select>
-	
-	<!--그룹원 모두  -->
-	<select id="selectGroupMemberName" resultType="G_Mi_C_Dto">
-		select g.groupname, i.mi_memname, i.mi_memid, i.mi_assemblename
-		from groups as g join memberinfo as i join composed as c
-		on g.groupno = c.groupno and c.memberno = i.mi_memberno
-		where g.groupno = #{groupno}
-	</select>
 	
 	<!-- **********************Board(게시판)******************** -->
 	<!-- 그룹별로 게시글 조회 공지글일 경우(1) 제일 위로, 최신글이 제일 위에 올라오도록 정렬 -->
-	<select id="selectGroupBoard" resultType="G_M_F_Dto">
-	    select
+   <select id="selectGroupBoard" resultType="G_M_F_Dto">
+      	select
 		m.mi_memname, m.mi_memid, b.memberno, 
 		b.bno, b.groupno, c.categoryno, b.boardnotice, 
 		b.boarddate, b.boardcontents, b.boardlike, b.boardhate, 
-		b.requestboolean, f.filename, r.reqstatus
+		b.requestboolean, f.filename, f.filepath, r.reqstatus
 		from category as c, memberinfo as m, groupboard as b
 		left outer join file f
 		on f.bno = b.bno
@@ -183,19 +190,13 @@
 		b.categoryno = c.categoryno and
 		m.mi_memberno = b.memberno and
 		b.groupno = #{groupno}
-	</select>
+   </select>
 	
 	<!-- bno로 전체 조회 -->
 	<select id="selectOneBno" resultType="BoardDto" parameterType="int">
 		select * from groupboard
 		where bno = #{bno}
 	</select>
-	
-	<!-- 글쓰기 : 맨처음 글을 쓰게되면 공지사항여부X=0, 좋아요싫어요 0고정, 요청이 아닌경우0 -->
-	<insert id="writeBoard" parameterType="BoardDto">
-		insert into groupboard (groupno, categoryno, memberno, boarddate, boardcontents, boardnotice, boardlike, boardhate, requestboolean)
-		values (#{groupno}, #{categoryno}, #{memberno}, now(), #{boardcontents}, 0, 0, 0, 0)
-	</insert>
 	
 	<!-- 글 수정 -->
 	<update id="updateBoard" parameterType="BoardDto">
@@ -208,16 +209,85 @@
 	<delete id="deleteBoard" parameterType="int">
 		delete from groupboard
 		where bno = #{bno}
-	</delete>
-
+	</delete>	
+	
+	<!-- 글쓰기 : 맨처음 글을 쓰게되면 공지사항여부X=0, 좋아요싫어요 0고정, 요청이 아닌경우0 -->
+	<insert id="writeBoard" >
+		insert into groupboard (groupno, categoryno, memberno, boarddate, boardcontents, boardnotice, boardlike, boardhate, requestboolean, filestatus)
+		values (#{groupno}, #{categoryno}, #{memberno}, now(), #{boardcontents}, 0, 0, 0, 0, #{filestatus})
+	</insert>
+	
+	
+	
+	
+	
+	<!-- *******************요청******************** -->
+	<!-- 요청 탭에서 쓰기위해서 요청여부 insert -->
+	<insert id="insertRequest">
+		insert into groupboard (groupno, categoryno, memberno, boarddate, boardcontents, boardnotice, boardlike, boardhate, requestboolean, filestatus)
+		values (#{groupno}, #{categoryno}, #{memberno}, now(), #{boardcontents}, 0, 0, 0, 1, #{filestatus})
+	</insert>
+	
+	<!-- 요청 제일 앞번호 가져오기 -->
+	<select id="requestNewly" resultType="int">
+		select bno from requestboard order by reqdate desc limit 1
+	</select>
+	
+	<update id="requestUpdate" parameterType="ReqDto">
+		update requestboard
+		set responseid = #{responseid}
+		where bno = #{bno}
+	</update>
+	
+	<update id="updateStatus" parameterType="int">
+		update requestboard
+		set reqstatus = #{reqstatus}
+		where bno = #{bno}
+	</update>
+	
+	
+	
+	
+	<!-- **********************파일******************** -->
+	
+	<!-- 파일 트리거로 들어온것중 제일 앞번호 -->
+	<select id="filenoNewly" resultType="int">
+		select bno from file order by filedate desc limit 1
+	</select>
+	
+	<!-- 파일 업데이트 -->
+	<update id="updateFile" parameterType="FileDto">
+		update file
+		set filename = #{filename}, filepath = #{filepath}, filedate = now()
+		where bno = #{bno}
+	</update>
+	
+	<!-- 파일 이름 출력(게시판에보이게) -->
+	<select id="selectfileOne" parameterType="int" resultType="String">
+		select filename from file
+		where bno = #{bno}
+	</select>
+	
+	<!-- 파일 이름 출력을 위한 전체 리스트 뽑기 -->
+	<select id="selectFileList" parameterType="FileDto">
+		select * from file
+		where bno = #{bno}
+	</select>
+	
+	<!-- 파일 수정 -->
+	<update id="changeFile" parameterType="FileDto">
+		update file
+		set filename = #{filename}, filedate = now()
+		where bno = #{bno}
+	</update>
+	
+	
+	
+	
+	<!-- **********************피드******************** -->
 	<!-- 내가 포함된 그룹의 글들만 조회 (나의 소식피드) -->
 	<select id="myGroupBoard" resultType="G_M_F_Dto">
-<!-- 	select  * from groupboard
-		where groupno in (select groupno
-		from composed
-		where memberno = #{memberno})
-		order by boarddate desc; -->
-		select g.groupno, g.groupname, m.mi_memname, m.mi_memid, m.mi_assemblename, gb.bno, gb.categoryno, gb.memberno, gb.boardnotice, gb.boarddate, gb.boardcontents, gb.boardlike, gb.boardhate, gb.requestboolean, f.filename
+		select  g.groupname, m.mi_memname, m.mi_memid, gb.memberno, gb.boardnotice, gb.boarddate, gb.boardcontents, gb.boardlike, gb.boardhate, gb.requestboolean, f.filename
 		from groupboard as gb
 		join groups as g
 		on gb.groupno = g.groupno
@@ -227,18 +297,88 @@
 		on f.bno = gb.bno
 		where gb.groupno in (select groupno from composed where memberno = #{memberno}) 
 		order by boarddate desc;
-		</select>
+	</select>
 	
+	
+	
+	<!-- **********************댓글******************** -->
+	<!-- 댓글 달기(bno에) -->
+	<insert id="insertComment" parameterType="RecommentDto"> 
+		<!-- 여기서 memberno는 게시글 작성자 -->
+		<!-- aseeblemember에서 memno 가져와서 memid 뽑기 -->
+		insert into recomment (bno, groupno, categoryno, memberno, redate, reid, recontents)
+		values (#{bno}, #{groupno}, #{categoryno}, #{memberno}, now(), #{reid}, #{recontents})
+	</insert>
 
-<!-- ************************************************************* -->
-<!-- **********************댓글******************** -->
-   <!-- 댓글 달기(bno에) -->
-   <insert id="insertComment" parameterType="RecommentDto"> 
-      <!-- 여기서 memberno는 게시글 작성자 -->
-      <!-- aseeblemember에서 memno 가져와서 memid 뽑기 -->
-      insert into recomment (bno, groupno, categoryno, redate, reid, recontents)
-      values (#{bno}, #{groupno}, #{categoryno}, now(), #{reid}, #{recontents})
-   </insert>
+	
+	
+	
+	
+	<!-- 그룹에서 멤버만 select -->
+	<select id="selectGroupMember" parameterType="CMI_Dto" resultType="CMI_Dto">
+		select m.mi_memid, m.mi_memname
+		from memberinfo m, composed c
+		where c.memberno = m.mi_memberno
+		and groupno = #{groupno}
+	</select>
+	
+	<!-- 사진만 select -->
+	<select id="selectGroupImg" parameterType="CF_Dto" resultType="CF_Dto">
+		select g.bno, f.filename, f.filepath
+		from groupboard g inner join file f
+		on f.bno = g.bno
+		where 
+		(f.filename like '%.jpg' or f.filename like '%.gif' or f.filename like '%.png')
+		and groupno = ${groupno}
+	</select>
+	
+	<!-- 위에 조건준것 제외한 모든 파일 select -->
+	<select id="selectGroupFileName" parameterType="CF_Dto" resultType="CF_Dto">
+		select g.bno, f.filename, f.filepath
+		from groupboard g inner join file f
+		on f.bno = g.bno
+		where not f.filename like '%.jpg' and not f.filename like '%.gif' and not f.filename like '%.png'
+		and groupno = #{groupno};
+	</select>
+	
+	<!-- 그룹보드에 요청여부가 1일때 -->
+	<select id="selectGroupReq" parameterType="G_M_F_Dto" resultType="G_M_F_Dto">
+		select
+		m.mi_memname, m.mi_memid, b.memberno, 
+		b.bno, b.groupno, c.categoryno, b.boardnotice, 
+		b.boarddate, b.boardcontents, b.boardlike, b.boardhate, 
+		b.requestboolean, f.filename, f.filepath, r.reqstatus
+		from category as c, memberinfo as m, groupboard as b
+		left outer join file f
+		on f.bno = b.bno
+		left outer join requestboard r
+		on r.bno = b.bno
+		where
+		b.categoryno = c.categoryno and
+		m.mi_memberno = b.memberno and
+		b.requestboolean = 1 and
+		b.groupno = #{groupno};
+	</select>
+	
+	<!-- 요청 진행상황 별로 조회 -->
+	<select id="selectGroupReqStatus" parameterType="G_M_F_Dto" resultType="G_M_F_Dto">
+		select
+		m.mi_memname, m.mi_memid, b.memberno, 
+		b.bno, b.groupno, c.categoryno, b.boardnotice, 
+		b.boarddate, b.boardcontents, b.boardlike, b.boardhate, 
+		b.requestboolean, f.filename, r.reqstatus
+		from category as c, memberinfo as m, groupboard as b
+		left outer join file f
+		on f.bno = b.bno
+		left outer join requestboard r
+		on r.bno = b.bno
+		where
+		b.categoryno = c.categoryno and
+		m.mi_memberno = b.memberno and
+		b.requestboolean = 1 and
+		r.reqstatus = #{reqstatus} and
+		b.groupno = #{groupno}
+	</select>
 	
 	
 </mapper>

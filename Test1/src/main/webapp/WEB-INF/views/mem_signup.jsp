@@ -23,9 +23,9 @@ $(document).ready(function(){
 	$("#inputId").keyup(function(){
         $.ajax({
         	type:"post",
-        	/* url : "assemble.io/<c:out value='${mi_assembleName}' />/login/<c:out value='${ran}' />/a", */
+        	/* url : "assemble.io/<c:out value='${mi_assemblename}' />/login/<c:out value='${ran}' />/a", */
         	url : "<c:url value='duplicateId'/>",
-        	data : "mi_memID=" + $("#inputId").val(),
+        	data : "mi_memid=" + $("#inputId").val(),
         	success : function(data) {
         		if(data == 1) {
         			$("#duplication").show();
@@ -113,21 +113,21 @@ $(document).ready(function(){
 		              	<div class="form-name">
 		              		<p>초대받은 이메일</p>
 		              	</div>
-				            <input type="email" id="inputEmail" name="memEmail" class="form-control" 
-				            value="http://localhost:9090/assemble.io/<c:out value='${mi_assembleName}' />/login/<c:out value='${ran}' />/a" readonly/>
+				            <input type="email" id="inputEmail" name="mi_mememail" class="form-control" 
+				            value="http://localhost:9090/assemble.io/<c:out value='${mi_assemblename}' />/login/<c:out value='${ran}' />/a" readonly/>
 						 </div>
 						 
 				<div class="form-label-group">
 	              	<div class="form-name">
 	              		<p>아이디 만들기</p>
 	              	</div>
-			             <input type="text" id="inputId" name="mi_memID" class="form-control" placeholder="Id" required/>
+			             <input type="text" id="inputId" name="mi_memid" class="form-control" placeholder="Id" required/>
 			             <span id="duplication">
 			             
 			             </span>
-			             <input type="password" id="inputPassword" name="mi_memPw" class="form-control" placeholder="Password" required>
+			             <input type="password" id="inputPassword" name="mi_mempw" class="form-control" placeholder="Password" required>
 			           	<input type="password" id="confirmPassword" class="form-control" placeholder="confirm Password" required>    
-			           	<input type="text" id="inputName" name="mi_memName" class="form-control" placeholder="Name" required>    
+			           	<input type="text" id="inputName" name="mi_memname" class="form-control" placeholder="Name" required>    
                </div>
 		
 		              <hr class="my-4">

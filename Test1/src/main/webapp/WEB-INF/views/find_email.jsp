@@ -32,7 +32,7 @@
 						<div class="form-group">	
 							<div class="form-group-row" style="text-align: center">
 								<c:forEach var="i" items="${attendList}" >
-									<h3><c:out value="${i.mi_assembleName}" /></h3>
+									<h3><c:out value="${i.mi_assemblename}" /></h3>
 								</c:forEach>
 							</div>
 						</div>

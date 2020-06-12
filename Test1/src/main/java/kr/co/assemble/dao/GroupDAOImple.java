@@ -49,7 +49,7 @@ public class GroupDAOImple implements GroupDAO{
 	@Override
 	public List<GroupDTO> grouplist() {
 		// TODO Auto-generated method stub
-		return ss.selectList("selectCategoryGroup1");
+		return ss.selectList("selectCategoryGroup");
 	}
 	
 	

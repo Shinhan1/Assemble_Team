@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import kr.co.assemble.dto.CategoryDTO;
+import kr.co.assemble.dto.NavbarDTO;
 
 @Repository
 public class CategoryDAOImple implements CategoryDAO {
@@ -32,9 +33,9 @@ public class CategoryDAOImple implements CategoryDAO {
 
 	//전체 카테고리 조회
 	@Override
-	public List<CategoryDTO> selectCategory(CategoryDTO dto) {	
+	public List<NavbarDTO> selectCategory(NavbarDTO dto) {	
 		//session 값 받아서 일치하는 assemblename만 출력
-		List<CategoryDTO> list = ss.selectList("categoryGroup", dto);
+		List<NavbarDTO> list = ss.selectList("categoryGroup", dto);
 		
 		return list;
 	}

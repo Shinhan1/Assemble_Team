@@ -60,9 +60,9 @@ public class BoardController {
 	ComposedDAO cdao;
 	//그룹별 게시글 조회 
 	//그룹별 정보, 구성원 정보(Groups_Memberinfo_Composed_DTO)
-	@RequestMapping("/assemble.io/{mi_assembleName}/g/{groupno}/wall")
+	@RequestMapping("/assemble.io/{mi_assemblename}/g/{groupno}/wall")
 	public String groupBoard(@PathVariable("groupno")int groupno, 
-							@PathVariable("mi_assembleName") String assemblename, Model model){
+							@PathVariable("mi_assemblename") String assemblename, Model model){
 		
 		//세션정보 받아서  주소에 assemble이름 넣기
 //		assemblename = (String)session.getAttribute("mi_assembleName");

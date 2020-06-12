@@ -26,9 +26,10 @@
 		</property>
 	</bean>
 	
-	<!-- <bean id="mailService" class="kr.co.assemble.service.SendMail">
+	<!-- <bean id="SendMail" class="kr.co.assemble.service.SM_interface">
 		<property name="mailSender" ref="mailSender" />
-	</bean> -->
+	</bean>
+	<context:component-scan base-package="kr.co.assemble.*"></context:component-scan> -->
 
 	
 </beans>

@@ -12,11 +12,11 @@ import org.springframework.stereotype.Service;
 public class SendMail implements SM_interface {
 	
 	@Autowired
-	private JavaMailSender mailSender;
+	private JavaMailSender mailSenders;
 	
 	
 	public void setMailSender(JavaMailSender mailSender) {
-		this.mailSender = mailSender;
+		this.mailSenders = mailSenders;
 	}
 
 	@Override
@@ -26,9 +26,8 @@ public class SendMail implements SM_interface {
 //		System.out.println(title);
 //		System.out.println(contents);
 //		System.out.println(ran);
-		System.out.println(mailSender);
 		System.out.println("mimeMessge 전");
-		MimeMessage message = mailSender.createMimeMessage();
+		MimeMessage message = mailSenders.createMimeMessage();
 		System.out.println(message);
 		System.out.println("mimeMessage 후");
 		
@@ -41,7 +40,7 @@ public class SendMail implements SM_interface {
 			msghelper.setSubject(title);		// 제목
 			msghelper.setText(contents);		// 내용
 			
-			mailSender.send(message);
+			mailSenders.send(message);
 			
 //			return true;
 			

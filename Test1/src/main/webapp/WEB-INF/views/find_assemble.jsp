@@ -25,7 +25,7 @@ $(function(){
 		$.ajax({
 			type:"post",
 			url : "<c:url value='/send_findassemble'/>",
-			data : "mi_memEmail=" + $("#inputEmail").val(),
+			data : "mi_mememail=" + $("#inputEmail").val(),
 			//data: "userEmail="+encodeURIComponent($('#mi_memEmail').val()),
 			/* encodeURIComponent
 			예를들어, http://a.com?name=egoing&job=programmer 에서 &job=programmer
