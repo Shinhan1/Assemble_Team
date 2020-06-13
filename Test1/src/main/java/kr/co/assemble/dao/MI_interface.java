@@ -13,7 +13,7 @@ import kr.co.assemble.dto.testDTO;
 public interface MI_interface {
 	public List<AssembleInfoDTO> selectAllAI();
 	public List<MemberInfoDTO> selectAll();
-	public MemberInfoDTO selectOne(int no);
+	public int selectMemberNo(MemberInfoDTO dto);
 	public void insertOne(MemberInfoDTO dto);
 	public void insertMember(MemberInfoDTO dto);
 	public void updateOne(MemberInfoDTO dto);

@@ -9,7 +9,7 @@ import kr.co.assemble.dto.MemberSubDTO;
 public interface MS_interface {
 	public List<MemberSubDTO> selectAll();
 	public MemberSubDTO selectOne(int no);
-	public void insertOne(MemberSubDTO dto);
-	public void updateOne(MemberSubDTO dto);
+	public void insertMemberSub(MemberSubDTO dto);
+	public void updateMemberSub(MemberSubDTO dto);
 	public void deleteOne(int no);
 }

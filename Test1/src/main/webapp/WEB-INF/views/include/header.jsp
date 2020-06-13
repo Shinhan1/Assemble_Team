@@ -153,8 +153,8 @@ $(document).ready(function() {
               	  </div>
 	
               	  <div id="div2">
-	              	  <h4 id="id1"> <c:out value="${mi_memid }" /></h5>
-	              	  <h4 id="name1"><c:out value="${mi_memname }" /></h5>
+	              	  <h4 id="id1"> <c:out value="${mi_memid }" /></h4>
+	              	  <h4 id="name1"><c:out value="${mi_memname }" /></h4>
               	  </div>
     
 		              	  <input type="button" value="내글" class="b1"/>

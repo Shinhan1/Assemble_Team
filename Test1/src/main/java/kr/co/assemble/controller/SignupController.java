@@ -1,9 +1,10 @@
 package kr.co.assemble.controller;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.List;
 import java.util.Random;
 
-import javax.inject.Inject;
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
 import javax.servlet.http.HttpServletRequest;
@@ -17,17 +18,19 @@ import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
 
 import kr.co.assemble.dao.MI_interface;
+import kr.co.assemble.dao.MS_interface;
 import kr.co.assemble.dto.MemberInfoDTO;
+import kr.co.assemble.dto.MemberSubDTO;
 import kr.co.assemble.dto.testDTO;
 import kr.co.assemble.service.SendMail;
 import kr.co.assemble.service.SendMailService;
@@ -36,7 +39,10 @@ import kr.co.assemble.service.SendMailService;
 public class SignupController {
 	
 	@Autowired
-	MI_interface dao;
+	MI_interface mi_dao;
+	
+	@Autowired
+	MS_interface ms_dao;
 	
 	@Autowired
 	private JavaMailSender mailSender;
@@ -47,8 +53,9 @@ public class SignupController {
 	private final String SIGNUP = "admin_signup";
 	private final String MAIN = "main";
 	private final String RE = "redirect:/";
+	private final String PROFILE = "new_profile";
 	
-	
+	// 회원가입 폼
 	@RequestMapping(value = "/signup")
 	public ModelAndView signup() {
 		ModelAndView mv = new ModelAndView();
@@ -58,19 +65,71 @@ public class SignupController {
 		return mv;
 	}
 	
-	
+	// 회원가입 OK
 	@RequestMapping(value = "/signupOk")
-	public String signupOk(@ModelAttribute MemberInfoDTO dto) {
+	public String signupOk(@ModelAttribute MemberInfoDTO dto, HttpSession session) {
 		String password = dto.getMi_mempw();
 		String Pw = passEncoder.encode(password);
 		dto.setMi_mempw(Pw);
+//		System.out.println(Pw);
+		mi_dao.insertOne(dto);
+		session.removeAttribute("ms_memberno");
+		int memberno = mi_dao.selectMemberNo(dto);
+		session.setAttribute("ms_memberno", memberno);
+//		System.out.println(memberno);
 		
-		dao.insertOne(dto);
+		return PROFILE;
+	}
+	
+	// 회원가입 -> 세부 내용 작성
+	@RequestMapping(value = "/signup/new_profile")
+	public String new_profile(@ModelAttribute MemberSubDTO dto, 
+			HttpSession session,
+			MultipartHttpServletRequest request) {
+		dto.setMs_memberno((int) session.getAttribute("ms_memberno"));
+		MultipartFile mf = request.getFile("ms_memprofileimg");
 		
+		String root_filePath = request.getSession().getServletContext().getRealPath("/");
+        String attach_path = "resources/memprofileimg/";
+		String originalFileName = mf.getOriginalFilename();
+		String path = root_filePath + attach_path;
+		String time = Long.toString(System.currentTimeMillis());
+	    String safeFile = root_filePath + attach_path + time + originalFileName;
+
+		
+		
+		
+		File file = new File(path); 
+		if(file.exists() == false){ 
+			file.mkdirs(); 
+		}
+
+		try {
+            mf.transferTo(new File(safeFile));
+ 
+        } catch (IllegalStateException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+		
+		dto.setMs_memprofileImg(safeFile);
+//		System.out.println(dto.getMs_memprofileimg());
+//		System.out.println(safeFile);
+		
+		ms_dao.updateMemberSub(dto);
+		session.removeAttribute("ms_memberno");
 		
 		return RE+MAIN;
 	}
 	
+	// ?
+	@RequestMapping(value = "/editProfile")
+	public String editProfile() {
+		return "editProfile";
+	}
+	
+	// 메일 보내기 (MailService로 옮길 예정)
 	@RequestMapping(value = "/sendMail")
 	@ResponseBody
 	public void sendMail(@RequestParam String mi_mememail, @RequestParam int ran, HttpServletRequest req) {
@@ -116,6 +175,7 @@ public class SignupController {
 		
 	}
 	
+	// 회원가입 인증코드 인증
 	@RequestMapping(value="/emailAuth")
 	@ResponseBody
 	public ResponseEntity<String> emailAuth(@RequestParam String authCode, @RequestParam String ran, HttpSession session){
@@ -130,11 +190,14 @@ public class SignupController {
 		else return new ResponseEntity<String>("false", HttpStatus.OK);
 	}
 	
+	
+	// 어셈블 개설 -> 인증코드
 	@RequestMapping(value="/signupemail")
 	public String signupemail() {
 		return "admin_email";
 	}
 	
+	// 멤버 초대
 	@RequestMapping(value="/invitedemail")
 	public String invitedemail() {
 		
@@ -142,11 +205,12 @@ public class SignupController {
 		return "mem_email";
 	}
 	
+	// 이메일로 어셈블 찾기 후 이메일 발송 폼, 즉 이메일로 온 jsp
 	@RequestMapping(value="/findemail")
 	public String findemail(HttpSession session, Model model) {
 		String mi_memEmail = (String) session.getAttribute("mi_mememail");
 		System.out.println(mi_memEmail);
-		List<testDTO> assembleName = dao.findAssembleName(mi_memEmail);
+		List<testDTO> assembleName = mi_dao.findAssembleName(mi_memEmail);
 		model.addAttribute("attendList", assembleName);
 		System.out.println(assembleName);
 		session.removeAttribute("mi_mememail");
@@ -154,10 +218,9 @@ public class SignupController {
 		return "find_email";
 	}
 	
-	
-	@RequestMapping(value="/assemble.io/{mi_assemblename}/login/membersignup")
+	// 초대받은 회원의 회원가입 창
+	@RequestMapping(value="/membersignup")
 	public String memberSignup(
-			@PathVariable("mi_assemblename") String assembleName,
 			@ModelAttribute MemberInfoDTO dto, HttpSession session) {
 		String password = dto.getMi_mempw();
 		String Pw = passEncoder.encode(password);
@@ -167,18 +230,24 @@ public class SignupController {
 		System.out.println(dto.getMi_mememail());
 		System.out.println(Pw);
 		
-		dao.insertMember(dto);
+		mi_dao.insertMember(dto);
 		
-		return MAIN;
+		session.removeAttribute("ms_memberno");
+		int memberno = mi_dao.selectMemberNo(dto);
+		session.setAttribute("ms_memberno", memberno);
+		System.out.println(memberno);
+		
+		return PROFILE;
 	}
 	
+	
+	// 아이디 중복체크 (mem_signup에 ajax로 데이터 넘김)
 	@RequestMapping(value="/assemble.io/{mi_assemblename}/login/{ran}/duplicateId")
 	@ResponseBody
 	public int duplicateId(
 			@PathVariable("mi_assemblename") String assembleName,
 			@ModelAttribute MemberInfoDTO dto) {
-//		dto.setMi_assemblename(assembleName);
-		int result = dao.duplicationId(dto);
+		int result = mi_dao.duplicationId(dto);
 		System.out.println("duplicateId"+assembleName);
 		System.out.println("dto : " + dto.getMi_assemblename());
 		System.out.println(result);
@@ -186,13 +255,16 @@ public class SignupController {
 		return result;
 	}
 	
+	// 어셈블 중복체크 (admin_signup에 ajax로 데이터 넘김)
 	@RequestMapping(value="/duplicateAssembleName")
 	@ResponseBody
 	public int duplicateAssembleName(@ModelAttribute MemberInfoDTO dto) {
-		int result = dao.duplicationAssembleName(dto.getMi_assemblename());
+		int result = mi_dao.duplicationAssembleName(dto.getMi_assemblename());
 		
 		
 		return result;
 	}
+	
+	
 	
 }

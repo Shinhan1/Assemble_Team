@@ -38,7 +38,7 @@ import kr.co.assemble.service.SendMailService;
 public class AI_controller {
 	
 	@Autowired
-	MI_interface dao;
+	MI_interface mi_dao;
 	
 	@Autowired
 	private JavaMailSender mailSender; 
@@ -58,14 +58,14 @@ public class AI_controller {
 	private final String TERMS = "terms";
 	private final String MEMSIGNUP = "mem_signup";
 	
-	public void setDao(MI_interface dao) {
-		this.dao = dao;
+	public void setmi_mi_dao(MI_interface mi_mi_mi_dao) {
+		this.mi_dao = mi_dao;
 	}
 	
-	
+	// 첫 화면
 	@RequestMapping(value = "/main", method = { RequestMethod.GET, RequestMethod.POST })
 	public String list(Model model) {
-		List<MemberInfoDTO> list = dao.selectAll();
+		List<MemberInfoDTO> list = mi_dao.selectAll();
 		
 		model.addAttribute("list", list);
 //		System.out.println(list);
@@ -74,15 +74,17 @@ public class AI_controller {
 		return MAIN;
 	}
 	
+	// 어셈블 로그인 창
 	@RequestMapping(value = "/assembleLogin")
 	public String assembleLogin() {
 		
 		return ASSEMBLELOGIN;
 	}
 	
+	// 어셈블 로그인 후 아이디 로그인 창
 	@RequestMapping(value = "/login")
 	public String login(@ModelAttribute MemberInfoDTO dto, HttpServletRequest req) {
-		String mi_name = dao.selectAssembleName(dto.getMi_assemblename());
+		String mi_name = mi_dao.selectAssembleName(dto.getMi_assemblename());
 		
 		System.out.println(mi_name);
 		if(mi_name == null) {
@@ -95,6 +97,7 @@ public class AI_controller {
 		return LOGIN;
 	}
 	
+	// 로그인 OK!
 	@RequestMapping(value = "/loginOk")
 	public String mainPage(@ModelAttribute IdCheckDTO dto1, HttpSession session) {
 		String mi_assembleName = (String) session.getAttribute("mi_assemblename");
@@ -102,7 +105,7 @@ public class AI_controller {
 		dto1.setMi_assemblename(mi_assembleName);
 		
 //		System.out.println("loginOK : "+mi_assembleName);
-		IdCheckDTO check = dao.selectId(dto1);
+		IdCheckDTO check = mi_dao.selectId(dto1);
 		boolean passMatch = passEncoder.matches(dto1.getMi_mempw(), check.getMi_mempw());
 		
 		int mi_memNo = check.getMi_memberno();
@@ -121,7 +124,7 @@ public class AI_controller {
 		return LOGINOK;
 	}
 	
-
+	// 초대하기
 	@RequestMapping(value="/invited")
 	public ModelAndView invited() {
 		ModelAndView mv = new ModelAndView();
@@ -135,6 +138,7 @@ public class AI_controller {
 		return mv;
 	}
 	
+	// 초대 OK
 	@RequestMapping(value="/invitedOk")
 	public String invitedOk(@RequestParam String invited, @RequestParam String ran, HttpServletRequest req, HttpSession session) {
 		String memid = (String) session.getAttribute("mi_memid");
@@ -177,6 +181,7 @@ public class AI_controller {
 		return "home";
 	}
 	
+	// 이메일 -> 초대 받은 멤버 회원가입
 	@RequestMapping(value="/assemble.io/{mi_assemblename}/login/{ran}/a", method = { RequestMethod.GET, RequestMethod.POST })
 	public String memLogin(
 			@PathVariable("mi_assemblename") String assembleName,
@@ -187,12 +192,14 @@ public class AI_controller {
 		
 	}
 	
+	// 이메일로 어셈블 찾기
 	@RequestMapping(value="/find_assemble")
 	public String find_assemble() {
 		
 		return FIND;
 	}
 	
+	// 어셈블 찾기 이메일 발송
 	@RequestMapping(value="/send_findassemble")
 	public String find_email(@RequestParam String mi_mememail, HttpSession session) {
 		session.setAttribute("mi_mememail", mi_mememail);
@@ -225,6 +232,7 @@ public class AI_controller {
 		return "main";
 	}
 
+	// 이용약관 (회원가입 폼)
 	@RequestMapping(value="/terms")
 	public String terms() {
 		return TERMS;

@@ -28,7 +28,7 @@
       </div> 
    <div class="form-label-group">
        <input type="password" id="inputPassword" class="form-control" placeholder="Password" required> 
-       <label for="inputPassword">암호</label> </div> <div class="checkbox mb-3"> <label>
+       <label for="inputPassword">암호</label> </div> <div class="checkbox mb-3">
         <!-- <input type="checkbox" value="remember-me"> 기억하기 </label> -->
     </div> 
     

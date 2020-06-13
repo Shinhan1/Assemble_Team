@@ -8,7 +8,7 @@
 	<!-- Root Context: defines shared resources visible to all other web components -->
 		
 		
-		<bean id="dao" class="kr.co.assemble.dao.MemberInfo_DAO">
+		<bean id="mi_dao" class="kr.co.assemble.dao.MemberInfo_DAO">
 	<property name="ss" ref="sqlSessionTemplate" />
 </bean>
 
@@ -47,6 +47,6 @@
   	  <property name="dataSource" ref="dataSource" />
 	</bean>
 
-	<context:component-scan base-package="kr.co.assemble.*"></context:component-scan>
+	<context:component-scan base-package="kr.co.assemble.dao"></context:component-scan>
 
 </beans>

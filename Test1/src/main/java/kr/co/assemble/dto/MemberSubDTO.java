@@ -6,18 +6,19 @@ public class MemberSubDTO {
 	private int ms_memberno;
 	private String ms_memteam;
 	private String ms_memphone; 
-	private String ms_memprofileImg;
+	private String ms_memprofileimg;
 	private String ms_memgrade;
 	
 	public MemberSubDTO() {}
 
-	public MemberSubDTO(int ms_memberno, String ms_memteam, String ms_memphone, String ms_memprofileImg,
+	public MemberSubDTO(int ms_memberno, String ms_memteam, 
+			String ms_memphone, String ms_memprofileimg,
 			String ms_memgrade) {
 		super();
 		this.ms_memberno = ms_memberno;
 		this.ms_memteam = ms_memteam;
 		this.ms_memphone = ms_memphone;
-		this.ms_memprofileImg = ms_memprofileImg;
+		this.ms_memprofileimg = ms_memprofileimg;
 		this.ms_memgrade = ms_memgrade;
 	}
 
@@ -45,12 +46,12 @@ public class MemberSubDTO {
 		this.ms_memphone = ms_memphone;
 	}
 
-	public String getMs_memprofileImg() {
-		return ms_memprofileImg;
+	public String getMs_memprofileimg() {
+		return ms_memprofileimg;
 	}
 
-	public void setMs_memprofileImg(String ms_memprofileImg) {
-		this.ms_memprofileImg = ms_memprofileImg;
+	public void setMs_memprofileImg(String ms_memprofileimg) {
+		this.ms_memprofileimg = ms_memprofileimg;
 	}
 
 	public String getMs_memgrade() {

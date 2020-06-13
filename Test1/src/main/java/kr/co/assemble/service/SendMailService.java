@@ -2,20 +2,8 @@ package kr.co.assemble.service;
 
 import java.util.Random;
 
-import javax.mail.MessagingException;
-import javax.mail.internet.InternetAddress;
-import javax.mail.internet.MimeMessage;
-import javax.mail.internet.MimeMessage.RecipientType;
-import javax.servlet.http.HttpServletRequest;
-
-import org.mybatis.spring.SqlSessionTemplate;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 
-import kr.co.assemble.dao.MI_interface;
-import kr.co.assemble.dto.MemberInfoDTO;
 
 
 @Service

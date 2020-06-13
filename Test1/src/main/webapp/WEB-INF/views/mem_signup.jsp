@@ -85,14 +85,14 @@ $(document).ready(function(){
 			return false;
 		}
 		
-		alert("회원가입을 축하합니다!");
-		document.frm.action="../membersignup";
+		document.frm.action="../../../../membersignup";
 		document.frm.submit();
 
 		
 	});
 
 });
+
 </script>
 
 </head>

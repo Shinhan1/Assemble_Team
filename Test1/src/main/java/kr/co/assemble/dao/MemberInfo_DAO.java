@@ -5,6 +5,8 @@ import java.util.List;
 import javax.inject.Inject;
 
 import org.apache.ibatis.session.SqlSession;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
 
 import kr.co.assemble.dto.AssembleInfoDTO;
@@ -13,10 +15,10 @@ import kr.co.assemble.dto.MemberInfoDTO;
 import kr.co.assemble.dto.testDTO;
 
 
-
+@Repository
 public class MemberInfo_DAO implements MI_interface {
 	
-	@Inject
+	@Autowired
 	SqlSession ss;
 	
 	public void setSs(SqlSession ss) {
@@ -36,6 +38,7 @@ public class MemberInfo_DAO implements MI_interface {
 		return ss.selectList("selectAll");
 	}
 	
+	// 어셈블명 조회
 	@Override
 	public String selectAssembleName(String mi_assembleName) {
 		// TODO Auto-generated method stub
@@ -43,16 +46,18 @@ public class MemberInfo_DAO implements MI_interface {
 		return ss.selectOne("selectAssembleName", mi_assembleName);
 	}
 	
+	// 이메일로 어셈블명들 조회
 	@Override
 	public List<testDTO> findAssembleName(String mi_memEmail) {
 		// TODO Auto-generated method stub
 		return ss.selectList("findAssembleName", mi_memEmail);
 	}
-
+	
+	// 회원가입 세부내용 작성하기 위해 sub의 memberno를 조회 하기 위한 select문
 	@Override
-	public MemberInfoDTO selectOne(int no) {
+	public int selectMemberNo(MemberInfoDTO dto) {
 		// TODO Auto-generated method stub
-		return null;
+		return ss.selectOne("selectMemberNo", dto);
 	}
 	
 	@Override

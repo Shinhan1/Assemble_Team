@@ -12,7 +12,7 @@
 <link type="text/css" rel="stylesheet" href="/resources/info/css/bootstrap.min.css" />
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>mem_email</title>
 </head>
 <body>
 <div class="container">
