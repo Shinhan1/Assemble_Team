@@ -15,19 +15,25 @@ public interface BoardDAO {
 	//그룹별 글 전체 조회(타임라인)
 	public List<Groupboard_Memberinfo_FileDTO> boardlist(int groupno);
 	
-	//selectOne
-	public List<BoardDTO> selectOne(int bno);
+	//myfeed 조회 (내가 속한 모든 그룹의 글 가져오기)
+	public List<Groupboard_Memberinfo_FileDTO> selectMyFeed(int memberno);
 	
+	
+	// bno로 contents 가져오기 위해 조회
+	public List<BoardDTO> selectOne(int bno);
+
+	// 글삭제
+	public void deleteBoard(int bno);
+	
+	//request insert
+	public void insertRequest(BoardDTO dto);
+	
+
 	//좋아요 update
 	public void updateLike(BoardDTO dto);
 	
 	//싫어요 update
 	public void updateHate(BoardDTO dto);
 	
-	//myfeed 조회 (내가 속한 모든 그룹의 글 가져오기)
-	public List<Groupboard_Memberinfo_FileDTO> selectMyFeed(int memberno);
-	
-	// 요청 글쓰기
-	public void insertRequest(BoardDTO dto);
 	
 }

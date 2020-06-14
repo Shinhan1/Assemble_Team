@@ -5,9 +5,9 @@ public class Groupboard_Memberinfo_FileDTO {
 	private String mi_memname;
 	private String mi_memid;
 	private int bno;
+	private int categoryno;
 	private int groupno;
 	private String groupname;
-	private int categoryno;
 	private String boarddate;
 	private String boardcontents;
 	private int boardlike;
@@ -16,20 +16,21 @@ public class Groupboard_Memberinfo_FileDTO {
 	private int boardnotice;
 	private String filename;
 	private int reqstatus;
+	private String responseid;
 	
 	public Groupboard_Memberinfo_FileDTO() {}
 
-	public Groupboard_Memberinfo_FileDTO(int memberno, String mi_memname, String mi_memid, int bno, int groupno,
-			String groupname, int categoryno, String boarddate, String boardcontents, int boardlike, int boardhate,
-			int requestboolean, int boardnotice, String filename, int reqstatus) {
+	public Groupboard_Memberinfo_FileDTO(int memberno, String mi_memname, String mi_memid, int bno, int categoryno, int groupno,
+			String groupname, String boarddate, String boardcontents, int boardlike, int boardhate,
+			int requestboolean, int boardnotice, String filename, int reqstatus, String responseid) {
 		super();
 		this.memberno = memberno;
 		this.mi_memname = mi_memname;
 		this.mi_memid = mi_memid;
 		this.bno = bno;
+		this.categoryno = categoryno;
 		this.groupno = groupno;
 		this.groupname = groupname;
-		this.categoryno = categoryno;
 		this.boarddate = boarddate;
 		this.boardcontents = boardcontents;
 		this.boardlike = boardlike;
@@ -38,8 +39,8 @@ public class Groupboard_Memberinfo_FileDTO {
 		this.boardnotice = boardnotice;
 		this.filename = filename;
 		this.reqstatus = reqstatus;
+		this.responseid = responseid;
 	}
-
 
 
 	public int getMemberno() {
@@ -80,14 +81,6 @@ public class Groupboard_Memberinfo_FileDTO {
 
 	public void setGroupno(int groupno) {
 		this.groupno = groupno;
-	}
-
-	public int getCategoryno() {
-		return categoryno;
-	}
-
-	public void setCategoryno(int categoryno) {
-		this.categoryno = categoryno;
 	}
 
 	public String getBoarddate() {
@@ -160,6 +153,22 @@ public class Groupboard_Memberinfo_FileDTO {
 
 	public void setGroupname(String groupname) {
 		this.groupname = groupname;
+	}
+
+	public String getResponseid() {
+		return responseid;
+	}
+
+	public void setResponseid(String responseid) {
+		this.responseid = responseid;
+	}
+
+	public int getCategoryno() {
+		return categoryno;
+	}
+
+	public void setCategoryno(int categoryno) {
+		this.categoryno = categoryno;
 	}
 	
 	

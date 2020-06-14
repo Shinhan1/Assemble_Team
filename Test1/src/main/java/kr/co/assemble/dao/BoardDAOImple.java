@@ -36,21 +36,47 @@ public class BoardDAOImple implements BoardDAO{
 		
 		return list;
 	}
+	
+	//myfeed 조회 (내가 속한 모든 그룹의 글 가져오기)
+	@Override
+	public List<Groupboard_Memberinfo_FileDTO> selectMyFeed(int memberno) {
+		
+		List<Groupboard_Memberinfo_FileDTO> list = ss.selectList("myGroupBoard", memberno);
+		
+		return list;
+	}
+	
 
 	//글 수정
 	@Override
 	public void updateBoard(BoardDTO dto) {
 		ss.update("updateBoard", dto);
 	}
-
-
+	
+	//글삭제
 	@Override
-	public List<BoardDTO> selectOne(int bno) {
-		// TODO Auto-generated method stub
-		
-		return ss.selectList("selectOneBno", bno);
+	public void deleteBoard(int bno) {
+		ss.delete("deleteBoard", bno);
 	}
 
+
+	//bno로 전체조회
+	@Override
+	public List<BoardDTO> selectOne(int bno) {
+
+		List<BoardDTO> list = ss.selectList("selectOneBno", bno);
+
+		return list;
+	}
+
+	//요청 글쓰기
+	@Override
+	public void insertRequest(BoardDTO dto) {
+		ss.insert("insertRequest", dto);
+	}
+	
+	//////////////////////////////////////////////////////////////////////////////
+	
 	//좋아요 update
 	@Override
 	public void updateLike(BoardDTO dto) {
@@ -67,20 +93,9 @@ public class BoardDAOImple implements BoardDAO{
 		
 	}
 
-	//myfeed 조회 (내가 속한 모든 그룹의 글 가져오기)
-	@Override
-	public List<Groupboard_Memberinfo_FileDTO> selectMyFeed(int memberno) {
-		
-		List<Groupboard_Memberinfo_FileDTO> list = ss.selectList("myGroupBoard", memberno);
-		
-		return list;
-	}
-	
-	//요청 글쓰기
-		@Override
-		public void insertRequest(BoardDTO dto) {
-			ss.insert("insertRequest", dto);
-		}
+
+
+
 
 
 	

@@ -1,5 +1,7 @@
 package kr.co.assemble.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -23,7 +25,8 @@ public class CategoryController {
 	@RequestMapping(value = "/makeCategory")
 	public String makeCategory() {		
 		
-		return "category/inputCategory";
+		return "category/setCategories";
+		//return "category/setCategories";
 	}
 	
 	

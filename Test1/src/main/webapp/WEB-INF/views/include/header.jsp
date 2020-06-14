@@ -24,6 +24,8 @@
     <!-- Custom styles for this template -->
     <link href="/resources/assets/css/style.css" rel="stylesheet">
     <link href="/resources/assets/css/style-responsive.css" rel="stylesheet">
+    
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
 </head>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>    
 <script type="text/javascript">
@@ -37,7 +39,25 @@ $(document).ready(function() {
 		console.log(this.parentNode.childNodes[5].value);
 		document.location.href = "categoryGroupList?categoryno="+categoryno;
 	});  */
+
+
+/* 	$(".groupWall").click(function(){
+		console.log("click");
+		var categoryno = this.parentNode.childNodes[1].value;
+ 		var mi_assembleName = this.parentNode.childNodes[3].value;
+		var groupno = this.parentNode.childNodes[5].value;
+		
+		console.log(categoryno);
+		console.log(groupno);
+		
+		document.location.href = "/assemble.io/"+mi_assembleName+"/g/"+groupno+"/wall"+"?categoryno="+categoryno; 
+
+	}); */
+
 });
+
+
+
 
  </script>
 
@@ -47,7 +67,7 @@ $(document).ready(function() {
       <!-- **********************************************************************************************************************************************************
       TOP BAR CONTENT & NOTIFICATIONS
       *********************************************************************************************************************************************************** -->
-      <!--header <start--></start-->
+      <!--header start -->
       <header class="header black-bg">
 		<!--logo start-->
             <a href="/assemble.io/${mi_assemblename}/home?memberno=${memberno}" class="logo">
@@ -56,89 +76,13 @@ $(document).ready(function() {
             	 <b class="teamname"> ${mi_assemblename } </b>      	 
            	</a>
             <!--logo end-->
-            
-            <input type="text" name="search" id="search" placeholder="검색어를 입력하세요"/>
-           <!--  <img src="https://image.flaticon.com/icons/svg/751/751463.svg" alt=""  id="dod"/> -->
-            
-            
-            
-            <div class="nav notify-row" id="top_menu">
-                <!--  notification start -->
-                <ul class="nav top-menu">
-                    <!-- settings start -->
-                    <li class="dropdown" id="noti1">
-                        <a data-toggle="dropdown" class="dropdown-toggle" href="index.html#">
-                            <i class="fa fa-tasks"></i>
-                            <span class="badge bg-theme">4</span>
-                        </a>
-                        <ul class="dropdown-menu extended tasks-bar">
-                            <div class="notify-arrow notify-arrow-green"></div>
-                            <li>
-                                <p class="green">You have 4 pending tasks</p>
-                            </li>
-                            <li>
-                                <a href="index.html#">
-                                    <div class="task-info">
-                                        <div class="desc">DashGum Admin Panel</div>
-                                        <div class="percent">40%</div>
-                                    </div>
-                                    <div class="progress progress-striped">
-                                        <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style="width: 40%">
-                                            <span class="sr-only">40% Complete (success)</span>
-                                        </div>
-                                    </div>
-                                </a>
-                            </li>
-                            <li class="external">
-                                <a href="#">See All Tasks</a>
-                            </li>
-                        </ul>
-                    </li>
-                    <!-- settings end -->
-                    <!-- inbox dropdown start-->
-                    <li id="header_inbox_bar" class="dropdown">
-                        <a data-toggle="dropdown" class="dropdown-toggle" href="index.html#">
-                            <i class="fa fa-envelope-o"></i>
-                            <span class="badge bg-theme">5</span>
-                        </a>
-                        <ul class="dropdown-menu extended inbox">
-                            <div class="notify-arrow notify-arrow-green"></div>
-                            <li>
-                                <p class="green">You have 5 new messages</p>
-                            </li>
-                            <li>
-                                <a href="index.html#">
-                                    <span class="photo"><img alt="avatar" src="assets/img/ui-zac.jpg"></span>
-                                    <span class="subject">
-                                    <span class="from">Zac Snider</span>
-                                    <span class="time">Just now</span>
-                                    </span>
-                                    <span class="message">
-                                        Hi mate, how is everything?
-                                    </span>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="index.html#">See all messages</a>
-                            </li>
-                        </ul>
-                    </li>
-                    <!-- inbox dropdown end -->
-                </ul>
-                <!--  notification end -->
-            </div>
-            
-            
-            	<!-- <a href="#" ><input type="button" value="logout" id="logout"/></a> -->
-            	
-            <!-- <div class="top-menu">
-            	<ul class="nav pull-right top-menu">
-                    <li><a class="logout" href="login.html">Logout</a></li>
-            	</ul>
-            </div> -->
+        
+            <input type="search" name="search" id="search" placeholder="검색어를 입력하세요" />
+            <button class="icon" ><i class="fa fa-search"></i></button>
+        
         </header>
       <!--header end-->
-      
+      	
       
       <!-- **********************************************************************************************************************************************************
       MAIN SIDEBAR MENU
@@ -150,27 +94,33 @@ $(document).ready(function() {
               <ul class="sidebar-menu" id="nav-accordion">
               	  <div id="div1">
               	  	<p class="centered"><a href="profile.html"><img src="https://t1.daumcdn.net/agit_resources/images/empty_profile.png" class="img-circle" width="60"></a></p>
-              	  </div>
-	
+             	  </div>
+             	  
               	  <div id="div2">
-	              	  <h4 id="id1"> <c:out value="${mi_memid }" /></h4>
-	              	  <h4 id="name1"><c:out value="${mi_memname }" /></h4>
+	              	  <h4 id="id1"><b><c:out value="${mi_memid }" /></b></h4>
+	              	  <h4 id="name1"><c:out value="${mi_memname }" /></h5>
+	              	  
+	              	<!-- 로그아웃 -->
+					<a href="/main">
+						<img src="/resources/assets/img/off.png" alt="off" width="23" height="23" id="off"/>
+					</a>
+	              	  
               	  </div>
-    
-		              	  <input type="button" value="내글" class="b1"/>
-		              	  <input type="button" value="맨션" class="b1"/>
-		              	  <input type="button" value="요청" class="b1"/>
-		              	  <input type="button" value="북마크" class="b2"/>
+              	  
+		              	 <a href="/myBoard"><input type="button" value="내글" class="bt1"/></a>
+		              	  <!-- <input type="button" value="맨션" class="b1"/> -->
+		              	   <a href="/tasks"><input type="button" value="요청" class="bt1"/></a>   
+		              	   <a href="/bookmarks"><input type="button" value="북마크" class="bt2"/></a>   
   
-		              	  <input type="button" value="아지트 멤버 초대하기" id="b3" onclick="location.href='/invited'"/>
+		              	  <input type="button" value="아지트 멤버 초대하기" id="b3" onclick="location.href='/invited'" />
 		              	  
-		              	  <input type="button" value="멤버" class="b4"/>	
-		              	  <input type="button" value="참여가능한 그룹" class="b4"/>
+		              	  <a href="/members"><input type="button" value="멤버" class="b4"/></a>   
+		              	  <a href="/attendgroups"><input type="button" value="참여가능한 그룹" class="b4"/></a>   
         	  	
 	              	  	  <input type="button" value="+ 카테고리 추가하기" class="b6" id="category"/>
 	              	  	  
 	              	  	  <input type="button" value="+ 새로운 그룹 만들기" class="b6"/>
-
+					
 
        <!---------------------------------------------------------------------------->
                  <!--  <li class="mt">
@@ -197,7 +147,12 @@ $(document).ready(function() {
 							
 								<c:forEach var="g" items="${groupList }">
 									<c:if test="${g.categoryno == c.categoryno }">
-										<li><a href="/assemble.io/${c.assemblename }/g/${g.groupno }/wall">${g.groupname }</a></li>
+											<li><a href="/assemble.io/${c.assemblename }/g/${g.groupno }/wall">${g.groupname} </a>
+											<%-- <input type="hidden" class="categoryno" value="${c.categoryno }" />
+											<input type="hidden" class="assemblename" value="${c.assemblename }" />
+											<input type="hidden" class="groupno" value="${g.groupno }" />
+											<input type="button" value="${g.groupname }" class="groupWall"/> --%>
+											</li>
 									</c:if>
 								</c:forEach>
 							</ul>
@@ -214,7 +169,7 @@ $(document).ready(function() {
       </div> -->
       
       <div id="chatting">
-      	<h2>여기는 채팅칸</h2>
+      	<c:import url="/chatroom/room/side"></c:import>
       </div>
    </section>
    

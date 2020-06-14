@@ -10,7 +10,7 @@ body {
 }
 
 .container{
-   margin-top: 3%;
+	margin-top: 3%;
 }
 .card-signin {
   border: 0;
@@ -28,43 +28,44 @@ body {
   padding: 2rem;
 }
 
-.memProfileImg {
-/* display: table-cell;   */
-    vertical-align: middle; 
-    text-align: center;
-    position: relative;
-/*     width: 100%; */
-}
 .memProfileImg label { 
-   margin-top: 1rem;
-   display: inline-block; 
-   padding: .5em .75em; 
-   color: #999;
-   font-size: inherit; 
-   line-height: normal; 
-   vertical-align: middle; 
-   background-color: #fdfdfd; 
-   cursor: pointer; 
-    margin: 0 auto;
-} 
+
+	margin-top: 1rem;
+	margin: 0 auto;
+	margin-bottom: 3%;
+	width: 230px;
+	height: 260px;
+	background-repeat: no-repeat;
+	
+	display: inline-block; 
+	padding: .5em .75em; 
+	color: #999; 
+	font-size: inherit; 
+	line-height: normal; 
+	vertical-align: middle; 
+	background-color: #fdfdfd; 
+	cursor: pointer; 
+	/* border: 1px solid #ebebeb; 
+	border-bottom-color: #e2e2e2; 
+	border-radius: .25em; */ } 
 
 .memProfileImg input[type="file"] { 
-/* 파일 필드 숨기기  */
+/* 파일 필드 숨기기 */ 
 position: absolute;
-left: 60%; transform:translateX(-60%);
+width: 1px; height: 1px; 
+padding: 0; margin: -1px; 
 overflow: hidden; 
 clip:rect(0,0,0,0); 
-border: 0; 
-}
+border: 0; }
 
-#proImg{
-   margin-top: 1rem;
-   display: block;
-   margin: 0 auto;
-   max-width: 230px;
-   height: 230px;
-   margin-bottom: 1rem;
-}
+/* #proImg{
+	margin-top: 1rem;
+	display: block;
+	margin: 0 auto;
+	width: 230px;
+	height: 230px;
+	margin-bottom: 1%;
+} */
 
 .form-signin .btn {
   font-size: 100%;
@@ -85,12 +86,12 @@ border: 0;
   height: auto;
   border-radius: 2rem;
   
-     right: 0;
-   display: inline-block;
-   width: 70%;
+  	right: 0;
+	display: inline-block;
+	width: 70%;
 }
 .from-label-grop>input{
-  padding: var(--input-padding-y) var(--input-padding-x);   
+  padding: var(--input-padding-y) var(--input-padding-x);	
 }
 
 .form-label-group>label {
@@ -131,3 +132,4 @@ border: 0;
     color: #777;
   }
 }
+

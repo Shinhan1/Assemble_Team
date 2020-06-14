@@ -8,6 +8,7 @@ import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -29,80 +30,92 @@ public class RecommentController {
    }
    
    //그룹안에서 댓글 달기
-   @RequestMapping(value = "/assemble.io/{mi_assembleName}/g/{groupno}/insertComment")
+   @RequestMapping(value = "/assemble.io/{mi_assemblename}/g/{groupno}/insertComment")
    public String reco(
-		 @PathVariable("mi_assembleName")String assemblename,
+		 @PathVariable("mi_assemblename")String assemblename,
          @RequestParam(value = "bno") int bno,
          @RequestParam(value = "groupno") int groupno,
-         @RequestParam(value = "categoryno") int categoryno,
          @RequestParam(value = "contents") String contents, HttpServletRequest request, Model model) {
       
       RecommentDTO dto = new RecommentDTO();
       dto.setBno(bno);
       dto.setGroupno(groupno);
-      dto.setCategoryno(categoryno);
       dto.setRecontents(contents);
       
       //멤버세션으로 id 조회해서 댓글작성자에 현재 세션의 id 집어넣기
       HttpSession session = request.getSession();
-      String memberId = (String) session.getAttribute("mi_memID");
+      String memberId = (String) session.getAttribute("mi_memid");
       dto.setReid(memberId);
       
       dao.insertComment(dto);
       model.addAttribute("dto", dto);
       model.addAttribute("groupno", groupno);
       
-      return "redirect:/assemble.io/{mi_assembleName}/g/{groupno}/wall";
+      return "redirect:/assemble.io/{mi_assemblename}/g/{groupno}/wall";
    }
    
    //메인 홈에서 댓글 달기
-   @RequestMapping(value = "/assemble.io/{mi_assembleName}/insertCommentatHome")
+   @RequestMapping(value = "/assemble.io/{mi_assemblename}/insertCommentatHome")
    public String recoHome(
-		 @PathVariable("mi_assembleName")String assemblename,
+		 @PathVariable("mi_assemblename")String assemblename,
          @RequestParam(value = "bno") int bno,
          @RequestParam(value = "groupno") int groupno,
-         @RequestParam(value = "categoryno") int categoryno,
          @RequestParam(value = "contents") String contents, HttpServletRequest request, Model model) {
       
       RecommentDTO dto = new RecommentDTO();
       dto.setBno(bno);
       dto.setGroupno(groupno);
-      dto.setCategoryno(categoryno);
       dto.setRecontents(contents);
       
       //멤버세션으로 id 조회해서 댓글작성자에 현재 세션의 id 집어넣기
       HttpSession session = request.getSession();
-      String memberId = (String) session.getAttribute("mi_memID");
+      String memberId = (String) session.getAttribute("mi_memid");
       int memberNo = (Integer) session.getAttribute("memberno");
-      System.out.println(memberNo);
+      //System.out.println(memberNo);
       dto.setReid(memberId);
       
       dao.insertComment(dto);
       model.addAttribute("dto", dto);
       model.addAttribute("memberno", memberNo);
       
-      return "redirect:/assemble.io/{mi_assembleName}/home";
+      return "redirect:/assemble.io/{mi_assemblename}/home";
    }
    
    //그룹에서 bno별 댓글 조회  
  // @RequestMapping(value= "/assemble.io/{mi_assembleName}/g/{groupno}/selectRecomment")
-  @RequestMapping(value= "/assemble.io/{mi_assembleName}/g/{groupno}/selectRecomment",method = RequestMethod.POST)
+  @RequestMapping(value= "/assemble.io/{mi_assemblename}/g/{groupno}/selectRecomment", method = RequestMethod.POST)
   @ResponseBody 
   public List<RecommentDTO> SelectRecomment(
-        @PathVariable("mi_assembleName")String assemblename,
+        @PathVariable("mi_assemblename")String assemblename,
          @RequestParam(value = "bno") int bno,
-         @RequestParam(value = "groupno") int groupno, Model model) {
+         @RequestParam(value = "groupno") int groupno) {
      
-     System.out.println(bno);
-     System.out.println(groupno);
+    // System.out.println(bno);
+     //System.out.println(groupno);
      
-     List<RecommentDTO> recomment = dao.recommentlist(bno);  
-     
-     model.addAttribute("recommentlist", recomment);
-     
-     System.out.println(recomment.get(0).getRecontents());
-     
+     List<RecommentDTO> recomment = dao.recommentlist(bno);      
      return recomment;     
+  }
+  
+//홈에서 bno별 댓글 조회  
+ // @RequestMapping(value= "/assemble.io/{mi_assembleName}/g/{groupno}/selectRecomment")
+  @RequestMapping(value= "/assemble.io/{mi_assemblename}/selectRecomment1", method = RequestMethod.POST)
+  @ResponseBody 
+  public List<RecommentDTO> SelectRecomment1(
+        @PathVariable("mi_assemblename")String assemblename,
+         @RequestParam(value = "bno") int bno,
+         @RequestParam(value = "groupno") int groupno) {
+     
+     //System.out.println(bno);
+	  //System.out.println(groupno);
+     
+     List<RecommentDTO> recomment1 = dao.recommentlist(bno);  
+     
+     //model.addAttribute("recommentlist1", recomment1);
+     
+     //System.out.println(recomment.get(0).getRecontents());
+     
+     return recomment1;     
   }
    
    

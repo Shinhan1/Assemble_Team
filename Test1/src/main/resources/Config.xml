@@ -22,12 +22,19 @@
 		<typeAlias type="kr.co.assemble.dto.RequestDTO" alias="ReqDto"/>
 		<typeAlias type="kr.co.assemble.dto.ComposedMemberInfoDTO" alias="CMI_Dto"/>
 		<typeAlias type="kr.co.assemble.dto.GroupFileDTO" alias="CF_Dto"/>
-		
-		
+		<typeAlias type="kr.co.assemble.dto.MemReqGroupDTO" alias="MRG_Dto"/>
+		<typeAlias type="kr.co.assemble.dto.MyWriteDTO" alias="MyWriteDto"/>
 		
 		<typeAlias type="kr.co.assemble.dto.Groupboard_Memberinfo_FileDTO" alias="G_M_F_Dto"/>
 		<typeAlias type="kr.co.assemble.dto.Groups_Memberinfo_Composed_DTO" alias="G_Mi_C_Dto"/>
 		<typeAlias type="kr.co.assemble.dto.RecommentDTO" alias="RecommentDto"/>
+		
+		<typeAlias  type="kr.co.chat.dto.CHATDTO" alias="chatdto"/>
+		<typeAlias type="kr.co.chat.dto.MemberDTO" alias="memberDTO"/>
+		<typeAlias type="kr.co.chat.dto.GroupChatDTO" alias="groupChatDTO"/>
+		<!-- <typeAlias type="kr.co.assemble.dto.searchDTO" alias="searchDTO"/> -->
+		
+		
 	</typeAliases>
 	
 	

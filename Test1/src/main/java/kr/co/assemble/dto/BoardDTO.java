@@ -3,7 +3,6 @@ package kr.co.assemble.dto;
 import java.util.Date;
 
 public class BoardDTO {
-	
 	private int bno;
 	private int groupno;
 	private int categoryno;
@@ -122,7 +121,6 @@ public class BoardDTO {
 		this.filestatus = filestatus;
 	}
 
-	
 	
 	
 	
