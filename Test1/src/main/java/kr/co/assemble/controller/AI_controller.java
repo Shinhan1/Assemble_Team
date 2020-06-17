@@ -1,19 +1,14 @@
 package kr.co.assemble.controller;
 
+import java.io.UnsupportedEncodingException;
 import java.util.List;
 import java.util.Random;
 
-import javax.inject.Inject;
 import javax.mail.MessagingException;
-import javax.mail.internet.MimeMessage;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.mail.javamail.JavaMailSender;
-import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -26,10 +21,10 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import kr.co.assemble.dao.MI_interface;
+import kr.co.assemble.dao.SendMailImple;
+import kr.co.assemble.dto.EmailDTO;
 import kr.co.assemble.dto.IdCheckDTO;
 import kr.co.assemble.dto.MemberInfoDTO;
-import kr.co.assemble.dto.testDTO;
-import kr.co.assemble.service.SendMail;
 import kr.co.assemble.service.SendMailService;
 
 // AssembleInfo_controller
@@ -41,7 +36,7 @@ public class AI_controller {
 	MI_interface mi_dao;
 	
 	@Autowired
-	private JavaMailSender mailSender; 
+	SendMailImple smi;
 	
 	@Autowired
 	BCryptPasswordEncoder passEncoder;
@@ -53,12 +48,12 @@ public class AI_controller {
 	private final String LOGIN = "login";
 	private final String LOGINOK = "loginOk";
 	private final String INVITED = "invited";
-	private final String INVITEDOK = "invitedOk";
 	private final String FIND = "find_assemble";
 	private final String TERMS = "terms";
 	private final String MEMSIGNUP = "mem_signup";
+	private final String EMAILPASS = "emailpassword";
 	
-	public void setmi_mi_dao(MI_interface mi_mi_mi_dao) {
+	public void setmi_dao(MI_interface mi_dao) {
 		this.mi_dao = mi_dao;
 	}
 	
@@ -88,7 +83,7 @@ public class AI_controller {
 		
 		System.out.println(mi_name);
 		if(mi_name == null) {
-			return ASSEMBLELOGIN;
+			return "assembleloginfail";
 		}
 		HttpSession session = req.getSession(true);
 		
@@ -103,25 +98,45 @@ public class AI_controller {
 		String mi_assembleName = (String) session.getAttribute("mi_assemblename");
 //		System.out.println(mi_assembleName);
 		dto1.setMi_assemblename(mi_assembleName);
-		
+//		System.out.println("dao 들어가기 전" +mi_assembleName);
 //		System.out.println("loginOK : "+mi_assembleName);
 		IdCheckDTO check = mi_dao.selectId(dto1);
-		boolean passMatch = passEncoder.matches(dto1.getMi_mempw(), check.getMi_mempw());
+//		System.out.println(check.getMi_memid());
+		if(check.getMi_memid() == "0") {
+			return "loginfail";
+		}
 		
+//		System.out.println("if 후 : " + check.getMi_memid());
+		
+		boolean passMatch = passEncoder.matches(dto1.getMi_mempw(), check.getMi_mempw());
+//		System.out.println("passMatch : " + passMatch);
 		int mi_memNo = check.getMi_memberno();
 //		System.out.println(check.getMi_memberNo());
 //		session.setAttribute("mi_memberNo", mi_memNo);
 		session.setAttribute("memberno", mi_memNo);
 		session.setAttribute("mi_memname", check.getMi_memname());
-		if(check.getMi_memid() != null && passMatch) {
+		if(passMatch) {
 			session.setAttribute("mi_memid", check.getMi_memid());
 			
 		}else {
-			session.setAttribute("mi_memid", null);
-			return ASSEMBLELOGIN;
+			return "loginfail";
 		}
 		
 		return LOGINOK;
+	}
+	
+	@RequestMapping(value="/emailck")
+	@ResponseBody
+	public int emailck(@ModelAttribute MemberInfoDTO dto, HttpSession session) {
+		System.out.println("emailck : " + dto);
+		dto.setMi_assemblename((String)session.getAttribute("mi_assemblename"));
+		
+		int result = mi_dao.emailck(dto);
+		System.out.println(dto.getMi_assemblename());
+		System.out.println("email : "+dto.getMi_mememail());
+		System.out.println(result);
+		
+		return result;
 	}
 	
 	// 초대하기
@@ -129,9 +144,6 @@ public class AI_controller {
 	public ModelAndView invited() {
 		ModelAndView mv = new ModelAndView();
 		int ran = new Random().nextInt(9000000)+1000000;
-//		String strRan = Integer.toString(ran);
-//		String encodeRan = passEncoder.encode(strRan);
-//		System.out.println(encodeRan);
 		System.out.println("invited ran : " + ran);
 		mv.setViewName(INVITED);
 		mv.addObject("ran", ran);
@@ -140,7 +152,9 @@ public class AI_controller {
 	
 	// 초대 OK
 	@RequestMapping(value="/invitedOk")
-	public String invitedOk(@RequestParam String invited, @RequestParam String ran, HttpServletRequest req, HttpSession session) {
+	public String invitedOk(@RequestParam String invited, 
+			@RequestParam String ran, HttpServletRequest req, 
+			HttpSession session, EmailDTO emaildto) {
 		String memid = (String) session.getAttribute("mi_memid");
 		String mi_assembleName = (String) session.getAttribute("mi_assemblename");
 		SendMailService sms = new SendMailService();
@@ -150,30 +164,30 @@ public class AI_controller {
 		session.setAttribute("ran", encodeRan);
 		String sendEmail = "tlsgks8668@gmail.com";
 		session.setAttribute("mi_mememail", invited);
-//		String receiveEmail = req.getParameter("mi_memEmail");
 		String title = "[Assemble]"+ memid +"님이 "+ mi_assembleName + " 어셈블에 초대하셨습니다.";
 		String contents = "<h1>" + mi_assembleName + "</h1>\r\n" +
 				"<h1> 어셈블에 초대되셨습니다. </h1>" +
 				"<h3>[Assemble]"+ memid +"님이 "+ mi_assembleName +" 어셈블에 초대하셨습니다.</h>\r\n" +
-				"	<h3>초대 링크를 보시려면 <a href=\"http://localhost:9090/invitedemail\">여기</a>를 눌러주세요!</h3>\r\n" + 
+				"	<h3>초대 링크를 보시려면 "+ 
+				"<a href=\"http://13.209.244.152:8080/invitedemail?mi_assemblename="+mi_assembleName+"&ran="+encodeRan+"&mi_mememail="+invited+"\">"  + 
+				"여기</a>를 눌러주세요!</h3>\r\n" + 
 				"	<hr />\r\n" + 
 				"	<div class=\"form-group\">\r\n" + 
 				"		<p>본 메일은 발신 전용이며, 문의에 대한 회신은 처리되지 않습니다.</p>\r\n" + 
 				"	</div>";
+		emaildto.setSendemail(sendEmail);
+		emaildto.setReceiveemail(invited);
+		emaildto.setTitle(title);
+		emaildto.setContents(contents);
+
+//		System.out.println(aiName);
+//		System.out.println(mi_mememail);
 		
-		MimeMessage message = mailSender.createMimeMessage();
-		MimeMessageHelper msghelper;
+//		smi.send(emaildto);
+		
 		try {
-			msghelper = new MimeMessageHelper(message, true, "UTF-8");
-			// MimeMessageHelper에 set하기 위함
-			msghelper.setFrom(sendEmail);		// 보내는 사람 이메일
-			msghelper.setTo(invited);		// 받는 사람 이메일
-			msghelper.setSubject(title);		// 제목
-			msghelper.setText(contents, true);		// 내용
-			
-			mailSender.send(message);
-			
-		} catch (MessagingException e) {
+			smi.sendEmail(emaildto);
+		} catch (UnsupportedEncodingException | MessagingException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
@@ -201,33 +215,32 @@ public class AI_controller {
 	
 	// 어셈블 찾기 이메일 발송
 	@RequestMapping(value="/send_findassemble")
-	public String find_email(@RequestParam String mi_mememail, HttpSession session) {
+	public String find_email(@RequestParam String mi_mememail,
+			HttpSession session, EmailDTO emaildto) {
 		session.setAttribute("mi_mememail", mi_mememail);
 //		System.out.println(list);
 		String sendEmail = "tlsgks8668@gmail.com";
 		String title = "[Assemble] 참여 중인 어셈블 목록";
 		String contents = "<h1>참여 중인 어셈블 목록</h1>\r\n" + 
-				"	<h3>계정으로  참여 중인 어셈블 목록을 보시려면 <a href=\"http://localhost:9090/findemail\">여기</a>를 눌러주세요!</h3>\r\n" + 
+				"	<h3>계정으로  참여 중인 어셈블 목록을 보시려면 <a href=\"http://13.209.244.152:8080/findemail\">여기</a>를 눌러주세요!</h3>\r\n" + 
 				"	<hr />\r\n" + 
 				"	<div class=\"form-group\">\r\n" + 
 				"		<p>본 메일은 발신 전용이며, 문의에 대한 회신은 처리되지 않습니다.</p>\r\n" + 
 				"	</div>";
-		MimeMessage message = mailSender.createMimeMessage();
-		MimeMessageHelper msghelper;
+		emaildto.setSendemail(sendEmail);
+		emaildto.setReceiveemail(mi_mememail);
+		emaildto.setTitle(title);
+		emaildto.setContents(contents);
+		
+//		smi.send(emaildto);
+
 		try {
-			msghelper = new MimeMessageHelper(message, true, "UTF-8");
-			// MimeMessageHelper에 set하기 위함
-			msghelper.setFrom(sendEmail);		// 보내는 사람 이메일
-			msghelper.setTo(mi_mememail);		// 받는 사람 이메일
-			msghelper.setSubject(title);		// 제목
-			msghelper.setText(contents, true);		// 내용
-			
-			mailSender.send(message);
-			
-		} catch (MessagingException e) {
+			smi.sendEmail(emaildto);
+		} catch (UnsupportedEncodingException | MessagingException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+
 		
 		return "main";
 	}
@@ -236,6 +249,71 @@ public class AI_controller {
 	@RequestMapping(value="/terms")
 	public String terms() {
 		return TERMS;
+	}
+	
+	@RequestMapping(value="/find_password")
+	public String find_password() {
+		return "find_password";
+	}
+	
+	@RequestMapping(value="/emailpassfind")
+	public String emailpassfind(@RequestParam String mi_mememail,
+			@RequestParam String mi_assemblename,
+			EmailDTO emaildto) {
+//		System.out.println(list);
+		String sendEmail = "tlsgks8668@gmail.com";
+		String title = "[Assemble] 비밀번호 변경";
+		String contents = "<h1>비밀번호 변경</h1>\r\n" + 
+				"	<h3>비밀번호 변경을 하시려면 "+ 
+				"<a href=\"http://13.209.244.152:8080/emailpassword?mi_assemblename="+mi_assemblename+"&mi_mememail="+mi_mememail+"\">여기</a>를 눌러주세요!</h3>\r\n" + 
+				"	<hr />\r\n" + 
+				"	<div class=\"form-group\">\r\n" + 
+				"		<p>본 메일은 발신 전용이며, 문의에 대한 회신은 처리되지 않습니다.</p>\r\n" + 
+				"	</div>";
+		emaildto.setSendemail(sendEmail);
+		emaildto.setReceiveemail(mi_mememail);
+		emaildto.setTitle(title);
+		emaildto.setContents(contents);
+		
+//		smi.send(emaildto);
+
+		try {
+			smi.sendEmail(emaildto);
+		} catch (UnsupportedEncodingException | MessagingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return MAIN;
+	}
+	
+	@RequestMapping(value="/emailpassword")
+	public String emailpassword() {
+		
+		return EMAILPASS;
+	}
+	
+	@RequestMapping(value="/changepassword")
+	public String changepassword() {
+		
+		return "newPassword";
+	}
+	
+	@RequestMapping(value="/changesuccess")
+	public String changesuccess(@ModelAttribute MemberInfoDTO dto,
+			HttpServletRequest req) {
+		
+		String password = dto.getMi_mempw();
+		String Pw = passEncoder.encode(password);
+		
+		dto.setMi_mempw(Pw);
+		dto.setMi_assemblename(req.getParameter("mi_assemblename"));
+		dto.setMi_mememail(req.getParameter("mi_mememail"));
+		
+		
+		mi_dao.updatePasswordOne(dto);
+		
+		return MAIN;
 	}
 	
 	

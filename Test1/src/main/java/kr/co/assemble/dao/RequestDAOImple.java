@@ -1,9 +1,12 @@
 package kr.co.assemble.dao;
 
+import java.util.List;
+
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import kr.co.assemble.dto.MemReqGroupDTO;
 import kr.co.assemble.dto.RequestDTO;
 
 @Repository
@@ -36,6 +39,20 @@ public class RequestDAOImple implements RequestDAO {
       return ss.update("updateStatus", dto);
    }
    
+   //내가 받은 요청 전체 목록
+   @Override
+   public List<MemReqGroupDTO> selectMyReq(MemReqGroupDTO dto) {
+      List<MemReqGroupDTO> list = ss.selectList("myReq", dto);
+      return list;
+   }
+
+   
+ //내가 받은 요청 진행상황별
+   @Override
+   public List<RequestDTO> selectMyReqStatus(RequestDTO dto) {
+      List<RequestDTO> list = ss.selectList("myReqStatus", dto);
+      return list;
+   }
    
 
 }

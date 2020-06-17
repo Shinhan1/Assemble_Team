@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -21,14 +22,14 @@
 <!-- Navigation -->
 <nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top">
   <div class="container">
-    <a class="navbar-brand" href="#"> <img src="/resources/info/images/logo.png" width="40" height="40" alt="logo" /> Assemble</a>
+    <a class="navbar-brand" href="/main"> <img src="/resources/info/images/logo.png" width="40" height="40" alt="logo" /> Assemble</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
         </button>
     <div class="collapse navbar-collapse" id="navbarResponsive">
       <ul class="navbar-nav ml-auto">
         <li class="nav-item active">
-          <a class="nav-link" href="#">Home
+          <a class="nav-link" href="/main">Home
                 <span class="sr-only">(current)</span>
               </a>
         </li>
@@ -38,7 +39,7 @@
         </li>
         <li class="nav-item">
                 			<!-- admin_signup.jsp -->
-          <a class="nav-link" href="#">어셈블 개설</a>
+          <a class="nav-link" href="/signup">어셈블 개설</a>
         </li>
         
       </ul>
@@ -65,6 +66,8 @@
 			   </div>  		
 			    
 			    <button class="btn btn-lg btn-info btn-block" type="submit">로그인</button>
+			    
+			    <a href="/find_password?<c:out value="${mi_assemblename }" />">비밀번호를 잊어버리셨나요?</a>
 			     <p class="mt-5 mb-3 text-muted text-center">&copy; 2020</p> 
 			</form>
 	</div>

@@ -98,6 +98,11 @@ $(document).ready(function(){
 </head>
 <body>
 
+					<%
+						String mi_assemblename = request.getParameter("mi_assemblename");
+						String mi_mememail = request.getParameter("mi_mememail");
+						String ran = request.getParameter("ran");
+					%>
 <div class="container">
 	<div class="row">
 		<div class="col-sm-10 col-md-8 col-lg-6 mx-auto">
@@ -106,15 +111,19 @@ $(document).ready(function(){
 					<div class="memProfileImg">
 							<img src="/resources/info/images/letter.png" alt="letter" id="letter"/>
 					</div>
-					<h5 class="card-title text-center">Assemble Name</h5>
+					<h5 class="card-title text-center"><%= mi_assemblename %></h5>
 					
-					<form class="form-signin" method="POST" name="frm">			
+					
+					<form class="form-signin" method="POST" name="frm">	
+					<input type="hidden" name="mi_assemblename" value="<%= mi_assemblename %>" />		
+					<input type="hidden" name="mi_mememail" value="<%= mi_mememail %>" />		
+					
 		           <div class="form-label-group">
 		              	<div class="form-name">
 		              		<p>초대받은 이메일</p>
 		              	</div>
 				            <input type="email" id="inputEmail" name="mi_mememail" class="form-control" 
-				            value="http://localhost:9090/assemble.io/<c:out value='${mi_assemblename}' />/login/<c:out value='${ran}' />/a" readonly/>
+				            value="http://15.165.95.43:8080/assemble.io/<%= mi_assemblename %>/login/<%= ran %>/a" readonly/>
 						 </div>
 						 
 				<div class="form-label-group">

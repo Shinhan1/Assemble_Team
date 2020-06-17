@@ -63,6 +63,12 @@ public class MemberInfo_DAO implements MI_interface {
 	@Override
 	public IdCheckDTO selectId(IdCheckDTO dto1) {
 		// TODO Auto-generated method stub
+		int cnt = ss.selectOne("countMemberId", dto1);
+		IdCheckDTO dto = new IdCheckDTO();
+		if(cnt == 0) {
+			return dto;
+		}
+		
 		return ss.selectOne("selectIdEncode", dto1);
 	}
 	
@@ -87,9 +93,9 @@ public class MemberInfo_DAO implements MI_interface {
 	}
 
 	@Override
-	public void updateOne(MemberInfoDTO dto) {
+	public void updatePasswordOne(MemberInfoDTO dto) {
 		// TODO Auto-generated method stub
-
+		ss.update("changepassword", dto);
 	}
 
 	@Override
@@ -109,6 +115,12 @@ public class MemberInfo_DAO implements MI_interface {
 		System.out.println(dto.getMi_assemblename());
 		System.out.println(dto.getMi_memid());
 		return ss.selectOne("countMemberId", dto);
+	}
+	
+	@Override
+	public int emailck(MemberInfoDTO dto) {
+		// TODO Auto-generated method stub
+		return ss.selectOne("emailck", dto);
 	}
 
 }

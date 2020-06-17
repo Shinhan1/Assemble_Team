@@ -21,21 +21,29 @@
 			<div class="card card-signin my-5">
 				<div class="card-body">
 					<div class="form">
+						<%
+							String mi_assemblename = request.getParameter("mi_assemblename");
+							String ran = request.getParameter("ran");
+							String mi_mememail = request.getParameter("mi_mememail");
+						%>
 					
 						<div class="form-group">
 							<img src="/resources/info/images/assemble.png" alt="assemble" />
 						</div>
 						
 						<div class="form-group">
-							<h2 class="card-title">Assemble Name</h2>
+							<h2 class="card-title"><%= mi_assemblename %></h2>
 							<h3>어셈블에 초대되셨습니다.</h3>
 							<p>이 초대를 수락하시려면 아래의 링크를 클릭해 어셈블 계정을 만들어주세요.</p>
 						</div>
 						
 						<div class="form-group">						
 							<!-- <input type="text" name="" class="form-control" id="code" value="어셈블주소" readonly/> -->
-							<a href="/assemble.io/<c:out value='${mi_assemblename}' />/login/<c:out value='${ran}' />/a">
-								http://localhost:9090/assemble.io/<c:out value="${mi_assemblename}" />/login/<c:out value="${ran}" />/a
+							<%-- <a href="/assemble.io/<c:out value='${mi_assemblename}' />/login/<c:out value='${encoderan}' />/a">
+								http://15.165.95.43:8080/assemble.io/<c:out value="${mi_assemblename}" />/login/<c:out value="${encoderan}" />/a
+							</a> --%>
+							<a href="/assemble.io/<%= mi_assemblename %>/login/<%= ran %>/a?mi_assemblename=<%= mi_assemblename %>&mi_mememail=<%= mi_mememail %>&ran=<%= ran %>">
+								http://15.165.95.43:8080/assemble.io/<%= mi_assemblename %>/login/<%= ran %>/a
 							</a>
 						</div>
 						

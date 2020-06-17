@@ -6,9 +6,11 @@
 		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.3.xsd">
 	
 	<!-- 메일 보내기 (SEND) -->
+	
+	
 	<bean id="mailSender"
 		class="org.springframework.mail.javamail.JavaMailSenderImpl">
-		<property name="host" value="smtp.gmail.com" />
+		<property name="host" value="email-smtp.us-west-2.amazonaws.com" />
 		<property name="port" value="587" />
 		<property name="username" value="tlsgks8668@gmail.com" />
 		<property name="password" value="shin1han1sh" />

@@ -25,11 +25,17 @@
 		<property name="location" value="/WEB-INF/db.properties"></property>
 </bean>
 
-<bean id="dataSource" class="org.springframework.jdbc.datasource.SimpleDriverDataSource">
+<!-- <bean id="dataSource" class="org.springframework.jdbc.datasource.SimpleDriverDataSource">
 	<property name="driverClass" value="${driver}" />
 	<property name="url" value="${url}" />
 	<property name="username" value="${username}" />
 	<property name="password" value="${password}" />
+</bean> -->
+<bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+	<property name="driverClassName" value="com.mysql.jdbc.Driver" />
+	<property name="url" value="jdbc:mysql://sampledb.c63rztyeaqbc.ap-northeast-2.rds.amazonaws.com:3306/sampleDB?useSSL=false" />
+	<property name="username" value="root" />
+	<property name="password" value="assembleavengers" />
 </bean>
 
 <bean id="sqlSessionTemplate" class="org.mybatis.spring.SqlSessionTemplate">
@@ -47,6 +53,5 @@
   	  <property name="dataSource" ref="dataSource" />
 	</bean>
 
-	<context:component-scan base-package="kr.co.assemble.dao"></context:component-scan>
 
 </beans>

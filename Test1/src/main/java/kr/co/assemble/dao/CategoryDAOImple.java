@@ -40,5 +40,27 @@ public class CategoryDAOImple implements CategoryDAO {
 		return list;
 	}
 	
+	@Override
+	public List<CategoryDTO> myCategory(CategoryDTO dto) {
+		// TODO Auto-generated method stub
+		List<CategoryDTO> list = ss.selectList("myCategory", dto);
+		
+		return list;
+	}
+	
+	
+
+	@Override
+	public List<NavbarDTO> ingroupCategory(NavbarDTO dto) {
+		// TODO Auto-generated method stub
+		List<NavbarDTO> list = ss.selectList("ingroupcategory", dto);
+		
+		return list;
+	}
+
+
+	
+	
+	
 
 }

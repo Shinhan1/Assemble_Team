@@ -8,6 +8,7 @@
 <title>Insert title here</title>
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<link rel="stylesheet" type="text/css" href="/resources/assets/css/chat_css.css">     <!-- css 파일 경로  -->
 <script type="text/javascript">
 $(function() {
 	$('#rebtn1').click(function(){
@@ -107,7 +108,7 @@ $(function() {
 </style>
 </head>
 <body>
-	<div style="width: 100%; height: 100%; display: none;" id="tab6">
+	<div style="width: 100%; height: 100%; display: none;" id="tab6" >
 		<div class="rebtn-group">
 			<input type="button" class="rebutton" id="statusAll" value="전체" />
 			<input type="button" class="rebutton" id="status0" value="요청" />

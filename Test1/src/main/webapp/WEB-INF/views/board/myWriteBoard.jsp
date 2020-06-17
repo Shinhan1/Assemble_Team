@@ -223,7 +223,7 @@
 
 </head>
 <body>
-	<div id="main">
+	<div id="main" style="z-index: -2">
 		<br />
 		<h3>내글(몇개)</h3>
 

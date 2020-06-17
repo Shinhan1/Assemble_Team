@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -35,18 +36,21 @@ public class GroupSelectListController {
    //그룹 멤버 리스트
    @RequestMapping(value = "/groupMember")
    public String selectMember(
-         @RequestParam(value = "groupno") int groupno, Model model) {
+		 @PathVariable("mi_assemblename") String assemblename,
+         @PathVariable("groupno") int groupno, Model model) {
       
       ComposedMemberInfoDTO dto = new ComposedMemberInfoDTO();
       dto.setGroupno(groupno);
       
       List<ComposedMemberInfoDTO> list = dao.groupMemList(dto);
       
+      System.out.println(groupno);
+      
       model.addAttribute("list", list);
       model.addAttribute("groupno", groupno);
       
       
-      return "board/groupSelectList";
+      return "jinwoo/profile";
    }
    
    

@@ -13,6 +13,7 @@
 <script src="http://code.jquery.com/jquery-1.11.3.min.js" type="text/javascript" charset="utf-8"></script>
 
 <link rel="stylesheet" type="text/css" href="resources/assets/css/hancss/clicklist.css">  	<!-- css 파일 경로  -->
+<link rel="stylesheet" type="text/css" href="/resources/assets/css/chat_css.css">     <!-- css 파일 경로  -->
 
 <meta charset="UTF-8">
 
@@ -21,7 +22,7 @@
 </head>
 <body>
 	
-<div class="div0">
+<div class="div0" style="z-index: -2;">
 	<section class="bookmarks-page">
 		<header class="page-header bookmarks-page__header">
 		
@@ -67,107 +68,53 @@
 		<div class="scroll-container scroll-container--window undefined" tabindex="-1" id="div1">
 			<div class="bookmarks-page__list-wrap">
 			
-			
 				<div class="groups__planet-groups-list">
+					<c:forEach var="i" items="${list }">
+						
+							<div class="planet-group-list__item active">
+							
+								<h3 class="planet-group-list__item-title">
+									<a href="/g/300239781/wall">${i.groupname }</a>				<!--   -->
+								</h3>
+								<p class="planet-group-list__item-description">그룹에 참가해보세요!</p>
+								
+								<div class="planet-group-list__item-actions" >
+									<span class="pull-left">
+										<span>
+											<span class="text-primary">
+											</span>
+										</span>
+									</span>
+									
+									<!-- <input type="button" value="참여하기" class="follow-button pull-right unfollowed"/> -->
+									<div class="coffee">
+										<input type="hidden" name="groupno" value="${i.groupno }"/>
+										<input type="hidden" name="categoryno" value="${i.categoryno }"/>
+										<input type="hidden" name="n" value="${n}"/>
+										<button class="follow-button pull-right unfollowed">
+											
+											<c:choose>
+												<c:when test="${i.memberno eq memberno}">
+													<span>나가기</span>
+												</c:when>
+												<c:otherwise>
+													<span>참여하기</span>	
+												</c:otherwise>
+												
+											</c:choose>
+										</button>
+													
+									</div>
+									
+									<div class="clearfix"></div>
+								</div>
+								
+							</div>
 				
-					<div class="planet-group-list__item active">
-					
-						<h3 class="planet-group-list__item-title">
-							<a href="/g/300239781/wall">그룹 제목</a>				<!--   -->
-						</h3>
-						
-						<p class="planet-group-list__item-description">그룹에 대한 설명을 적을수 있다!</p>
-						
-						<div class="planet-group-list__item-actions">
-							<span class="pull-left">
-								<span>멤버 
-									<span class="text-primary">[멤버 수]</span>
-								</span>
-							</span>
-							
-							<button class="follow-button pull-right unfollowed">
-								<span>참여하기</span>
-							</button>
-							
-							<div class="clearfix"></div>
-						</div>
-						
-					</div>
-					
-					<div class="planet-group-list__item">
-					
-						<h3 class="planet-group-list__item-title">
-							<a href="/g/300239411/wall">그룹 제목이다!</a>
-						</h3>
-						
-						<p class="planet-group-list__item-description">그룹 설명이지이</p>
-						
-						<div class="planet-group-list__item-actions">
-							<span class="pull-left">
-								<span>멤버 
-									<span class="text-primary">1</span>
-								</span>
-							</span>
-							
-							<button class="follow-button pull-right unfollowed">
-								<span>참여하기</span>
-							</button>
-							
-							<div class="clearfix"></div>
-						</div>
-					</div>
-		
-					<div class="planet-group-list__item">
-						<h3 class="planet-group-list__item-title">
-							<a href="/g/300236749/wall">[공통] 일정 공유</a>
-						</h3>
-						<p class="planet-group-list__item-description">with 아지트 멤버들이 모두 알아야 할 일정을 등록해 공유해보세요.</p>
-						<div class="planet-group-list__item-actions">
-							<span class="pull-left">
-								<span>멤버 
-									<span class="text-primary">7</span>
-								</span>
-							</span>
-							
-							<button class="follow-button pull-right unfollowed">
-								<span>참여하기</span>
-							</button>
-							
-							<div class="clearfix"></div>
-						</div>
-					</div>
-					
-					<div class="planet-group-list__item">
-						<h3 class="planet-group-list__item-title">
-							<a href="/g/300236749/wall">그룹 제목 데이터</a>
-						</h3>
-						<p class="planet-group-list__item-description">그룹 소개 데이터</p>
-						<div class="planet-group-list__item-actions">
-							<span class="pull-left">
-								<span>멤버 
-									<span class="text-primary">멤버 수 데이터</span>
-								</span>
-							</span>
-							
-							<button class="follow-button pull-right unfollowed">
-								<span>참여하기</span>
-							</button>
-							
-							<div class="clearfix"></div>
-						</div>
-					</div>
-				
-
-
-
-
-
-					<!-- 그룹 리스트 출력~~~~~  -->
-				</div>
-				
-				
+						</c:forEach>
+					</div>	
+				</div>			
 			</div>
-		</div>
 				
 		
 		<div class="paginated-list-footer">
@@ -203,6 +150,8 @@
   	$('.option-button1').click(function(){
 /*         console.log(this.value); */
 	   window.location.href="/attendgroups?order=created&type=";				//다시 원래 페이지로 돌아오기
+	  
+	   
 	});  
  	
 </script>
@@ -214,23 +163,45 @@
 
 	$(document).ready(function () {
 	    $(".follow-button.unfollowed").each(function () {
-		   
+	   	
 	    	$(this).off("click").on("click", function() {
-	    		if($(this).hasClass("active")) {
+	 		   var n = this.parentNode.childNodes[5].value;
+	    		
+	    		if($(this).hasClass("active") && n==0) {
 	    			
 	    			$(this).removeClass("active");						//클래스 제거
 					$(this).siblings().addClass("active");				//siblings:형제요소들,    removeClass:선택된 클래스의 특성을 없앰
-					$(this).text('참여하기');
-					
-	    		}else {
+					$(this).text('참여하기');	    			
+	    		}else{
+	    			$(this).addClass("active");							//클릭된 부분을 정의된 CCS인 active클래스로 적용
+	    			$(this).siblings().removeClass("active");			//siblings:형제요소들,    removeClass:선택된 클래스의 특성을 없앰
+
+	    			$(this).text('나가기');	
+	    		
+	    		} 
+	    			
+	    			
+	    			/* else {
 	    			
 	    			$(this).addClass("active");							//클릭된 부분을 정의된 CCS인 active클래스로 적용
 	    			$(this).siblings().removeClass("active");			//siblings:형제요소들,    removeClass:선택된 클래스의 특성을 없앰
-	    			$(this).text('나가기');	
 	    			
-	    		}
+	    			
+	    			$(this).text('나가기');	
+	    			 */
+	    			
 	    		
 			});
+		});
+	});
+	
+	$(function(){
+		$(".follow-button.unfollowed").click(function(){
+		   console.log(this.parentNode.childNodes)
+		   var groupno = this.parentNode.childNodes[1].value;
+		   var categoryno = this.parentNode.childNodes[3].value;
+		   
+		   document.location.href = "/attendOk?groupno="+groupno+"&categoryno="+categoryno ;
 		});
 	});
 

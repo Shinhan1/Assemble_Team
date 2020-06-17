@@ -5,8 +5,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import kr.co.assemble.chat.dto.CHATDTO;
 import kr.co.chat.dao.ChatDAOImple;
-import kr.co.chat.dto.CHATDTO;
 
 public class ChatdbController {
 

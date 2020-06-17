@@ -26,7 +26,7 @@
 </head>
 <body>
 
-    <div class="container-fluid gedf-wrapper">
+    <div class="container-fluid gedf-wrapper" style="z-index: -2">
         <div class="row">  
             <div class="col-md-6 gedf-main">
                 <div class="card gedf-card">

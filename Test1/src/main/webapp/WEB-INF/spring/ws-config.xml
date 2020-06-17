@@ -26,6 +26,11 @@
 			<websocket:sockjs />
 		</websocket:stomp-endpoint >
 		
+		<websocket:stomp-endpoint allowed-origins="*" path="/socket2">
+			<websocket:sockjs/>
+		</websocket:stomp-endpoint>
+		
+		
 		<websocket:simple-broker  prefix="/queue"/>
 	
 	</websocket:message-broker>

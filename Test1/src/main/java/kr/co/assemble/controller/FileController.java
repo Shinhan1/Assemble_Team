@@ -91,7 +91,7 @@ public class FileController {
 		dao.updateFile(fdto);
 		
 		String mi_assembleName = (String)session.getAttribute("mi_assemblename");
-		model.addAttribute("mi_assembleName", mi_assembleName);
+		model.addAttribute("mi_assemblename", mi_assembleName);
 		model.addAttribute("fileName", originalFileName);
 		model.addAttribute("groupno", groupno);
 
@@ -162,10 +162,10 @@ public class FileController {
 	}
 
 	// 파일 다운로드
-	@RequestMapping(value = "download")
+	@RequestMapping(value = "/download")
 	public void download(HttpServletRequest request, HttpServletResponse response) {
 
-		String filename = request.getParameter("fileName");
+		String filename = request.getParameter("filename");
 		String realPath = request.getSession().getServletContext().getRealPath("/") + "resources/uploadFiles/";
 		System.out.println(realPath);
 

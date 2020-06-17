@@ -10,7 +10,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import kr.co.assemble.dao.BoardDAO;
 import kr.co.assemble.dao.ComposedDAO;
@@ -19,6 +21,8 @@ import kr.co.assemble.dto.BoardDTO;
 import kr.co.assemble.dto.ComposedMemberInfoDTO;
 import kr.co.assemble.dto.GroupFileDTO;
 import kr.co.assemble.dto.Groupboard_Memberinfo_FileDTO;
+import kr.co.assemble.dto.searchDTO;
+import kr.co.assemble.dto.searchParamDTO;
 
 @Controller
 public class BoardController {
@@ -66,69 +70,60 @@ public class BoardController {
 	@Autowired
 	ComposedDAO cdao;
 	
-   @Autowired
-   GroupSelectListDAO gslDao;
-
+	@Autowired
+	GroupSelectListDAO gslDao;
+	
 	//그룹별 게시글 조회 
-	//그룹별 정보, 구성원 정보(Groups_Memberinfo_Composed_DTO)
-	@RequestMapping("/assemble.io/{mi_assemblename}/g/{groupno}/wall")
-	public String groupBoard(@PathVariable("groupno")int groupno, 
-							@PathVariable("mi_assemblename") String assemblename, Model model){
-		/* @RequestParam("categoryno")int categoryno, Model model){ */
+		//그룹별 정보, 구성원 정보(Groups_Memberinfo_Composed_DTO)
+		@RequestMapping("/assemble.io/{mi_assemblename}/g/{groupno}/wall")
+		public String groupBoard(@PathVariable("groupno")int groupno, 
+								@PathVariable("mi_assemblename") String assemblename, Model model){	
+			//그룹장 이름 출력
+			String list = cdao.selectGroupMastername(groupno);
+			model.addAttribute("mastername", list);
 		
-		//세션정보 받아서  주소에 assemble이름 넣기
-//		assemblename = (String)session.getAttribute("mi_assembleName");
-		
-		
-		//그룹장 이름 출력
-		 String list = cdao.selectGroupMastername(groupno);
-	      model.addAttribute("mastername", list);
-	   
-	      //그룹장 아이디 출력
-	      String list1 = cdao.selectGroupMasterId(groupno);
-	      model.addAttribute("masterid", list1);
-	      
-	      //그룹명 출력
-	      String groupname = cdao.selectGroupName(groupno);
-	      model.addAttribute("groupname", groupname);
-	      
-	      //그룹별 게시글 출력
-	      List<Groupboard_Memberinfo_FileDTO> list3 = dao.boardlist(groupno);
-	      model.addAttribute("thirdlist", list3);
-	      
-	      model.addAttribute("groupno", groupno);
-	      
-	      ///////////////////////////////////////////////////
-	      //그룹의 멤버만 출력
-	      ComposedMemberInfoDTO dto = new ComposedMemberInfoDTO();
-	      dto.setGroupno(groupno);
+			//그룹장 아이디 출력
+			String list1 = cdao.selectGroupMasterId(groupno);
+			model.addAttribute("masterid", list1);
+			
+			//그룹명 출력
+			String groupname = cdao.selectGroupName(groupno);
+			model.addAttribute("groupname", groupname);
+			
+			//그룹별 게시글 출력
+			List<Groupboard_Memberinfo_FileDTO> list3 = dao.boardlist(groupno);
+			model.addAttribute("thirdlist", list3);
+			
+			model.addAttribute("groupno", groupno);
+			
+			///////////////////////////////////////////////////
+			//그룹의 멤버만 출력
+			ComposedMemberInfoDTO dto = new ComposedMemberInfoDTO();
+			dto.setGroupno(groupno);
 
-	      List<ComposedMemberInfoDTO> profilelist = gslDao.groupMemList(dto);
+			List<ComposedMemberInfoDTO> profilelist = gslDao.groupMemList(dto);
 
-	      System.out.println(groupno);
+			System.out.println(groupno);
 
-	      model.addAttribute("profilelist", profilelist);
-	      ///////////////////////////////////////////////////
-	      //그룹의 사진만 출력
-	      GroupFileDTO gfDto = new GroupFileDTO();
-	       gfDto.setGroupno(groupno);
-	         
-	       List<GroupFileDTO> imagelist = gslDao.groupFileList(gfDto);
-	         
-	       model.addAttribute("imagelist", imagelist);
-	       ///////////////////////////////////////////////////
-	      //그룹의 사진을 제외한 파일만 출력
-	       gfDto.setGroupno(groupno);
-	         
-	       List<GroupFileDTO> filelist = gslDao.groupFileName(gfDto);
-	       model.addAttribute("filelist", filelist);
-	       
-	       
-	      
-	      //System.out.println(groupno);-+
-	      return "board/wall";
+			model.addAttribute("profilelist", profilelist);
+			///////////////////////////////////////////////////
+			//그룹의 사진만 출력
+			GroupFileDTO gfDto = new GroupFileDTO();
+		    gfDto.setGroupno(groupno);
+		      
+		    List<GroupFileDTO> imagelist = gslDao.groupFileList(gfDto);
+		      
+		    model.addAttribute("imagelist", imagelist);
+		    ///////////////////////////////////////////////////
+			//그룹의 사진을 제외한 파일만 출력
+		    gfDto.setGroupno(groupno);
+		      
+		    List<GroupFileDTO> filelist = gslDao.groupFileName(gfDto);
+		    model.addAttribute("filelist", filelist);
 
-	}
+			//System.out.println(groupno);-+
+			return "board/wall";
+		}
 	
 		
 	
@@ -167,47 +162,55 @@ public class BoardController {
 		
 		
 		//게시글 삭제 - 파일이랑 연결되있으면 파일에도 bno넘겨서 삭제(트리거 걸어놓음)
-		@RequestMapping(value = "/deleteBoard")
-		public String deleteBoard(
+		@ResponseBody
+		@RequestMapping(value = "/assemble.io/{mi_assemblename}/deleteBoard", method = RequestMethod.POST)
+		public int deleteBoard(
 				@RequestParam(value = "bno") int bno,
 				@RequestParam(value = "groupno") int groupno, Model model) {
 			
-			dao.deleteBoard(bno);
+			int del = dao.deleteBoard(bno);
 			model.addAttribute("groupno", groupno);
 			
-			return "redirect:/wall";
+			return del;
 		}
 	   
-	   
-	   //북마크 UPDATE
-	   
-	   
-	
-	
-	   //좋아요 update
-	/*
-	 * @RequestMapping("/like.do") public String Like(
-	 * 
-	 * @RequestParam int num1, Model model) throws Exception{
-	 * 
-	 * BoardDTO dto = new BoardDTO();
-	 * 
-	 * dto.setBoardlike(num1);
-	 * 
-	 * dao.updateLike(dto); model.addAttribute("dto", dto);
-	 * 
-	 * return "board/wall";
-	 * 
-	 * }
-	 */
-	   
-	   
-	   //좋아요 count
-	   
-	
-	
-	
-	
+		
+		//공지사항 등록1, 취소0
+		@RequestMapping(value = "/assemble.io/{mi_assemblename}/notice" , method = RequestMethod.POST)
+		@ResponseBody
+		public int updateNotice(
+				@RequestParam(value = "groupno") int groupno,
+				@RequestParam(value = "bno") int bno, Model model) {
+			System.out.println(groupno);
+			
+			BoardDTO dto = new BoardDTO();
+			dto.setBno(bno);
+			int notice = dao.updateNotice(dto);
+			System.out.println(notice);
+			
+			model.addAttribute("groupno", groupno);
+			
+			
+			return notice;
+		}
+		
+		
+
+		//전체검색
+		@RequestMapping(value = "/searchBoard")
+		public String searchBoard(@RequestParam(value = "value") String value,
+								  @RequestParam(value = "assemble") String assemble,Model model) {
+			String value2 = "%"+value+"%";
+			
+			searchParamDTO dto = new searchParamDTO(value2, assemble);
+			
+			List<Groupboard_Memberinfo_FileDTO> list = dao.searchlist(dto);
+			model.addAttribute("searchlist",list);
+			model.addAttribute("value", value);
+			
+			return "search";
+			
+		}
 	
 	
 	

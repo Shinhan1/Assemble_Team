@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<c:import url="/assemble.io/${mi_assembleName}"></c:import>
+<c:import url="/assemble.io/${mi_assemblename}"></c:import>
 <!DOCTYPE html>
 <html>
 <head>
@@ -11,6 +11,7 @@
 <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 <!------ Include the above in your HEAD tag ---------->
 <link rel="stylesheet" type="text/css" href="resources/assets/css/hancss/clicklist.css">  	<!-- css 파일 경로  -->
+<link rel="stylesheet" type="text/css" href="/resources/assets/css/chat_css.css">     <!-- css 파일 경로  -->
 
 <meta charset="UTF-8">
 
@@ -21,7 +22,7 @@
 	
 
 		
-		<div class="scroll-container scroll-container--window undefined" tabindex="-1" id="div1">
+		<div class="scroll-container scroll-container--window undefined" tabindex="-1" id="div1" style="z-index: -2">
 			<div class="bookmarks-page__list-wrap">
 <!-- 			
 				<div class="sdf active">								

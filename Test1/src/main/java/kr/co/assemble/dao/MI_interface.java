@@ -16,11 +16,13 @@ public interface MI_interface {
 	public int selectMemberNo(MemberInfoDTO dto);
 	public void insertOne(MemberInfoDTO dto);
 	public void insertMember(MemberInfoDTO dto);
-	public void updateOne(MemberInfoDTO dto);
+	public void updatePasswordOne(MemberInfoDTO dto);
 	public void deleteOne(int no);
 	public String selectAssembleName(String ai_assembleName);
 	public IdCheckDTO selectId(IdCheckDTO dto1);
 	public List<testDTO> findAssembleName(String mi_memEmail);
 	public int duplicationId(MemberInfoDTO dto);
 	public int duplicationAssembleName(String mi_assembleName);
+	public int emailck(MemberInfoDTO dto);
+	
 }

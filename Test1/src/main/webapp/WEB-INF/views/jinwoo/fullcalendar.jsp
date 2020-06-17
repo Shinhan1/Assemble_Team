@@ -23,8 +23,8 @@
 <title>Insert title here</title>
 </head>
 <body>
-      <div id="tab5" style="display: none;">
-         <div class="row mt">
+		<div id="tab5" style="display: none;">
+			<div class="row mt">
                   <aside class="col-lg-9 mt">
                       <section class="panel">
                           <div class="panel-body">
@@ -37,7 +37,7 @@
 
  <script src="/resources/assets/js/jquery.js"></script>
     <script src="/resources/assets/js/jquery-ui-1.9.2.custom.min.js"></script>
-   <script src="/resources/assets/js/fullcalendar/fullcalendar.min.js"></script>    
+	<script src="/resources/assets/js/fullcalendar/fullcalendar.min.js"></script>    
     <script src="/resources/assets/js/bootstrap.min.js"></script>
     <script class="include" type="text/javascript" src="/resources/assets/js/jquery.dcjqaccordion.2.7.js"></script>
     <script src="/resources/assets/js/jquery.scrollTo.min.js"></script>
@@ -48,7 +48,7 @@
     <script src="/resources/assets/js/common-scripts.js"></script>
 
     <!--script for this page-->
-   <script src="/resources/assets/js/calendar-conf-events.js"></script>    
+	<script src="/resources/assets/js/calendar-conf-events.js"></script>    
   
   <script>
       //custom select box

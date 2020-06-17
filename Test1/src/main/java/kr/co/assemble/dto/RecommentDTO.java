@@ -6,18 +6,20 @@ public class RecommentDTO {
    private int reno;
    private int bno;
    private int groupno;
-   private Date redate;
+   private int memberno;
+   private String redate;
    private String reid;
    private String recontents;
    
    public RecommentDTO() {}
 
-   public RecommentDTO(int reno, int bno, int groupno, Date redate, String reid,
+   public RecommentDTO(int reno, int bno, int groupno, int memberno, String redate, String reid,
          String recontents) {
       super();
       this.reno = reno;
       this.bno = bno;
       this.groupno = groupno;
+      this.memberno = memberno;
       this.redate = redate;
       this.reid = reid;
       this.recontents = recontents;
@@ -47,11 +49,19 @@ public class RecommentDTO {
       this.groupno = groupno;
    }
 
-   public Date getRedate() {
+   public int getMemberno() {
+      return memberno;
+   }
+
+   public void setMemberno(int memberno) {
+      this.memberno = memberno;
+   }
+
+   public String getRedate() {
       return redate;
    }
 
-   public void setRedate(Date redate) {
+   public void setRedate(String redate) {
       this.redate = redate;
    }
 

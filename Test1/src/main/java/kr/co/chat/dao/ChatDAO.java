@@ -2,11 +2,11 @@ package kr.co.chat.dao;
 
 import java.util.List;
 
+import kr.co.assemble.chat.dto.CHATDTO;
+import kr.co.assemble.chat.dto.GroupChatDTO;
+import kr.co.assemble.chat.dto.MemberDTO;
+import kr.co.assemble.chat.dto.MemberidDTO;
 import kr.co.chat.Chatgogo;
-import kr.co.chat.dto.CHATDTO;
-import kr.co.chat.dto.GroupChatDTO;
-import kr.co.chat.dto.MemberDTO;
-import kr.co.chat.dto.MemberidDTO;
 
 public interface ChatDAO {
 	

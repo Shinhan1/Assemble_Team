@@ -9,10 +9,10 @@ import javax.inject.Inject;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Repository;
 
+import kr.co.assemble.chat.dto.CHATDTO;
+import kr.co.assemble.chat.dto.GroupChatDTO;
+import kr.co.assemble.chat.dto.MemberDTO;
 import kr.co.chat.Chatgogo;
-import kr.co.chat.dto.CHATDTO;
-import kr.co.chat.dto.GroupChatDTO;
-import kr.co.chat.dto.MemberDTO;
 
 
 

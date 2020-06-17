@@ -1,117 +1,118 @@
 <!DOCTYPE html>
 <%@ page language="java" contentType="text/html; charset=UTF-8"    pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %> 
+<%@ taglib  prefix="spring" uri="http://www.springframework.org/tags" %> 
 <html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="">
-    <meta name="author" content="Dashboard">
-    <meta name="keyword" content="Dashboard, Bootstrap, Admin, Template, Theme, Responsive, Fluid, Retina">
+<title>DASHGUM - Bootstrap Admin Template</title>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+<script type="text/javascript">
+	$(document).ready(function (e){
+		
+		$(document).on("click","#galleryimg",function(){
+			var path = $(this).attr('src')
+			showImage(path);
+		});//end click event
+		
+		function showImage(fileCallPath){
+		    
+		    $(".bigPictureWrapper").css("display","flex").show();
+		    
+		    $(".bigPicture")
+		    .html("<img src='"+fileCallPath+"' >")
+		    .animate({width:'100%', height: '100%'}, 0);
+		    
+		  }//end fileCallPath
+		  
+		$(".bigPictureWrapper").on("click", function(e){
+		    $(".bigPicture").animate({width:'0%', height: '0%'}, 0);
+		    setTimeout(function(){
+		      $('.bigPictureWrapper').hide();
+		    }, 0);
+		  });//end bigWrapperClick event
+	});
+</script>
+<style type="text/css">
 
-    <title>DASHGUM - Bootstrap Admin Template</title>
+.selectimgdiv {
+	width: 25%;
+	height: 170px;
+	float: left;
+	border : solid 1px white;
+	background-color: white;
+	text-align: center;
+	padding-top: 20px;
+}
+	
+.imgdiv {
+	width : 90%;
+	height: 100%;
+	display: inline-block;
+	border: 1px solid #D5D5D5;
+}
 
-    <!-- Bootstrap core CSS -->
-    <link href="/resources/assets/css/bootstrap.css" rel="stylesheet">
-    <!--external css-->
-    <link href="/resources/assets/font-awesome/css/font-awesome.css" rel="stylesheet" />
-    <link href="/resources/assets/js/fancybox/jquery.fancybox.css" rel="stylesheet" />
-    <!-- Custom styles for this template -->
-    <link href="/resources/assets/css/style.css" rel="stylesheet">
-    <link href="/resources/assets/css/style-responsive.css" rel="stylesheet">
+.bigPictureWrapper {
+			position: absolute;
+			display: none;
+			justify-content: center;
+			align-items: center;
+			top:0%;
+			width:100%;
+			height:100%;
+			background-color: gray; 
+			z-index: 100;
+			background:rgba(255,255,255,0.8);
+		}
+		.bigPicture {
+			position: relative;
+			display:flex;
+			justify-content: center;
+			align-items: center;
+		}
+		
+		.bigPicture img {
+			width:800px;
+		}
+	
+</style>
 
-    <script src="/resources/assets/js/jquery.js"></script>
+</head>
+<body>
 
+<div id="tab3" style="width: 100%; height:800px; background-color: white; display: none; padding-top: 10px;">
 
-    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
-    <!--[if lt IE 9]>
-      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
-      <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
-    <![endif]-->
-  </head>
+<div class='bigPictureWrapper'>
+		<div class='bigPicture'>
+		</div>
+</div>
+	
+	<div style="width: 100%; height: 55px; text-align: center;"><span style=" font-size: 50px; color:#B2EBF4; font-weight: bold;">Gallery</span></div>
+	<div style="width: 100%; height: 15px;  border-bottom: 3px solid #D4F4FA;"></div>
 
-  <body>
+	
+	
 
+     <c:forEach var="i" items="${imagelist }">
 
-      <div id="tab3" style="display: none;" >
-      
-    <!--   <section id="main-content">
-          <section class="wrapper site-min-height"> -->
-             <h3><i class="fa fa-angle-right"></i> Gallery</h3>
-             <hr>
-            <div class="row mt">
-               <!-- <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12 desc">
-                  <div class="project-wrapper">
-                          <div class="project">
-                              <div class="photo-wrapper">
-                                  <div class="photo">
-                                     <a class="fancybox" href="/resources/assets/img/portfolio/port04.jpg"><img class="img-responsive" src="/resources/assets/img/portfolio/port04.jpg" alt=""></a>
-                                  </div>
-                                  <div class="overlay"></div>
-                              </div>
-                          </div>
-                      </div>
-               </div>col-lg-4 -->
-               
-               
-               <c:forEach var="i" items="${imagelist }">
-               
-                  <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12 desc">
-        
-                     <div class="project-wrapper">
-                             <div class="project">
-                                 <div class="photo-wrapper">
-                                     <div class="photo">
-                                        <a class="fancybox" href="<spring:url value='/resources/uploadFiles/${i.filename }'/>"><img class="img-responsive" src="<spring:url value='/resources/uploadFiles/${i.filename }'/>" alt=""></a>
-                                     </div>
-                                     <div class="overlay"></div>
-                                 </div>
-                             </div>
-                         </div>
-                  </div>
-                     
-               
-               </c:forEach>   
-               
-               
-
-            </div><!-- /row -->
-
-
- 
-  </div>
-
-
-    <!-- js placed at the end of the document so the pages load faster -->
-   <script src="/resources/assets/js/fancybox/jquery.fancybox.js"></script>    
-    <script src="/resources/assets/js/bootstrap.min.js"></script>
-    <script class="include" type="text/javascript" src="/resources/assets/js/jquery.dcjqaccordion.2.7.js"></script>
-    <script src="/resources/assets/js/jquery.scrollTo.min.js"></script>
-    <script src="/resources/assets/js/jquery.nicescroll.js" type="text/javascript"></script>
+			<div class="selectimgdiv" >
+				<div class="imgdiv">
+					<img id="galleryimg" src="<spring:url value='/resources/uploadFiles/${i.filename }'/>" style="width: 100%; height: 100%;"> 
+				</div>
+			</div>
+		
+      </c:forEach>  
+	
+	
+						
+	
+	
+	
+</div>
 
 
-    <!--common script for all pages-->
-    <script src="/resources/assets/js/common-scripts.js"></script>
 
-    <!--script for this page-->
-  
-  <script type="text/javascript">
-      $(function() {
-        //    fancybox
-          jQuery(".fancybox").fancybox();
-      });
 
-  </script>
-  
-  <script>
-      //custom select box
 
-      $(function(){
-          $("select.styled").customSelect();
-      });
-
-  </script>
+					
 
   </body>
 </html>

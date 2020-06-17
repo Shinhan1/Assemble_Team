@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -7,38 +8,61 @@
 <title>assembleLogin</title>
 <link type="text/css" rel="stylesheet" href="/resources/info/css/login.css"></link>
 
-<script type="text/javascript" src="/resources/info/js/jquery.slim.min.js"></script>
+<!-- <script type="text/javascript" src="/resources/info/js/jquery.slim.min.js"></script> -->
 <link type="text/css" rel="stylesheet" href="/resources/info/css/bootstrap.min.css" />
 <script type="text/javascript" src="/resources/info/js/bootstrap.bundle.min.js"></script>
 
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"> 
-<script type="text/javascript" src="/resources/info/js/jquery-3.4.1.min.js"></script> 
 <script type="text/javascript" src="/resources/info/js/bootstrap.min.js"></script>
 <link type="text/css" rel="stylesheet" href="/resources/info/css/bootstrap.min.css" />
+<script type="text/javascript">
+	$(function(){
+		var assemblename = "<c:out value='${mi_assemblename}' />";
+		var memid = "<c:out value='${mi_memid}' />";
+		var match = <c:out value='${passmatch}' />
+		
+		if(assemblename != "" && memid != "" && match == true) {
+			$("#assembleName_session").css("display", "block");
+			$("#sessionlogin").click(function(){
+				document.frm.action="<c:url value='/sessionlogin' />";
+				document.frm.method="post";
+				document.frm.submit();
+			});
+				
+			
+		}else {
+			$("#assembleName_session").css("display", "none");
+		}
+		
+		
+	});
+
+</script>
 
 </head>
 <body>
 <!-- Navigation -->
 <nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top">
   <div class="container">
-    <a class="navbar-brand" href="#"> <img src="/resources/info/images/logo.png" width="40" height="40" alt="logo" /> Assemble</a>
+    <a class="navbar-brand" href="/main"> <img src="/resources/info/images/logo.png" width="40" height="40" alt="logo" /> Assemble</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
         </button>
     <div class="collapse navbar-collapse" id="navbarResponsive">
       <ul class="navbar-nav ml-auto">
         <li class="nav-item active">
-          <a class="nav-link" href="#">Home
+          <a class="nav-link" href="/main">Home
                 <span class="sr-only">(current)</span>
               </a>
         </li>
         <li class="nav-item">
                 			<!-- login.jsp -->
-          <a class="nav-link" href="#">로그인</a>
+          <a class="nav-link" href="/assembleLogin">로그인</a>
         </li>
         <li class="nav-item">
                 			<!-- admin_signup.jsp -->
-          <a class="nav-link" href="#">어셈블 개설</a>
+          <a class="nav-link" href="/signup">어셈블 개설</a>
         </li>
         
       </ul>
@@ -69,8 +93,17 @@
 			   </div>   -->		
 			    
 			    <button class="btn btn-lg btn-info btn-block" type="submit">로그인</button>
-			     <p class="mt-5 mb-3 text-muted text-center">&copy; 2020</p> 
 			</form>
+			
+			<form name="frm">
+			    <div style="display:none" id="assembleName_session" >
+			    	<span>${mi_assemblename }</span>
+			    	<input type="button" id="sessionlogin" value="로그인" onclick="location.href='/login?mi_assemblename=${mi_assemblename}'" />
+			    	<input type="hidden" name="id" />
+			    	<input type="hidden" name="pw" />
+			    </div>
+			</form>
+			     <p class="mt-5 mb-3 text-muted text-center">&copy; 2020</p> 
 	</div>
 </div>
 <!--   ================================================== 로그인 폼 end -->

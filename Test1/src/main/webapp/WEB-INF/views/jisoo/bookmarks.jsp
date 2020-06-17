@@ -12,6 +12,7 @@
 
 <!------ Include the above in your HEAD tag ---------->
 <link rel="stylesheet" type="text/css" href="resources/assets/css/hancss/clicklist.css">  	<!-- css 파일 경로  -->
+<link rel="stylesheet" type="text/css" href="/resources/assets/css/chat_css.css">     <!-- css 파일 경로  -->
 
 <meta charset="UTF-8">
 
@@ -21,7 +22,7 @@
 </head>
 <body>
 	
-<div class="div0">
+<div class="div0" style="z-index: -2">
 	<section class="bookmarks-page">
 		<header class="page-header bookmarks-page__header">
 		

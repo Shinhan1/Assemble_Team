@@ -6,6 +6,7 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import kr.co.assemble.dto.AssembleGroupsDTO;
 import kr.co.assemble.dto.GroupDTO;
 
 @Repository
@@ -35,21 +36,18 @@ public class GroupDAOImple implements GroupDAO{
 
 	//그룹번호 전체 조회
 	@Override
-	public List<GroupDTO> selectGroup() {
-		return ss.selectList("selectAllGroup");
+	public List<AssembleGroupsDTO> selectGroup(AssembleGroupsDTO dto) {
+		
+		List<AssembleGroupsDTO> list = ss.selectList("selectAllGroup", dto);
+		return list;
 	}
-	
-	//카테고리별 그룹조회(x)
-//	@Override
-//	public List<GroupDTO> grouplist(int categoryno) {
-//		return ss.selectList("selectCategoryGroup", categoryno);
-//	}
+
 
 	//이걸로 카테고리 안 gruop list 뽑음 =>조건은 jsp 상에서!
 	@Override
-	public List<GroupDTO> grouplist() {
+	public List<GroupDTO> grouplist(GroupDTO groupdto) {
 		// TODO Auto-generated method stub
-		return ss.selectList("selectCategoryGroup1");
+		return ss.selectList("selectCategoryGroup", groupdto);
 	}
 	
 	

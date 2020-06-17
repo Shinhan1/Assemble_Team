@@ -9,11 +9,11 @@
 <link type="text/css" rel="stylesheet" href="/resources/info/css/admin_signup.css" />
 
 <script type="text/javascript" src="/resources/info/js/bootstrap.bundle.min.js"></script>
-<script type="text/javascript" src="/resources/js/jquery.slim.min.js"></script>
+<!-- <script type="text/javascript" src="/resources/js/jquery.slim.min.js"></script> -->
   
 <link type="text/css" rel="stylesheet" href="/resources/info/css/bootstrap.min.css" />
 <script type="text/javascript" src="/resources/info/js/bootstrap.min.js"></script>
-<script type="text/javascript" src="/resources/info/js/jquery-3.4.1.min.js"></script> 
+<!-- <script type="text/javascript" src="/resources/info/js/jquery-3.4.1.min.js"></script> --> 
 
 
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
@@ -29,8 +29,9 @@ $(function(){
 		}
 		$.ajax({
 			type:"post",
-			url : "<c:url value='/sendMail'/>",
+			url : "<c:url value='sendMail'/>",
 			data : "mi_mememail=" + $("#inputEmail").val() + "&ran=" + $("#ran").val(),
+			datatype : "json",
 			//data: "userEmail="+encodeURIComponent($('#mi_memEmail').val()),
 			/* encodeURIComponent
 			예를들어, http://a.com?name=egoing&job=programmer 에서 &job=programmer
@@ -38,10 +39,12 @@ $(function(){
 			그런데 다음과 같이 job의 값에 &가 포함된다면 시스템은 job의 값을 제대로 인식할수 없게 된다. */
 			success : function(data){
 				alert("사용가능한 이메일입니다. 인증번호를 입력해주세요.");
+				console.log($('#inputEmail').val());
 				$("#re-code").attr("disabled", false);
 			},
 			error: function(data){
 				alert("에러가 발생했습니다.");
+				console.log($('#inputEmail').val());
 				return false;
 			}
 		})
@@ -198,7 +201,7 @@ $(function(){
               	<div class="form-name">	
               		<p>이메일 인증</p>
               	</div>
-		                <input type="email" name="mi_mememail" id="inputEmail" class="form-control" placeholder="Email address" required>
+		                <input type="text" name="mi_mememail" id="inputEmail" class="form-control" placeholder="Email address" required>
 		                
 		                <input type="button" class="btn btn-light btn-xs" value="코드 발송" id="code-btn" />          
 		                <input type="text" name="authCode" id="inputCode" class="form-control" placeholder="인증코드" required>

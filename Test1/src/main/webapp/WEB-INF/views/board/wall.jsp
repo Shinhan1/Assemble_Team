@@ -10,14 +10,57 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 <script type="text/javascript">
      //bookmark click 시 변경
-     function imgchange(){
-    	 var img = document.getElementById('bk');
-    	 if(img.src.match("before")){
-    		 img.src = "/resources/assets/img/bookmark_after.png";
-    		 
-    		 /* location.href="/addBookmark"; */
-    	 }
-     }    
+     var cnt = 1;
+ 
+	     
+	     $(function(){
+		     $(".lh").click(function(){
+		    	console.log(this.src.split("/")[6]);
+		  /*   	 img1.src = "/resources/assets/img/bookmark_before.png";
+		    	 img1.src = "/resources/assets/img/bookmark_after.png"; */
+		    	 var bno = this.parentNode.childNodes[1].value;
+		    	 var groupno = this.parentNode.childNodes[3].value;
+		    	 var writerid = this.parentNode.childNodes[5].value;
+		     if(this.src.split("/")[6].split(".")[0].split(".")[0] == "bookmark_before"){
+				  this.src = "/resources/assets/img/bookmark_after.png";
+		  		 $.ajax({
+			    	url: "/bookmarkinsert",
+			    	type: 'POST',
+			    	data: {"bno": bno, "groupno" : groupno ,"memberno" : ${memberno},"mark_memno" : writerid },
+			    	dataType: "json",
+			    	
+			    	success: function(){
+			    		console.log("성공");		
+			    	}		
+			 					    	
+				}); 	 
+		    	 
+		    	 
+		     }else{
+		    	 this.src = "/resources/assets/img/bookmark_before.png";
+		    	 
+		    	 $.ajax({
+				    	url: "/bookmarkdelete",
+				    	type: 'POST',
+				    	data: {"bno": bno,"memberno" : ${memberno}},
+				    	dataType: "json",
+				    	
+				    	success: function(){
+				    		console.log("성공");			
+				    	}		
+				 					    	
+				}); 	 
+		    	 
+		    	 
+		    	 
+		     }
+	 
+		     
+		 });
+		         
+	     
+	 	});
+     
      
     	 //댓글달기
 	     $(function(){
@@ -27,19 +70,13 @@
 		        
 		        var bno = this.parentNode.childNodes[1].value;
 		        var groupno = this.parentNode.childNodes[3].value;
-		        var categoryno = this.parentNode.childNodes[5].value;
-		        var recontents = this.parentNode.childNodes[7].value;
+		        var recontents = this.parentNode.childNodes[5].value;
+		        /* var categoryno = this.parentNode.childNodes[5].value; */
 	
-		        document.location.href = "insertComment?bno="+bno+"&groupno="+groupno+"&categoryno="+categoryno+"&contents="+recontents;
+		        document.location.href = "insertComment?bno="+bno+"&groupno="+groupno+"&contents="+recontents;
 		     });
 	
 			//게시글 option메뉴
-			$('.option .sub').hide(); //처음에는 안보이게
-				$('.option').click(function(){
-	 				console.log(this.parentNode.childNodes);
-					$('.option .sub').toggle();
-
-			});
 		});
    	 
 		//댓글 보이기	
@@ -88,47 +125,118 @@
 					    		
 					    		} 	
 					    	}		
-					 /*    	error : function(recomment){
-					    		console.log("error view");
-					    		console.log(recomment);
-					    		 if(document.getElementById(bno).childElementCount==0){ 
-					    		 var retext = 
-										'<div id="s0">'
-											+'<div id="s1">' + "현재 댓글이 없습니다." +'</div>' //s1 end
-										'<div>';
-					    		 $(retext).appendTo("#"+bno);		
-					    		}else{
-					    		$("#" +bno).empty();
-					    		}
-					    	}  */
-					    	
+					 					    	
 				 }); 
  			});  	
-		}); 
+		}); //function end
+		
+		
+		
+		$(function(){
+			$(".sub2").hide(); //처음에는 안보이게 
+			
+			$(".option2").click(function(){
+			
+				var bno = this.parentNode.childNodes[1].value + "d";
+				var groupno = this.parentNode.childNodes[3].value;
+				console.log(bno);
+				console.log(groupno);
+				if(document.getElementById(bno)){
+					var gg = document.getElementById(bno);
+					$(gg).toggle();
+				}
+			
+			});
+			
+			$(".noti").click(function(){
+				console.log(this.parentNode.childNodes);
+				var bno = this.parentNode.childNodes[1].value;
+				var groupno = this.parentNode.childNodes[3].value;
+				console.log(bno);
+				
+				$.ajax({
+					url : "/assemble.io/{mi_assemblename}/notice",
+					type : 'POST',
+					data : {"bno": bno, "groupno": groupno},
+					dataType: "json",
+					success: function(notice){
+							console.log("sucess view");	
+							console.log(notice);
+					},
+					error: function(notice){
+						console.log("error view");
+						console.log(notice);
+					}
+				});//ajax end
+			
+			});//.noti click end
+			
+			$(".del").click(function(){
+				console.log(this.parentNode.childNodes);
+				var bno = this.parentNode.childNodes[1].value;
+				var groupno = this.parentNode.childNodes[3].value;
+				console.log(bno);
+				
+				$.ajax({
+					url : "/assemble.io/{mi_assemblename}/deleteBoard",
+					type : 'POST',
+					data : {"bno": bno, "groupno": groupno},
+					dataType: "json",
+					success: function(del){
+							console.log("sucess view");	
+							console.log(del);
+					},
+					error: function(del){
+						console.log("error view");
+						console.log(del);
+					}
+				});//ajax end
+			
+			});//.modi click end
+			
+			
+		}); //function end
+		
+		
 		  
 		  
-
 	 //요청 상태 변화
 	$(function() {
 		var r1 = $('.req');
 		var r2 = $('.ing');
 		var r3 = $('.end');
-
 		//요청버튼
 		$(".req").click(function() {
 			var bnoa = this.parentNode.childNodes[1].value + "a";
 			var bno = this.parentNode.childNodes[1].value;
 			var groupno = this.parentNode.childNodes[3].value;
-			var status = this.parentNode.childNodes[5].value;
-			console.log("요청");
-			console.log(bnoa);
 			
-			console.log(this.parentNode.childNodes);
 			
-			this.parentNode.childNodes[3].style.backgroundColor = "red";
-			this.parentNode.childNodes[5].style.backgroundColor = "#EAEAEA";
-			this.parentNode.childNodes[7].style.backgroundColor = "#EAEAEA";			   
-		});//.req click end	s
+			console.log(bno);
+			console.log(groupno);
+			console.log(status);
+			
+			//console.log(this.parentNode.childNodes);
+			
+			this.parentNode.childNodes[7].style.backgroundColor = "red";
+			this.parentNode.childNodes[9].style.backgroundColor = "#EAEAEA";
+			this.parentNode.childNodes[11].style.backgroundColor = "#EAEAEA";
+			
+			$.ajax({
+				url : "/assemble.io/{mi_assemblename}/updateStatus",
+				type : 'POST',
+				data : {"bno": bno, "groupno": groupno, "status" : 0},
+				dataType: "json",
+				success: function(req){
+						console.log("sucess view");	
+						console.log(req);
+				},
+				error: function(req){
+					console.log("error view");
+					console.log(req);
+				}
+			});//ajax end
+		});//.req click end	
 		//진행버튼
 		$(".ing").click(function() {
 			var bnoa = this.parentNode.childNodes[1].value + "a";
@@ -138,9 +246,24 @@
 			console.log("진행");
 			console.log(bnoa);
 	
-			this.parentNode.childNodes[3].style.backgroundColor = "#EAEAEA";
-			this.parentNode.childNodes[5].style.backgroundColor = "green";
 			this.parentNode.childNodes[7].style.backgroundColor = "#EAEAEA";
+			this.parentNode.childNodes[9].style.backgroundColor = "green";
+			this.parentNode.childNodes[11].style.backgroundColor = "#EAEAEA";
+			
+			$.ajax({
+				url : "/assemble.io/{mi_assemblename}/updateStatus",
+				type : 'POST',
+				data : {"bno": bno, "groupno": groupno, "status" : 1},
+				dataType: "json",
+				success: function(req){
+						console.log("sucess view");	
+						console.log(req);
+				},
+				error: function(req){
+					console.log("error view");
+					console.log(req);
+				}
+			});//ajax end
 		});//.ing click end	
 		//종료 버튼
 		$(".end").click(function() {
@@ -150,21 +273,47 @@
 			var status = this.parentNode.childNodes[5].value;
 			console.log("종료");
 			console.log(bnoa);
-
-			this.parentNode.childNodes[3].style.backgroundColor = "#EAEAEA";
-			this.parentNode.childNodes[5].style.backgroundColor = "#EAEAEA";
-			this.parentNode.childNodes[7].style.backgroundColor = "gray";
+			this.parentNode.childNodes[7].style.backgroundColor = "#EAEAEA";
+			this.parentNode.childNodes[9].style.backgroundColor = "#EAEAEA";
+			this.parentNode.childNodes[11].style.backgroundColor = "gray";
 			
-			
-			
-
+			$.ajax({
+				url : "/assemble.io/{mi_assemblename}/updateStatus",
+				type : 'POST',
+				data : {"bno": bno, "groupno": groupno, "status" : 2},
+				dataType: "json",
+				success: function(req){
+						console.log("sucess view");	
+						console.log(req);
+				},
+				error: function(req){
+					console.log("error view");
+					console.log(req);
+				}
+			});//ajax end
 		
-		});//.end click end
-		
-		
+		});//.end click end	
 	});//function end 
+	
+	$(function(){
+		$(".file").click(function(){
+			
+			var filename = $(this).val();
+			console.log(filename);
+			
+			document.location.href = "/download?filename="+filename;
+		});
+	});
+	
+	
+	
+		
+	
 </script>
 <style type="text/css">
+input:focus {
+  outline: none;
+}
 #main {
 	width: 50%;
 	height: 100%;
@@ -175,24 +324,20 @@
 	margin-left: 25%;
 	marg
 }
-
 #info {
 	border: 2px solid #F2F2F2;
 	background-color: pink;
 	margin-bottom: 15px;
 	padding-bottom: 0px;
 }
-
 #select {
 	background-color: white;
 }
-
 #insert {
 	height: 100%;
 	border: 1px solid #CCCCCC;
 	margin-bottom: 30px;
 }
-
 #board {
 	padding: 20px;
 	border: 2px solid #F2F2F2;
@@ -201,92 +346,78 @@
 	border: 1px solid #CCCCCC;
 	/* #F2F2F2; */
 }
-
 #a {
 	border-bottom: 1px solid #CCCCCC;
 }
-
 #b{
  	padding: 1.5%;
 }
-
 #d {
 	margin-top: 10px;
 }
-
 #retext {
 	width: 91%;
 	border: 1px solid #CCCCCC;
 }
-
 .re {
 	background-color: white;
 	border: none;
 	border: 1px solid #CCCCCC;
 	margin-right: 1%;
 }
-
 #notice {
 	width: 22px;
 }
-
 .lh {
 	width: 22px;
 	margin-left: 1.5%;
 }
-
 .more {
 	width: 22px;
 }
-
 .submit {
 	margin-left: 2%;
 }
-
 #boarddate {
 	margin-left: 80%;
 }
-
 #c1 {
 	width: 70%;
 	display: inline;
 	float: left;
+ 	margin-right: 20%; 
 }
-
 #c2 {
-	margin-left: 82%;
+ 	display: inline;
+	float: left; 
+	margin-left: 90%;
 }
-
+.sub2{
+	margin-left: 85%;
+}
 .menubtn {
 	border: none;
 	background-color: white;
 	border: 1px solid #CCCCCC;
 }
-
 /* 댓글 */
 #s0{
 	border: 1px solid #CCCCCC;
 	font-size: 14px;
 }
-
 #s1 {
 	border-bottom: 1px solid #CCCCCC;
 	background-color: #F2F2F2;
 	padding: 0.6%;
-
 }
-
 #s1a {
 	display: inline;
 	float: left;
-	margin-right: 70%;
-
+	margin-right: 66%;
 }
 #s2{
 	padding: 1%;
 }
-
-
 #btn-group {margin: 0;}
 #btn-group {margin: 0;}
 #btnra, #btnrb, #btnrc,
@@ -302,26 +433,35 @@
   height: 25px;
   float: left;
 }
-
 #btnia, #btnea, #btnrb, #btneb, #btnrc, #btnic{
  background-color: #EAEAEA;
 }
-
 #btnra {
   background-color: red; 
 }
-
 #btnib {
   background-color: green; ;
 }
-
 #btnec {
   background-color: gray; 
 }
-
-
-
-
+.option2 {
+   background: url( "/resources/assets/img/more2.png" ) no-repeat;
+   border: none;
+   width: 32px;
+   height: 32px;
+   cursor: pointer;
+}
+.noti, .modi, .del{
+   background-color: white;
+   border: none;
+   border: 1px solid #CCCCCC;
+}
+.file{
+	background-color: white;
+	border: none;
+	color: #0100FF;
+}
 /* .option a{cusor:pointer;}
 .option .hide{display:none;} */
 </style>
@@ -330,7 +470,7 @@
 		<div id="main">
 			<div id="info">	
 					<h2>${groupname }</h2>
-					<h5>${mastername }( ${masterid} ) 외 몇명</h5> 
+					<h5> 방장 : ${mastername }( ${masterid} )</h5> 
 			<div id="select">
 				 <jsp:include page="../jinwoo/select.jsp"></jsp:include> 
 			</div>
@@ -339,12 +479,10 @@
 			<div id="section">	
 
 				<div id="insert">
-					 <jsp:include page="../jinwoo/board.jsp"></jsp:include>
+					<jsp:include page="../jinwoo/board.jsp"></jsp:include>
 					<jsp:include page="../jinwoo/profile.jsp"></jsp:include>
 					<jsp:include page="../jinwoo/gallery.jsp"></jsp:include>
-					<jsp:include page="../jinwoo/fullcalendar.jsp"></jsp:include>
 					<jsp:include page="../jinwoo/file.jsp"></jsp:include>
-					<jsp:include page="../jinwoo/request.jsp"></jsp:include> 
 				</div>
 
 			<div id="boarddis" style="display: block;">
@@ -364,7 +502,7 @@
 
 						<!-- <div id="b"> -->
  						<div id="b"> 
- 							<c:if test="${b.reqstatus==1 }">
+ 							<c:if test="${b.requestboolean==1 }">
 								<h4><b>담당자 : ${b.responseid }</b></h4>
 							</c:if>
 							<h4>${b.boardcontents }</h4>
@@ -372,6 +510,8 @@
 								<c:if test="${b.reqstatus == 0}">
 								 	<div class="btn-group" style="float: right;" id="${b.bno }a">
 								 		<input type="hidden" name="req_bno" value="${b.bno}"/> 
+								 		<input type="hidden" name="req_groupno" value="${b.groupno}"/> 
+								 		<input type="hidden" name="req_reqstatus" value="${b.reqstatus}"/> 
 								
 										<input type="button" value="요청" id="btnra" class="req"/>
 										<input type="button" value="진행" id="btnia" class="ing"/>
@@ -381,6 +521,8 @@
 								<c:if test="${b.reqstatus ==1 }">
 									<div class="btn-group" style="float: right;" id="${b.bno }a">
 						 				<input type="hidden" name="req_bno" value="${b.bno}"/> 
+								 		<input type="hidden" name="req_groupno" value="${b.groupno}"/> 
+								 		<input type="hidden" name="req_reqstatus" value="${b.reqstatus}"/>
 					
 										<input type="button" value="요청" id="btnrb" class="req"/>
 										<input type="button" value="진행" id="btnib" class="ing"/>
@@ -390,7 +532,9 @@
 								</c:if>
 								<c:if test="${b.reqstatus ==2 }">
 									<div class="btn-group" style="float: right;" id="${b.bno }a">
-										<input type="hidden" name="req_bno" value="${b.bno}"/>
+										<input type="hidden" name="req_bno" value="${b.bno}"/> 
+								 		<input type="hidden" name="req_groupno" value="${b.groupno}"/> 
+								 		<input type="hidden" name="req_reqstatus" value="${b.reqstatus}"/>
 					
 										<input type="button" value="요청" id="btnrc" class="req"/>
 										<input type="button" value="진행" id="btnic" class="ing"/>
@@ -401,7 +545,8 @@
 							</c:if>
 							
 							<c:if test="${b.filename != null }">
-								<a href="#"><h5>파일명 : ${b.filename }</h5></a>
+								<%-- <a href="download?filename="+${b.filename }><h5>파일명 : ${b.filename }</h5></a> --%>
+								<h5>파일명 : <input type="button" value="${b.filename }" class="file"/></h5>
 							</c:if>
 							
 						</div>	
@@ -409,29 +554,39 @@
 							<div id="c1">
 								<input type="hidden" name="bno" value="${b.bno}"/>
 								<input type="hidden" name="groupno" value="${b.groupno}"/>
+								<input type="hidden" name="memberid" value="${b.mi_memid}"/>
 								<input type="button" value="댓글" class="re" />
-							
-								<img src="/resources/assets/img/like.png" class="lh">								
-								<img src="/resources/assets/img/hate.png" class="lh">
-								<img src="/resources/assets/img/bookmark_before.png" id="bk" class="lh" onclick="imgchange()"/>																			
+						
+								<img src="/resources/assets/img/bookmark_before.png" id="bk" class="lh"/>																			
 							</div>
-							<div id="c2">
-								<ul class="option" >
-									<li><img src="/resources/assets/img/more.png" class="more" />
-										<ul class="sub">
-											<!-- 공지글 일시는 공지취소 -->
+							<div class="c2" >
+								<input type="hidden" name="bno" value="${b.bno }"/>
+								<input type="hidden" name="groupno" value="${b.groupno}"/>
+								<input type="button" class="option2"/>
+								<!-- <input type="button" value="more" class="option" onclick="optiontest()"/> -->
+								<!-- <button class="option">
+									<img src="/resources/assets/img/more.png" id="more" />
+								</button> -->
+								<div id="${b.bno }d" class="sub2">
+									<ul>
+										<li>
 											<input type="hidden" name="bno" value="${b.bno }"/>
-											<li><input type="button" value="공지등록" /></li>
-											<li><input type="button" value="수정하기" /></li>
-											<li><input type="button" value="삭제하기" /></li>
-											<!-- 세션과 작성자 일치시 -->
-											<!-- <button class="menubtn"><li>수정하기</li></button>
-											<button class="menubtn"><li>삭제하기</li></button> -->
-										</ul>
-									</li>
-								</ul>
-							</div>
-						</div>
+											<input type="hidden" name="groupno" value="${b.groupno}"/>
+											<c:if test="${b.boardnotice==0 }">
+												<input type="button" value="공지등록" class="noti"/>
+												<input type="button" value="수정하기" class="modi"/>
+												<input type="button" value="삭제하기" class="del"/>
+											</c:if>
+											<c:if test="${b.boardnotice==1 }">
+												<input type="button" value="공지취소" class="noti"/>
+												<input type="button" value="수정하기" class="modi"/>
+												<input type="button" value="삭제하기" class="del"/>
+											</c:if>
+										</li>
+									</ul>
+								</div>
+						</div><!--c2 end  -->
+					</div><!-- c end -->
 						
 						<div class="e" id="${b.bno }">
 							<!-- 댓글 div -->
@@ -440,7 +595,7 @@
 						<div id="d">
 							<input type="hidden" name="bno" value="${b.bno }"/>
 							<input type="hidden" name="groupno" value="${b.groupno }"/>
-							<input type="hidden" name="categoryno" value="${b.categoryno }"/>
+							<%-- <input type="hidden" name="categoryno" value="${b.categoryno }"/> --%>
 							<input type="text" name="" id="retext" placeholder=" 댓글을 입력하세요" />
 							<input type="button" value="등록" class="submit"/>
 						</div>

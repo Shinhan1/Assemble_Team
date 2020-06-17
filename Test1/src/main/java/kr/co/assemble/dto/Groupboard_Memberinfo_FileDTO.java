@@ -17,12 +17,13 @@ public class Groupboard_Memberinfo_FileDTO {
 	private String filename;
 	private int reqstatus;
 	private String responseid;
+	private String mark_memno;
 	
 	public Groupboard_Memberinfo_FileDTO() {}
 
 	public Groupboard_Memberinfo_FileDTO(int memberno, String mi_memname, String mi_memid, int bno, int categoryno, int groupno,
 			String groupname, String boarddate, String boardcontents, int boardlike, int boardhate,
-			int requestboolean, int boardnotice, String filename, int reqstatus, String responseid) {
+			int requestboolean, int boardnotice, String filename, int reqstatus, String responseid, String mark_memno) {
 		super();
 		this.memberno = memberno;
 		this.mi_memname = mi_memname;
@@ -40,6 +41,7 @@ public class Groupboard_Memberinfo_FileDTO {
 		this.filename = filename;
 		this.reqstatus = reqstatus;
 		this.responseid = responseid;
+		this.mark_memno = mark_memno;
 	}
 
 
@@ -169,6 +171,14 @@ public class Groupboard_Memberinfo_FileDTO {
 
 	public void setCategoryno(int categoryno) {
 		this.categoryno = categoryno;
+	}
+
+	public String getMark_memno() {
+		return mark_memno;
+	}
+
+	public void setMark_memno(String mark_memno) {
+		this.mark_memno = mark_memno;
 	}
 	
 	

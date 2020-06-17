@@ -63,14 +63,15 @@ public class RecommentController {
          @RequestParam(value = "contents") String contents, HttpServletRequest request, Model model) {
       
       RecommentDTO dto = new RecommentDTO();
+      HttpSession session = request.getSession();
+      int memberNo = (Integer) session.getAttribute("memberno");
+
       dto.setBno(bno);
       dto.setGroupno(groupno);
       dto.setRecontents(contents);
       
       //멤버세션으로 id 조회해서 댓글작성자에 현재 세션의 id 집어넣기
-      HttpSession session = request.getSession();
       String memberId = (String) session.getAttribute("mi_memid");
-      int memberNo = (Integer) session.getAttribute("memberno");
       //System.out.println(memberNo);
       dto.setReid(memberId);
       
@@ -78,7 +79,7 @@ public class RecommentController {
       model.addAttribute("dto", dto);
       model.addAttribute("memberno", memberNo);
       
-      return "redirect:/assemble.io/{mi_assemblename}/home";
+      return "redirect:/assemble.io/{mi_assemblename}/home?memberno" + memberNo;
    }
    
    //그룹에서 bno별 댓글 조회  

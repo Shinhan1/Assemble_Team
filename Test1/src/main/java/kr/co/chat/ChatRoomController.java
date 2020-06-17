@@ -22,12 +22,12 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.context.support.HttpRequestHandlerServlet;
 
+import kr.co.assemble.chat.dto.CHATDTO;
+import kr.co.assemble.chat.dto.GroupChatDTO;
+import kr.co.assemble.chat.dto.MemberDTO;
+import kr.co.assemble.chat.dto.MemberidDTO;
 import kr.co.chat.dao.ChatDAO;
 import kr.co.chat.dao.ChatDAOImple;
-import kr.co.chat.dto.CHATDTO;
-import kr.co.chat.dto.GroupChatDTO;
-import kr.co.chat.dto.MemberDTO;
-import kr.co.chat.dto.MemberidDTO;
 
 //@RequiredArgsConstructor 
 //어노테이션은 final이나 @NonNull인 필드 값만 파라미터로 받는 생성자를 만들어줍니다
@@ -72,13 +72,13 @@ public class ChatRoomController {
 	 */
 
 	// 모든 채팅방 목록 반환
-	@GetMapping("/rooms")
-	@ResponseBody
-	public List<ChatRoom> room(HttpServletRequest req) {
-		System.out.println(req.getAttribute("id"));
-
-		return chatRoomRepository.findAllRoom();
-	}
+//	@GetMapping("/rooms")
+//	@ResponseBody
+//	public List<ChatRoom> room(HttpServletRequest req) {
+//		System.out.println(req.getAttribute("id"));
+//
+//		return chatRoomRepository.findAllRoom();
+//	}
 
 	// 채팅바(메인화면 오면 
 	@RequestMapping("/room/side")
@@ -87,12 +87,12 @@ public class ChatRoomController {
 
 		HttpSession session = req.getSession();
 		
-		session.getAttribute("mi_memID");
+		session.getAttribute("mi_memid");
 		
 		session.getAttribute("memberno");
-		session.getAttribute("mi_assembleName");
+		session.getAttribute("mi_assemblename");
 		// withh가 어셈블 이름
-		List<MemberDTO> memlist = dao.getid((String) session.getAttribute("mi_assembleName"));
+		List<MemberDTO> memlist = dao.getid((String) session.getAttribute("mi_assemblename"));
 		
 		
 		

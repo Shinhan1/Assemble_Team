@@ -10,29 +10,34 @@
 		<typeAlias type="kr.co.assemble.dto.AssembleInfoDTO" alias="aiDto" />
 		<typeAlias type="kr.co.assemble.dto.MemberSubDTO" alias="memsubDto" />
 		
-		<typeAlias type="kr.co.assemble.dto.NavbarDTO" alias="NavbarDto"/>
 		<typeAlias alias="CategoryDto" type="kr.co.assemble.dto.CategoryDTO"/>
 		<typeAlias alias="GroupDto" type="kr.co.assemble.dto.GroupDTO"/>
 		<typeAlias alias="BoardDto" type="kr.co.assemble.dto.BoardDTO"/>
 		<typeAlias alias="ComposedDto" type="kr.co.assemble.dto.ComposedDTO"/>
 		
-		<!-- <package name="kr.co.assemble.dto"/> -->
-		
-		<typeAlias type="kr.co.assemble.dto.FileDTO" alias="FileDto"/>
-		<typeAlias type="kr.co.assemble.dto.RequestDTO" alias="ReqDto"/>
-		<typeAlias type="kr.co.assemble.dto.ComposedMemberInfoDTO" alias="CMI_Dto"/>
-		<typeAlias type="kr.co.assemble.dto.GroupFileDTO" alias="CF_Dto"/>
-		<typeAlias type="kr.co.assemble.dto.MemReqGroupDTO" alias="MRG_Dto"/>
-		<typeAlias type="kr.co.assemble.dto.MyWriteDTO" alias="MyWriteDto"/>
-		
 		<typeAlias type="kr.co.assemble.dto.Groupboard_Memberinfo_FileDTO" alias="G_M_F_Dto"/>
 		<typeAlias type="kr.co.assemble.dto.Groups_Memberinfo_Composed_DTO" alias="G_Mi_C_Dto"/>
 		<typeAlias type="kr.co.assemble.dto.RecommentDTO" alias="RecommentDto"/>
+		<typeAlias type="kr.co.assemble.dto.NavbarDTO" alias="NavbarDto"/>
 		
-		<typeAlias  type="kr.co.chat.dto.CHATDTO" alias="chatdto"/>
-		<typeAlias type="kr.co.chat.dto.MemberDTO" alias="memberDTO"/>
-		<typeAlias type="kr.co.chat.dto.GroupChatDTO" alias="groupChatDTO"/>
-		<!-- <typeAlias type="kr.co.assemble.dto.searchDTO" alias="searchDTO"/> -->
+		<typeAlias type="kr.co.assemble.dto.RequestDTO" alias="ReqDto"/>
+		<typeAlias type="kr.co.assemble.dto.MemReqGroupDTO" alias="MRG_Dto"/>
+		<typeAlias type="kr.co.assemble.dto.FileDTO" alias="FileDto"/>
+		<typeAlias type="kr.co.assemble.dto.MyWriteDTO" alias="MyWriteDto"/>
+		<typeAlias type="kr.co.assemble.dto.ComposedMemberInfoDTO" alias="CMI_Dto"/>
+        <typeAlias type="kr.co.assemble.dto.GroupFileDTO" alias="CF_Dto"/>
+        <typeAlias type="kr.co.assemble.dto.AssembleGroupsDTO" alias="A_GDto"/>
+		
+		
+		<typeAlias  type="kr.co.assemble.chat.dto.CHATDTO" alias="chatdto"/>
+		<typeAlias type="kr.co.assemble.chat.dto.MemberDTO" alias="memberDTO"/>
+		<typeAlias type="kr.co.assemble.chat.dto.GroupChatDTO" alias="groupChatDTO"/>
+		
+		
+		<typeAlias type="kr.co.assemble.dto.bookmarkDTO" alias="bookmarkDto"/>
+        
+        <typeAlias type="kr.co.assemble.dto.searchDTO" alias="searchDTO"/>
+        <typeAlias type="kr.co.assemble.dto.searchParamDTO" alias="searchParamDto"/>
 		
 		
 	</typeAliases>

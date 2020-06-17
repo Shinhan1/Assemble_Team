@@ -2,6 +2,7 @@ package kr.co.assemble.controller;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.util.List;
 import java.util.Random;
 
@@ -13,8 +14,6 @@ import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.mail.javamail.JavaMailSender;
-import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -29,10 +28,11 @@ import org.springframework.web.servlet.ModelAndView;
 
 import kr.co.assemble.dao.MI_interface;
 import kr.co.assemble.dao.MS_interface;
+import kr.co.assemble.dao.SendMailImple;
+import kr.co.assemble.dto.EmailDTO;
 import kr.co.assemble.dto.MemberInfoDTO;
 import kr.co.assemble.dto.MemberSubDTO;
 import kr.co.assemble.dto.testDTO;
-import kr.co.assemble.service.SendMail;
 import kr.co.assemble.service.SendMailService;
 
 @Controller
@@ -45,7 +45,7 @@ public class SignupController {
 	MS_interface ms_dao;
 	
 	@Autowired
-	private JavaMailSender mailSender;
+	SendMailImple smi;
 	
 	@Autowired
 	BCryptPasswordEncoder passEncoder;
@@ -71,7 +71,7 @@ public class SignupController {
 		String password = dto.getMi_mempw();
 		String Pw = passEncoder.encode(password);
 		dto.setMi_mempw(Pw);
-//		System.out.println(Pw);
+		System.out.println(Pw);
 		mi_dao.insertOne(dto);
 		session.removeAttribute("ms_memberno");
 		int memberno = mi_dao.selectMemberNo(dto);
@@ -124,17 +124,17 @@ public class SignupController {
 	}
 	
 	// ?
-	@RequestMapping(value = "/editProfile")
+	@RequestMapping(value = "/editprofile")
 	public String editProfile() {
 		return "editProfile";
 	}
 	
-	// 메일 보내기 (MailService로 옮길 예정)
+	// 메일 보내기 
 	@RequestMapping(value = "/sendMail")
 	@ResponseBody
-	public void sendMail(@RequestParam String mi_mememail, @RequestParam int ran, HttpServletRequest req) {
+	public void sendMail(@RequestParam String mi_mememail, @RequestParam int ran, HttpServletRequest req,
+			EmailDTO emaildto) {
 		SendMailService sms = new SendMailService();
-		SendMail sm = new SendMail();
 		int ranNum = sms.init();
 //		String aiName = req.getParameter("mi_assembleName");
 		HttpSession session = req.getSession(true);
@@ -143,36 +143,31 @@ public class SignupController {
 		session.setAttribute("ran", ran);
 		
 		String sendEmail = "tlsgks8668@gmail.com";
-//		String receiveEmail = req.getParameter("mi_memEmail");
+		String receiveEmail = mi_mememail;
 		String title = "Assemble 인증 코드입니다.";
 		String contents = "<h1>안녕하세요! Assemble입니다.</h1>\r\n" + 
-				"	<h3>인증코드를 확인하시려면 <a href=\"http://localhost:9090/signupemail\">여기</a>를 눌러주세요!</h3>\r\n" + 
+				"	<h3>인증코드를 확인하시려면 <a href=\"http://13.209.244.152:8080/signupemail\">여기</a>를 눌러주세요!</h3>\r\n" + 
 				"	<hr />\r\n" + 
 				"	<div class=\"form-group\">\r\n" + 
 				"		<p>본 메일은 발신 전용이며, 문의에 대한 회신은 처리되지 않습니다.</p>\r\n" + 
 				"	</div>";
-		
+		emaildto.setSendemail(sendEmail);
+		emaildto.setReceiveemail(receiveEmail);
+		emaildto.setTitle(title);
+		emaildto.setContents(contents);
 //		System.out.println(aiName);
 		System.out.println(mi_mememail);
 		
-		MimeMessage message = mailSender.createMimeMessage();
-		MimeMessageHelper msghelper;
+//		smi.send(emaildto);
+		
 		try {
-			msghelper = new MimeMessageHelper(message, true, "UTF-8");
-			// MimeMessageHelper에 set하기 위함
-			msghelper.setFrom(sendEmail);		// 보내는 사람 이메일
-			msghelper.setTo(mi_mememail);		// 받는 사람 이메일
-			msghelper.setSubject(title);		// 제목
-			msghelper.setText(contents, true);		// 내용
-			
-			mailSender.send(message);
-			
-		} catch (MessagingException e) {
+			smi.sendEmail(emaildto);
+		} catch (UnsupportedEncodingException | MessagingException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-//		sm.sendEmail(sendEmail, receiveEmail, title, contents, ranNum);
 		
+
 	}
 	
 	// 회원가입 인증코드 인증
@@ -221,12 +216,13 @@ public class SignupController {
 	// 초대받은 회원의 회원가입 창
 	@RequestMapping(value="/membersignup")
 	public String memberSignup(
+			HttpServletRequest req,
 			@ModelAttribute MemberInfoDTO dto, HttpSession session) {
 		String password = dto.getMi_mempw();
 		String Pw = passEncoder.encode(password);
-		dto.setMi_assemblename((String) session.getAttribute("mi_assemblename"));
+		dto.setMi_assemblename(req.getParameter("mi_assemblename"));
 		dto.setMi_mempw(Pw);
-		dto.setMi_mememail((String) session.getAttribute("mi_mememail"));
+		dto.setMi_mememail(req.getParameter("mi_mememail"));
 		System.out.println(dto.getMi_mememail());
 		System.out.println(Pw);
 		

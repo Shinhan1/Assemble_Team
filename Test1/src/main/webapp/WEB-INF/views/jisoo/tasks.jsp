@@ -11,15 +11,245 @@
 <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
 <!------ Include the above in your HEAD tag ---------->
 <link rel="stylesheet" type="text/css" href="resources/assets/css/hancss/clicklist.css">  	<!-- css 파일 경로  -->
+<link rel="stylesheet" type="text/css" href="/resources/assets/css/chat_css.css">     <!-- css 파일 경로  -->
 
 <meta charset="UTF-8">
 
 <title>요청.div</title>
+<style type="text/css">
+#board {
+	padding: 20px;
+	border: 2px solid #F2F2F2;
+	background-color: white;
+	margin-bottom: 30px;
+	border: 1px solid #CCCCCC;
+	/* #F2F2F2; */
+}
 
-</head>
-<body>
+#a, #b {
+	border-bottom: 1px solid #CCCCCC;
+}
+
+#f {
+	margin-top: 10px;
+}
+
+#retext {
+	width: 91%;
+	border: 1px solid #CCCCCC;
+}
+
+#re {
+	background-color: white;
+	border: none;
+	border: 1px solid #CCCCCC;
+	margin-right: 1%;
+}
+
+.lh{
+	width: 22px;
+	margin-left: 1.5%;
+}
+
+#more{
+	width: 22px;
+}
+
+.submit{
+	margin-left: 2%;
+}
+
+
+#boarddate {
+	margin-left: 80%;
+}
+
+.submit {
+	margin-left: 2%;
+}
+
+#boarddate{
+	margin-left: 80%;
+}
+#d1{
+	width: 70%;
+}
+.d2{
+	margin-left: 82%;
+}
+
+.menubtn{
+	border: none;
+	background-color: white;
+	border: 1px solid #CCCCCC;
+}
+
+/* 댓글 */
+#s0{
+	border: 1px solid #CCCCCC;
+	font-size: 14px;
+}
+
+#s1 {
+	border-bottom: 1px solid #CCCCCC;
+	background-color: #F2F2F2;
+	padding: 0.6%;
+
+}
+
+#s1a {
+	display: inline;
+	float: left;
+	margin-right: 66%;
+
+}
+#s2{
+	padding: 1%;
+}
+
+/* 요청 */
+#btn-group {margin: 0;}
+#btn-group {margin: 0;}
+#btnra, #btnrb, #btnrc,
+#btnia, #btnib, #btnic, 
+#btnea, #btneb, #btnec {
+ border: none;
+  color: white;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  width: 70px;
+  height: 25px;
+  float: left;
+}
+
+#btnia, #btnea, #btnrb, #btneb, #btnrc, #btnic{
+ background-color: #EAEAEA;
+}
+
+#btnra {
+  background-color: red; 
+}
+
+#btnib {
+  background-color: green; ;
+  
+}
+
+#btnec {
+  background-color: gray; 
+}
+</style>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script type="text/javascript">
+//요청 상태 변화
+$(function() {
+	var r1 = $('.req');
+	var r2 = $('.ing');
+	var r3 = $('.end');
+
+	//요청버튼
+	$(".req").click(function() {
+		var bnoa = this.parentNode.childNodes[1].value + "a";
+		var bno = this.parentNode.childNodes[1].value;
+		var groupno = this.parentNode.childNodes[3].value;
+		
+		
+		console.log(bno);
+		console.log(groupno);
+		console.log(status);
+		
+		//console.log(this.parentNode.childNodes);
+		
+		this.parentNode.childNodes[7].style.backgroundColor = "red";
+		this.parentNode.childNodes[9].style.backgroundColor = "#EAEAEA";
+		this.parentNode.childNodes[11].style.backgroundColor = "#EAEAEA";
+		
+		$.ajax({
+			url : "/assemble.io/{mi_assemblename}/updateStatus",
+			type : 'POST',
+			data : {"bno": bno, "groupno": groupno, "status" : 0},
+			dataType: "json",
+
+			success: function(req){
+					console.log("sucess view");	
+					console.log(req);
+			},
+			error: function(req){
+				console.log("error view");
+				console.log(req);
+			}
+
+		});//ajax end
+
+	});//.req click end	
+	//진행버튼
+	$(".ing").click(function() {
+		var bnoa = this.parentNode.childNodes[1].value + "a";
+		var bno = this.parentNode.childNodes[1].value;
+		var groupno = this.parentNode.childNodes[3].value;
+		var status = this.parentNode.childNodes[5].value;
+		console.log("진행");
+		console.log(bnoa);
+
+		this.parentNode.childNodes[7].style.backgroundColor = "#EAEAEA";
+		this.parentNode.childNodes[9].style.backgroundColor = "green";
+		this.parentNode.childNodes[11].style.backgroundColor = "#EAEAEA";
+		
+		$.ajax({
+			url : "/assemble.io/{mi_assemblename}/updateStatus",
+			type : 'POST',
+			data : {"bno": bno, "groupno": groupno, "status" : 1},
+			dataType: "json",
+
+			success: function(req){
+					console.log("sucess view");	
+					console.log(req);
+			},
+			error: function(req){
+				console.log("error view");
+				console.log(req);
+			}
+
+		});//ajax end
+	});//.ing click end	
+	//종료 버튼
+	$(".end").click(function() {
+		var bnoa = this.parentNode.childNodes[1].value + "a";
+		var bno = this.parentNode.childNodes[1].value;
+		var groupno = this.parentNode.childNodes[3].value;
+		var status = this.parentNode.childNodes[5].value;
+		console.log("종료");
+		console.log(bnoa);
+
+		this.parentNode.childNodes[7].style.backgroundColor = "#EAEAEA";
+		this.parentNode.childNodes[9].style.backgroundColor = "#EAEAEA";
+		this.parentNode.childNodes[11].style.backgroundColor = "gray";
+		
+		$.ajax({
+			url : "/assemble.io/{mi_assemblename}/updateStatus",
+			type : 'POST',
+			data : {"bno": bno, "groupno": groupno, "status" : 2},
+			dataType: "json",
+
+			success: function(req){
+					console.log("sucess view");	
+					console.log(req);
+			},
+			error: function(req){
+				console.log("error view");
+				console.log(req);
+			}
+
+		});//ajax end
 	
-	<div class="div0">
+	});//.end click end	
+});//function end 
+</script>
+</head>
+<body> 
+	<div class="div0" style="z-index: -2">
 		<section class="bookmarks-page">
 			<header class="page-header bookmarks-page__header">
 			
@@ -33,10 +263,10 @@
 					<div class="page__options bookmarks-page__options">
 						
 						<div class="page__options mentions-page__options">
-							<button class="option-button1" autofocus="autofocus">모든상태</button>
-							<button class="option-button2">요청</button>
-							<button class="option-button3">진행</button>
-							<button class="option-button4">완료</button>
+							<a href="/myRequest"><button class="option-button1" autofocus="autofocus">모든상태</button></a>
+							<a href="/myReqStatus?status=0"><input type="button" value="요청" class="option-button2"/></a>
+							<a href="/myReqStatus?status=1"><input type="button" value="진행" class="option-button3"/></a>
+							<a href="/myReqStatus?status=2"><input type="button" value="완료" class="option-button4"/></a>
 						</div>
 	
 					</div>
@@ -65,18 +295,110 @@
 				</div>
 			</header>
 			
-			
+
 			<div class="scroll-container scroll-container--window undefined" tabindex="-1" id="diva">
 				<div class="bookmarks-page__list-wrap">
-					<div class="sdf active">
+						<div class="sdf active">
+					<c:forEach var="b" items="${list}">
+							
+					<div id="board">
+						<div id="a">
+							<a href="/assemble.io/${mi_assemblename}/g/${b.groupno }/wall"><h4>${b.groupname }</h4></a>
+						</div>
+		
+						<div id="b">
+							<%-- <h3>${tl.mi_assemblename }</h3> --%>
+							<h4>${b.mi_memname }(${b.mi_memid } )</h4>
+							<h5 id="boarddate">${b.boarddate }</h5>
+						</div>
+						<div id="c">
+							<c:if test="${b.requestboolean==1 }">
+								<h4><b>담당자 : ${b.responseid }</b></h4>
+							</c:if>
+							<h4>${b.boardcontents }</h4>
+									
+									<c:if test="${b.requestboolean == 1 }">
+										<c:if test="${b.reqstatus == 0}">
+										 	<div class="btn-group" style="float: right;" id="${b.bno }a">
+										 		<input type="hidden" name="req_bno" value="${b.bno}"/> 
+										 		<input type="hidden" name="req_groupno" value="${b.groupno}"/> 
+										 		<input type="hidden" name="req_reqstatus" value="${b.reqstatus}"/> 
+										
+												<input type="button" value="요청" id="btnra" class="req"/>
+												<input type="button" value="진행" id="btnia" class="ing"/>
+												<input type="button" value="완료" id="btnea" class="end"/>
+											</div> 
+										</c:if>
+										<c:if test="${b.reqstatus ==1 }">
+											<div class="btn-group" style="float: right;" id="${b.bno }a">
+								 				<input type="hidden" name="req_bno" value="${b.bno}"/> 
+										 		<input type="hidden" name="req_groupno" value="${b.groupno}"/> 
+										 		<input type="hidden" name="req_reqstatus" value="${b.reqstatus}"/>  
+							
+												<input type="button" value="요청" id="btnrb" class="req"/>
+												<input type="button" value="진행" id="btnib" class="ing"/>
+												<input type="button" value="완료" id="btneb" class="end"/>
+												
+											</div>
+										</c:if>
+										<c:if test="${b.reqstatus ==2 }">
+											<div class="btn-group" style="float: right;" id="${b.bno }a">
+												<input type="hidden" name="req_bno" value="${b.bno}"/> 
+										 		<input type="hidden" name="req_groupno" value="${b.groupno}"/> 
+										 		<input type="hidden" name="req_reqstatus" value="${b.reqstatus}"/> 
+							
+												<input type="button" value="요청" id="btnrc" class="req"/>
+												<input type="button" value="진행" id="btnic" class="ing"/>
+												<input type="button" value="완료" id="btnec" class="end"/>
+											</div>
+										</c:if>
+										<%-- <h5>요청진행상태 : ${b.reqstatus }</h5> --%>	
+									</c:if>
+									
+									<c:if test="${b.filename != null }">
+										<h4>파일명 : ${b.filename }</h4>
+									</c:if>
+						</div>
+		
+						<div id="d">
+			
+							<div id="d1">
+								<input type="hidden" name="bno" value="${b.bno}"/>
+								<input type="hidden" name="groupno" value="${b.groupno}"/>
+								<%-- <input type="hidden" name="memberno" value=${b.memberno }/>  --%>
+								<input type="button" value="댓글" class="re" />
+								
+								<img src="/resources/assets/img/like.png" class="lh">
+								<img src="/resources/assets/img/hate.png" class="lh">
+								<img src="/resources/assets/img/bookmark_before.png" id="bk" class="lh" onclick="imgchange()"/>
+							</div>
+							
+						</div>
+		
+								<!-- 공지글 일시는 공지취소 -->
+						
+						<div class="e" id="${b.bno }">
+							<!-- 댓글 div -->
+						</div>
+		
+						<div id="f">
+							<input type="hidden" name="bno" value="${b.bno }" /> 
+							<input type="hidden" name="groupno" value="${b.groupno }" /> 
+							<%-- <input type="hidden" name="memberno" value=${b.memberno }/>  --%>
+							<input type="text" name="" id="retext" placeholder=" 댓글을 입력하세요" /> 
+							<input type="button" value="등록" class="submit" />
+						</div>
+					</div>
+									
+			</c:forEach>
+				</div>						
+					
+					<!-- <div class="sdf active">
 						<h2>모든 상태 게시물~</h2>								
 					</div>
 					<div class="sdf active">
 						<h2>모든 상태 게시물~</h2>								
-					</div>
-					<div class="sdf active">
-						<h2>모든 상태 게시물~</h2>								
-					</div>
+					</div> -->
 					
 				</div>
 			</div>
@@ -106,33 +428,7 @@
 	</div>
 	
 	
-	
 <!-- js -->
-	
-<!-- div 바꾸기   -->
-<script type="text/javascript">
-	
-  	$('.option-button1').click(function(){
-		window.location.href="/tasks?status=";				//다시 원래 페이지로 돌아오기
-	});  
-  	
-    $('.option-button2').click(function(){
-
-    	$('#diva').load('request/status0?status=');
-    });
-	
-    $('.option-button3').click(function(){
-
-        $('#diva').load('request/status1?status=');
-   });
-    
-    
- 	$('.option-button4').click(function(){
-
-        $('#diva').load('request/status2?status=');
-   });
-
-</script>
 	
 
 <script type="text/javascript">

@@ -1,15 +1,18 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<c:import url="/assemble.io/${mi_assemblename}/header"></c:import>
 <!DOCTYPE html>
 <html>
-<link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<!-- <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css"> -->
 <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
 <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-<!------ Include the above in your HEAD tag ---------->
 
 <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN"
-        crossorigin="anonymous">
-        
+        crossorigin="anonymous">       
 <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
         crossorigin="anonymous"></script>
  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"
@@ -17,7 +20,7 @@
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy"
         crossorigin="anonymous"></script>
 
-<link type="text/css" rel="stylesheet" href="/resources/info/css/editProfile.css">
+<link type="text/css" rel="stylesheet" href="/resources/info/css/editProfile2.css">
 
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script type="text/javascript">
@@ -37,120 +40,141 @@ $(document).ready(function() {
     $("#file-input").on('change', function(){
         readURL(this);
     });
+    $("#modifySub").click(function(){
+    	alert("수정이 완료되었습니다.");
+    	document.frm.submit();
+    });
     
 });
-
 </script>
-<head>
-<meta charset="UTF-8">
-<title>Insert title here</title>
+<style type="text/css">
+body{background-color: none;}
+.main {
+	width: 50%;
+	height: 100%;
+	position: absolute;
+	margin-top: 5%;
+	margin-bottom: 5%;
+	margin-left: 25%;
+}
+.contents {
+	background-color: white;
+	border: 1px solid #CCCCCC;
+	margin: 0;
+	padding: 0;
+	clear: none;
+}
+.modal-header{background-color: #fcfcfc;}
+
+</style>
 </head>
 <body>
+<div class="main" style="z-index: -2">
+	<div class="contents">
 
-
-    <div class="container-fluid gedf-wrapper">
-        <div class="row">  
-            <div class="col-md-6 gedf-main">
-                <div class="card gedf-card">
-                 
-                    <div class="card-body">
-                    	<div class="card-pfrofile">
-	                       <div class="card-title">
-								<h3 class="card-title-name"> :User Name 프로필관리</h3>
-								<div> :Email</div>								
-	                       </div>
-	                    </div>
-			
-			<!-- =========================== modal ================================= -->		
-								
-<div class="center"><button data-toggle="modal" data-target="#squarespaceModal" class="btn btn-link center-block">비밀번호 변경</button></div>
-<!-- line modal -->
-<div class="modal fade" id="squarespaceModal" tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true">
-  <div class="modal-dialog">
-	<div class="modal-content">
-		<div class="modal-header">
-			<h3 class="modal-title" id="lineModalLabel">비밀번호 변경 *</h3>
-			<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
-		</div>
-		<div class="modal-body">
-			
-            <!-- content goes here -->
-			<form>
-              <div class="form-group">
-                <label for="exampleInputPassword1">Password</label>
-                <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password" required>
-              </div>
-              <button type="submit" class="btn btn-default">변경</button>
-            </form>
-
-		</div>
-<!-- 		<div class="modal-footer">
+			<div class="card-body">
+				<div class="card-profile">
+					<div class="card-title">
+						<h3 class="card-title-name"><b> :User Name 프로필관리</b></h3>
+						<div><h4> :Email</h4></div>		
+					</div>
+				</div>
+					
+						
+				<hr />
+				<button data-toggle="modal" data-target="#squarespaceModal" class="btn btn-link center-block">비밀번호 변경</button>
+				
+					<!-- =========================== modal ================================= -->		
+				
+				<!-- line modal -->
+				<div class="modal fade" id="squarespaceModal" tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true">
+				  	<div class="modal-dialog">
+						<div class="modal-content">
+						<div class="modal-header">
+							<h3 class="modal-title" id="lineModalLabel">비밀번호 변경 *</h3>
+							<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
+						</div>
+						<div class="modal-body">
+							
+				            <!-- content goes here -->
+							<form>
+				              <div class="form-group">
+				                <label for="exampleInputPassword1">Password</label>
+				                <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password" required>
+				              </div>
+				              <button type="submit" class="btn btn-default">변경</button>
+				            </form>
+				
+						</div>
+						
+		<div class="modal-footer">
 			<div class="btn-group btn-group-justified" role="group" aria-label="group button">
 				<div class="btn-group" role="group">
 					<button type="button" class="btn btn-default" data-dismiss="modal"  role="button">Close</button>
 				</div>
-				
-				<div class="btn-group" role="group">
-					<button type="button" id="saveImage" class="btn btn-default btn-hover-green" data-action="save" role="button">Save</button>
-				</div>
+			
 			</div>
-		</div> -->
-	</div>
-  </div>
-</div>
-<!-- =========================== modal ================================= -->							
-				<hr />
+		</div>
+						
+						</div>
+					</div>
+				</div>
+				
+				<!-- =========================== modal ================================= -->	
+				
+							<form action="assemble.io/<c:out value='${mi_assemblename}' />/modifySub" name="frm" method="POST" enctype="multipart/form-data" >
 							<div class="image-upload">
 								<label for="file-input">
 									<!--input:file img -->
 									<i class="fa fa-camera" aria-hidden="true" ></i>
 								    <img src="resources/info/images/businessman.png" alt="avatar" class="avatar"/>
 								 </label>							
-								 <input class="text-center center-block file-upload" id="file-input" type="file" accept="image/*" capture="camera"/>
+								 <input class="text-center center-block file-upload" id="file-input" type="file" accept="image/*" name="ms_memprofileimg" />
 							</div>
 							
 							
 							<div class="edit-form">
-								<form action="">
 									<div class="form-label-group">
 									     <label for="inputAssemble">이름</label>
-									     <input type="text" id="inputName" class="form-control" placeholder="이름" name="memName" required > 
+									     <input type="text" id="inputName" class="form-control" placeholder="이름" name="ms_memname" value="<c:out value='${mi_memname }'/>" disabled > 
 								    </div> 
 									    
 									<div class="form-label-group">
 									     <label for="inputTeam">소속</label>
-									     <input type="text" id="inputTeam" class="form-control" placeholder="소속" name="memTeam" required > 
+									     <input type="text" id="inputTeam" class="form-control" placeholder="소속" name="ms_memteam" required > 
 								    </div> 
 									    
 									<div class="form-label-group">
 									     <label for="inputGrade">직급</label>
-									     <input type="text" id="inputGrade" class="form-control" placeholder="직급" name="memGrade" required > 
+									     <input type="text" id="inputGrade" class="form-control" placeholder="직급" name="ms_memgrade" required > 
 								    </div>
 										     
 									<div class="form-label-group">
 									     <label for="inputPhone">휴대폰 번호</label>
-									     <input type="text" id="inputPhone" class="form-control" placeholder="휴대폰 번호" name="memPhone" required > 
+									     <input type="text" id="inputPhone" class="form-control" placeholder="휴대폰 번호" name="ms_memphone" required > 
 								    </div> 
 										
 									<hr />
 									  
-									<button class="btn btn-lg btn-info btn-block" type="submit">확인</button>    
-								</form>  
+									<button class="btn btn-lg btn-info btn-block" type="button" id="modifySub">확인</button>    
 										    
 							</div>		<!-- edit-form end -->
-							
-							
-							
-					</div>	<!-- card-body -->
+						</form>  
+			</div><!-- card body end  -->
 			
-                </div>
-			</div>
-                
-
-		</div>
+	
 	</div>
+</div>
 
+<script src="/resources/assets/js/jquery.js"></script>
+<script src="/resources/assets/js/jquery-1.8.3.min.js"></script>
+<script src="/resources/assets/js/bootstrap.min.js"></script>
+<script class="include" type="text/javascript"
+	src="/resources/assets/js/jquery.dcjqaccordion.2.7.js"></script>
+<script src="/resources/assets/js/jquery.scrollTo.min.js"></script>
 
+<!--     common script for all pages -->
+<script src="/resources/assets/js/common-scripts.js"></script>
 
 </body>
 </html>

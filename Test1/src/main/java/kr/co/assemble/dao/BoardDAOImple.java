@@ -8,6 +8,9 @@ import org.springframework.stereotype.Repository;
 
 import kr.co.assemble.dto.BoardDTO;
 import kr.co.assemble.dto.Groupboard_Memberinfo_FileDTO;
+import kr.co.assemble.dto.bookmarkDTO;
+import kr.co.assemble.dto.searchDTO;
+import kr.co.assemble.dto.searchParamDTO;
 
 @Repository
 public class BoardDAOImple implements BoardDAO{
@@ -55,8 +58,8 @@ public class BoardDAOImple implements BoardDAO{
 	
 	//글삭제
 	@Override
-	public void deleteBoard(int bno) {
-		ss.delete("deleteBoard", bno);
+	public int deleteBoard(int bno) {
+		return ss.delete("deleteBoard", bno);
 	}
 
 
@@ -91,6 +94,45 @@ public class BoardDAOImple implements BoardDAO{
 		// TODO Auto-generated method stub
 		ss.update("updateHate", dto);
 		
+	}
+
+	//공지사항 업데이트
+	@Override
+	public int updateNotice(BoardDTO dto) {
+		return ss.update("updateNotice", dto);
+	}
+
+
+	@Override
+	public void insertBookmark(bookmarkDTO dto) {
+		// TODO Auto-generated method stub
+		
+		ss.insert("bookMarkinsert",dto);
+		
+	}
+
+
+	@Override
+	public void deleteBookmark(bookmarkDTO dto) {
+		ss.delete("bookMarkdelete",dto);
+		
+	}
+
+
+	@Override
+	public List<bookmarkDTO> selectBookmark(int memberno) {
+
+		List<bookmarkDTO> list = ss.selectList("selectBookmark", memberno); 
+		
+		return list;
+	}
+
+	@Override
+	public List<Groupboard_Memberinfo_FileDTO> searchlist(searchParamDTO searchparamdto) {
+		
+		List<Groupboard_Memberinfo_FileDTO> list = ss.selectList("search", searchparamdto);
+		
+		return list;
 	}
 
 
