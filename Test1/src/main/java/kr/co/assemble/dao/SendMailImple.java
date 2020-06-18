@@ -31,15 +31,15 @@ public class SendMailImple implements SendMail {
 //	JavaMailSender mailSender;
 	
 //	@Value("${aws.ses.port")
-	String smptport = "587";
+	String smptport = "-";
 //	@Value("${aws.ses.host}")
-	String seshost = "email-smtp.us-west-2.amazonaws.com";
+	String seshost = "---";
 //	@Value("${aws.ses.username}")
-	String Access_Key = "AKIAWWREZUXIFWMEIK6I";
+	String Access_Key = "--";
 //	@Value("${aws.ses.password}")
-	String Secret_Key = "BLS+rJuyVCiVD0HxPXA/oq8Z2vKeHxUG9DU6k4/98ooT";
+	String Secret_Key = "--";
 //	@Value("${aws.ses.region}")
-	String region = "us-west-2";
+	String region = "--";
 	
 	
 	@Override
@@ -110,7 +110,7 @@ public class SendMailImple implements SendMail {
 	public void send(EmailDTO emaildto) {
 		// TODO Auto-generated method stub
 		
-		BasicAWSCredentials awsCreds = new BasicAWSCredentials("AKIAWWREZUXIFWMEIK6I", "BLS+rJuyVCiVD0HxPXA/oq8Z2vKeHxUG9DU6k4/98ooT");
+		BasicAWSCredentials awsCreds = new BasicAWSCredentials("Access_Key", "Secret_Key");
 		AWSStaticCredentialsProvider credentialsProvider = new AWSStaticCredentialsProvider(awsCreds);
 		
 		try {

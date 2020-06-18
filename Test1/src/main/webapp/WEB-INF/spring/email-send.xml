@@ -12,8 +12,8 @@
 		class="org.springframework.mail.javamail.JavaMailSenderImpl">
 		<property name="host" value="email-smtp.us-west-2.amazonaws.com" />
 		<property name="port" value="587" />
-		<property name="username" value="tlsgks8668@gmail.com" />
-		<property name="password" value="shin1han1sh" />
+		<property name="username" value="구글 아이디" />
+		<property name="password" value="비밀번호" />
 
 
 		<!-- email 요청시는 SMTP -->
